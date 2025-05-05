@@ -67,10 +67,25 @@ export default function ServicePage({ params }: { params: { id: string } }) {
       text: "text-[#0066a2]",
       border: "border-[#0066a2]/20",
       light: "bg-[#f9fdff]"
+    },
+    "Conseil stratégique": {
+      bg: "bg-[#f8f8ff]",
+      text: "text-[#4b0082]",
+      border: "border-[#4b0082]/20",
+      light: "bg-[#f8f8ff]"
     }
   }
   
-  const colorContext = categoryColors[service.category]
+  // Contexte de couleur par défaut (fallback)
+  const defaultColorContext = {
+    bg: "bg-gray-100",
+    text: "text-gray-700",
+    border: "border-gray-200",
+    light: "bg-gray-50"
+  };
+  
+  // Sélection du contexte de couleur avec fallback
+  const colorContext = categoryColors[service.category] || defaultColorContext;
   
   return (
     <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-[#f9f5f5] to-[#f7f2f2] relative">
