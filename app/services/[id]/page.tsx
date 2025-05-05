@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import Image from "next/image"
+// import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Clock, Coins, TriangleAlert, Construction, Target, BriefcaseBusiness, BarChart4, Radar, CheckCircle2 } from "lucide-react"
+import { ArrowLeft, CheckCircle2 } from "lucide-react"
 import { services, secteurs, competences } from "@/data/services-data"
 
 // Générer les métadonnées dynamiquement

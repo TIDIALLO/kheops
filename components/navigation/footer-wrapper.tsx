@@ -5,7 +5,6 @@ import { Footer } from './footer'
 
 export function FooterWrapper() {
   const [isLastSection, setIsLastSection] = useState(false)
-  const [footerHeight, setFooterHeight] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -51,7 +50,6 @@ export function FooterWrapper() {
       const footer = document.querySelector('footer')
       if (footer) {
         const height = footer.offsetHeight
-        setFooterHeight(height)
         if (isLastSection) {
           document.body.style.paddingBottom = `${height}px`
         }

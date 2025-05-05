@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Plus, Minus } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
 
 // Questions et réponses pour la FAQ
 const faqItems = [
   {
-    question: "Qu'est-ce que le contrôle de projets?",
+    question: "Qu&apos;est-ce que le contrôle de projets?",
     answer: "Le contrôle de projets est l'ensemble des processus et techniques visant à surveiller, mesurer et piloter les performances d'un projet en termes de délais, coûts et qualité. C'est une discipline qui assure que le projet reste sur la bonne voie et atteigne ses objectifs définis, tout en permettant d'identifier et de résoudre rapidement les problèmes potentiels."
   },
   {
