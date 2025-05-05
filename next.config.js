@@ -7,7 +7,7 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     optimizePackageImports: ['lucide-react', '@radix-ui', 'framer-motion'],
   },
   compiler: {
