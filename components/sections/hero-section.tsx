@@ -14,13 +14,13 @@ type Particle = {
   duration: number;
 }
 
-// Palette de couleurs grises
+// Palette de couleurs améliorée
 const colors = {
-  primary: "#5A5A5A", // Gris principal (comme dans le logo KHEOPS)
-  lighter: "#6E6E6E", // Gris légèrement plus clair
-  darker: "#484848", // Gris plus foncé
-  accent: "#8B0000", // Rouge bordeaux pour les accents uniquement
-  lightGray: "#F5F5F5", // Gris très clair pour certains éléments
+  primary: "#8B0000", // Rouge bordeaux principal
+  secondary: "#A52A2A", // Rouge bordeaux secondaire
+  dark: "#600000", // Rouge foncé
+  light: "#f9f5f5", // Fond très légèrement teinté
+  accent: "#f5f5f5", // Blanc cassé pour les détails
 }
 
 export function HeroSection() {
@@ -40,14 +40,14 @@ export function HeroSection() {
 
   // Générer les particules uniquement après le montage du composant (côté client)
   useEffect(() => {
-    // Réduire le nombre de particules et les rendre plus subtiles
-    const newParticles = Array.from({ length: 8 }).map((_, i) => ({
+    // Augmenter légèrement le nombre de particules pour un effet plus riche
+    const newParticles = Array.from({ length: 15 }).map((_, i) => ({
       id: i,
       x: `${Math.random() * 100}%`,
       y: `${Math.random() * 100}%`,
-      size: Math.random() * 4 + 1, // Taille légèrement réduite
-      opacity: Math.random() * 0.12 + 0.03, // Opacité réduite
-      duration: Math.random() * 4 + 3 // Durée augmentée pour un effet plus doux
+      size: Math.random() * 5 + 1, // Taille variée
+      opacity: Math.random() * 0.15 + 0.03, // Opacité subtile
+      duration: Math.random() * 5 + 4 // Durée augmentée pour un effet plus doux
     }));
     setParticles(newParticles);
   }, []);
@@ -104,20 +104,41 @@ export function HeroSection() {
     <section 
       className="relative min-h-screen overflow-hidden flex flex-col pt-16 md:pt-20" 
       id="home"
-      style={{ 
-        background: `linear-gradient(135deg, ${colors.lighter} 0%, ${colors.darker} 100%)`,
-      }}
     >
-      {/* Motif subtil en arrière-plan */}
-      <div className="absolute inset-0 opacity-4" style={{ 
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M30 30h1v1h-1v-1zm-3 0h1v1h-1v-1zm6 0h1v1h-1v-1zm3 0h1v1h-1v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-        backgroundSize: '60px 60px'
-      }}></div>
+      {/* Background principal avec gradient */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#f5f0f0] via-white to-[#f7f2f2] z-0"></div>
+      
+      {/* Motif de points élégant en arrière-plan */}
+      <div className="absolute inset-0 opacity-10 z-0" 
+        style={{ 
+          backgroundImage: `radial-gradient(${colors.primary} 0.5px, transparent 0.5px)`, 
+          backgroundSize: '18px 18px'
+        }}>
+      </div>
+      
+      {/* Éléments décoratifs géométriques */}
+      <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        {/* Grand cercle décoratif en haut à droite */}
+        <div className="absolute -top-[5%] -right-[5%] w-[40%] aspect-square rounded-full opacity-10 bg-gradient-to-tr from-[#8B0000] to-[#A52A2A]"></div>
+        
+        {/* Forme géométrique en bas à gauche */}
+        <div className="absolute -bottom-[5%] -left-[10%] w-[40%] h-[40%] opacity-10 bg-gradient-to-tr from-[#8B0000]/80 to-[#8B0000]/40 rounded-tl-[100px] rounded-tr-[200px] rounded-br-[50px]"></div>
+      </div>
       
       {/* Contenu principal */}
-      <div className="flex-grow flex flex-col justify-between">
+      <div className="flex-grow flex flex-col justify-between z-10">
         {/* Texte principal */}
         <div className="container mx-auto pt-20 md:pt-24 lg:pt-28 px-8 text-center relative z-10">
+          {/* Badge "KHEOPS" en haut */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-block mb-8 rounded-full bg-[#8B0000]/10 px-4 py-2 border border-[#8B0000]/20"
+          >
+            <span className="text-[#8B0000] font-semibold">KHEOPS CONSULTING</span>
+          </motion.div>
+          
           {/* Animation par mots avec réinitialisation périodique */}
           <motion.div 
             key={animationKey}
@@ -126,7 +147,7 @@ export function HeroSection() {
             animate="visible"
             variants={titleContainer}
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight relative">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#1C1C1C] leading-tight relative">
               <div className="flex flex-wrap justify-center gap-x-3 mb-2">
                 {title1.map((word, i) => (
                   <motion.span 
@@ -150,29 +171,12 @@ export function HeroSection() {
                 ))}
               </div>
             </h1>
-            
-            {/* Effet de surbrillance qui se déplace sur le texte */}
-            <motion.div 
-              className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20"
-              animate={{ 
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-              }}
-              transition={{ 
-                duration: 5, 
-                ease: "linear", 
-                repeat: Infinity
-              }}
-              style={{
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)",
-                backgroundSize: "200% 100%"
-              }}
-            />
           </motion.div>
           
           {/* Sous-titre avec animation de flottement */}
           <motion.p 
             key={`subtitle-${animationKey}`}
-            className="text-lg md:text-xl lg:text-2xl mt-8 text-white/90 max-w-3xl mx-auto"
+            className="text-lg md:text-xl lg:text-2xl mt-8 text-[#5A5A5A] max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
@@ -181,46 +185,66 @@ export function HeroSection() {
           >
             Cabinet de conseil spécialisé dans le contrôle de projets complexes
           </motion.p>
+          
+          {/* Ligne décorative */}
+          <motion.div 
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: "80px", opacity: 1 }}
+            transition={{ duration: 1, delay: 1.5 }}
+            className="h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/30 mx-auto mt-10 mb-10 rounded-full"
+          ></motion.div>
+          
+          {/* Bouton CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.7 }}
+            className="mt-8"
+          >
+            <a 
+              href="#contact" 
+              className="inline-flex items-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-[#8B0000] to-[#A52A2A] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <span>Discuter de votre projet</span>
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          </motion.div>
         </div>
         
-        {/* Image en bas - Avec un effet de luminosité augmentée mais pas trop */}
+        {/* Image en bas */}
         <div className="relative w-full pt-16 pb-4 px-4 md:px-8 lg:px-12 flex justify-center items-end mt-6">
-          {/* Overlay dégradé sur l'image - utilisant des gris au lieu de rouge */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#5A5A5A]/70 via-[#5A5A5A]/10 to-[#5A5A5A]/30 z-10"></div>
-          
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
             className="relative w-full max-w-7xl z-20"
           >
-            {/* Conteneur avec un effet de luminosité pour l'image */}
-            <div className="relative overflow-hidden rounded-lg shadow-2xl">
-              {/* Filtre de luminosité pour éclaircir l'image */}
-              <div className="absolute inset-0 bg-white opacity-15 mix-blend-overlay z-10"></div>
+            {/* Conteneur avec un effet d'ombre portée élégant */}
+            <div className="relative overflow-hidden rounded-xl shadow-[0_20px_50px_rgba(139,0,0,0.1)]">
+              {/* Bordure subtile */}
+              <div className="absolute inset-0 border border-[#8B0000]/10 rounded-xl z-30"></div>
               
               <Image
                 src="/images/consulting.png"
                 alt="Professionnels en réunion"
                 width={1920}
                 height={600}
-                className="w-full h-auto object-contain max-h-[55vh] brightness-120 contrast-105"
+                className="w-full h-auto object-contain max-h-[55vh]"
                 priority
               />
-              
-              {/* Reflet léger sur l'image */}
-              <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-white/30 to-transparent z-20"></div>
             </div>
           </motion.div>
         </div>
       </div>
       
       {/* Effet particules - Généré côté client uniquement */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none z-5">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full bg-[#8B0000]"
             initial={{ 
               x: particle.x, 
               y: particle.y,
@@ -244,13 +268,6 @@ export function HeroSection() {
             }}
           />
         ))}
-      </div>
-      
-      {/* Légère vague décorative entre le texte et l'image */}
-      <div className="absolute top-[45%] left-0 w-full h-24 opacity-10 pointer-events-none z-10">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-full">
-          <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" className="fill-white"></path>
-        </svg>
       </div>
     </section>
   )

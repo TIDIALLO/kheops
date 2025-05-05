@@ -21,9 +21,9 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <ExpertisePreviewSection />
       </Suspense>
-      <Suspense fallback={<Loading />}>
+      {/* <Suspense fallback={<Loading />}>
         <ServicesSection />
-      </Suspense>
+      </Suspense> */}
       {/* <Suspense fallback={<Loading />}>
         <DomainesSection />
       </Suspense> */}

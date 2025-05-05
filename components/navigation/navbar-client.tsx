@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle } from 'lucide-react'
+import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 
@@ -107,7 +107,8 @@ export function NavbarClient() {
     { href: '#expertises', label: 'Expertises', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
     { href: '#contact', label: 'Contact', icon: MessageSquare },
-    { href: '#faq', label: 'FAQ', icon: HelpCircle }
+    { href: '#faq', label: 'FAQ', icon: HelpCircle },
+    { href: '/recherche', label: 'Recherche', icon: Search }
   ];
 
   return (
@@ -151,7 +152,7 @@ export function NavbarClient() {
           </Link>
 
           {/* Navigation desktop améliorée avec icônes */}
-          <nav className="hidden md:flex space-x-3 lg:space-x-4 p-1 rounded-full bg-white/80 backdrop-blur-sm shadow-sm">
+          <nav className="hidden md:flex space-x-1 lg:space-x-2 p-1 rounded-full bg-white/80 backdrop-blur-sm shadow-sm ml-6 border-l border-gray-100 pl-6">
             {navLinks.map((link) => (
               <motion.div
                 key={link.href}
