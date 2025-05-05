@@ -2,35 +2,50 @@
 
 import { Check, Circle } from "lucide-react"
 import { motion } from "framer-motion"
-import { CalendarDays, Coins, AlertTriangle, Construction, Zap } from "lucide-react"
+import { CalendarDays, Coins, AlertTriangle, Construction, Zap, CheckCircle, ArrowRight, Target } from "lucide-react"
 import Image from "next/image"
 
-// Données de la timeline pour "Planification de projets"
-const timelineSteps = [
+// Données du processus de planification
+const planningProcessSteps = [
   {
-    title: "Phase d'initialisation",
-    description: "Définition du périmètre et des objectifs du projet",
-    duration: "Semaines 1-3"
+    id: "1",
+    title: "Analyse des besoins",
+    description: "Identification précise des objectifs du projet, des contraintes et des exigences spécifiques",
+    icon: Target,
+    color: "#8B0000",
+    deliverables: ["Rapport d'évaluation", "Matrice d'exigences", "Liste des contraintes"]
   },
   {
-    title: "Planification détaillée",
-    description: "Création du WBS et séquençage des activités",
-    duration: "Semaines 4-8"
+    id: "2",
+    title: "Structuration du projet",
+    description: "Décomposition des livrables en WBS (Work Breakdown Structure) et définition des activités",
+    icon: Construction,
+    color: "#8B0000",
+    deliverables: ["WBS détaillé", "OBS (Organisation Breakdown Structure)", "Dictionnaire WBS"]
   },
   {
+    id: "3",
+    title: "Estimation et séquençage",
+    description: "Estimation des durées et établissement des dépendances entre les activités",
+    icon: CalendarDays,
+    color: "#8B0000",
+    deliverables: ["Calendrier détaillé", "Diagramme de Gantt", "Réseau PERT"]
+  },
+  {
+    id: "4",
     title: "Allocation des ressources",
-    description: "Affectation des ressources et optimisation",
-    duration: "Semaines 9-12"
+    description: "Distribution optimisée des ressources matérielles et humaines aux différentes activités",
+    icon: Coins,
+    color: "#8B0000",
+    deliverables: ["Plan de ressources", "Histogrammes de charge", "Matrice RACI"]
   },
   {
-    title: "Analyse et validation",
-    description: "Vérification des chemins critiques et marges",
-    duration: "Semaines 13-16"
-  },
-  {
-    title: "Mise en place du suivi",
-    description: "Déploiement des outils de monitoring et reporting",
-    duration: "Semaines 17-20"
+    id: "5",
+    title: "Analyse des risques",
+    description: "Identification, évaluation et préparation des réponses aux risques potentiels",
+    icon: AlertTriangle,
+    color: "#8B0000",
+    deliverables: ["Registre des risques", "Simulation Monte-Carlo", "Plans de mitigation"]
   }
 ]
 
@@ -40,7 +55,7 @@ const servicesInfo = [
     title: "Planification de projets",
     icon: CalendarDays,
     color: "#8B0000",
-    image: "/images/services/planning.jpg", // Image de planification
+    image: "/images/services/planification.png", // Utiliser l'image existante
     description: "Optimisation des délais et contrôle rigoureux du planning pour assurer la réussite de votre projet dans les temps impartis.",
     points: [
       "Définition des activités et de leurs enchaînements logiques (WBS, OBS, CBS…)",
@@ -55,7 +70,7 @@ const servicesInfo = [
     title: "Contrôle des coûts",
     icon: Coins,
     color: "#8B0000",
-    image: "/images/services/costs.jpg", // Image de finance/budget
+    image: "/images/services/cdc.png", // Utiliser l'image existante
     description: "Maîtrise des budgets et anticipation des dépenses pour une gestion transparente et efficace des ressources financières.",
     points: [
       "Élaboration du budget prévisionnel",
@@ -70,7 +85,7 @@ const servicesInfo = [
     title: "Gestion des risques",
     icon: AlertTriangle,
     color: "#8B0000",
-    image: "/images/services/risks.jpg", // Image d'analyse des risques
+    image: "/images/services/risk.png", // Utiliser l'image existante
     description: "Identification et mitigation des risques pour sécuriser votre projet et anticiper les obstacles potentiels.",
     points: [
       "Identification des risques liés aux coûts et délais",
@@ -84,7 +99,7 @@ const servicesInfo = [
     title: "Ordonnancement, Pilotage et Coordination (OPC)",
     icon: Construction,
     color: "#8B0000",
-    image: "/images/services/coordination.jpg", // Image de coordination
+    image: "/images/services/service.png", // Utiliser l'image existante
     description: "Synchronisation des intervenants et planification des interventions pour une exécution fluide de votre projet.",
     points: [
       "Organisation préalable du chantier (ordonnancement)",
@@ -97,7 +112,7 @@ const servicesInfo = [
     title: "Simulation numérique",
     icon: Construction,
     color: "#8B0000",
-    image: "/images/services/simulation.jpg", // Image de simulation
+    image: "/images/services/service.png", // Utiliser l'image existante
     description: "Modélisation avancée pour anticiper les scénarios et optimiser les décisions stratégiques.",
     points: [
       "Simulation pour l'optimisation des processus",
@@ -111,7 +126,7 @@ const servicesInfo = [
     title: "Avantages stratégiques apportés",
     icon: Zap,
     color: "#5A5A5A",
-    image: "/images/services/advantages.jpg", // Image stratégique
+    image: "/images/services/service.png", // Utiliser l'image existante
     description: "Des bénéfices concrets pour votre organisation grâce à une approche méthodique et éprouvée.",
     points: [
       "Clarification des rôles et responsabilités",
@@ -154,69 +169,71 @@ const itemVariants = {
   }
 }
 
-const timelineVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-}
-
-const timelineItemVariants = {
-  hidden: { opacity: 0, x: -20 },
+const processStepVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
-    x: 0,
+    y: 0,
     transition: {
-      duration: 0.4
+      duration: 0.5
     }
   }
 }
 
-// Composant pour la timeline
-function PlanningTimeline() {
+// Composant pour le processus de planification
+function PlanningProcess() {
   return (
-    <motion.div
-      className="mt-10 relative"
-      variants={timelineVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-    >
-      {/* Ligne verticale */}
-      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#8B0000] to-[#8B0000]/30 mx-auto"></div>
-      
-      {/* Étapes de la timeline */}
-      <div className="space-y-8">
-        {timelineSteps.map((step, index) => (
-          <motion.div 
-            key={index}
-            className="flex gap-4"
-            variants={timelineItemVariants}
-          >
-            {/* Indicateur (cercle) */}
-            <div className="relative flex items-center justify-center mt-1.5">
-              <div className="w-8 h-8 rounded-full bg-white border-2 border-[#8B0000] z-10 flex items-center justify-center">
-                <CalendarDays className="w-4 h-4 text-[#8B0000]" />
-              </div>
-            </div>
-            
-            {/* Contenu de l'étape */}
-            <div className="flex-1">
-              <div className="bg-white p-4 rounded-lg shadow-md border border-[#8B0000]/10 hover:shadow-lg transition-shadow">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-1 gap-2">
-                  <h4 className="font-bold text-[#1C1C1C]">{step.title}</h4>
-                  <span className="text-sm text-white bg-[#8B0000] px-3 py-1 rounded-full">{step.duration}</span>
+    <div className="mt-12">
+      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h3 className="text-2xl font-bold text-[#1C1C1C] mb-4">Notre Processus de Planification</h3>
+        <p className="text-[#5A5A5A] mb-8">
+          Notre méthodologie structurée en 5 étapes clés garantit une planification rigoureuse et adaptée à vos besoins spécifiques.
+        </p>
+        
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {planningProcessSteps.map((step) => (
+            <motion.div
+              key={step.id}
+              variants={processStepVariants}
+              className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-full bg-[#8B0000]/10 text-[#8B0000]">
+                  <step.icon className="w-6 h-6" />
                 </div>
-                <p className="text-[#5A5A5A]">{step.description}</p>
+                <div>
+                  <div className="text-xs font-bold text-[#5A5A5A] mb-1">ÉTAPE {step.id}</div>
+                  <h4 className="font-bold text-[#1C1C1C]">{step.title}</h4>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+              
+              <p className="text-[#5A5A5A] mb-4 text-sm">{step.description}</p>
+              
+              <div className="space-y-2">
+                <div className="text-xs font-semibold text-[#8B0000] mb-1 flex items-center">
+                  <ArrowRight className="w-3.5 h-3.5 mr-1" />
+                  LIVRABLES
+                </div>
+                <ul className="space-y-1">
+                  {step.deliverables.map((deliverable, index) => (
+                    <li key={index} className="flex items-center text-xs text-[#5A5A5A]">
+                      <CheckCircle className="w-3 h-3 text-[#8B0000] mr-2 flex-shrink-0" />
+                      <span>{deliverable}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -291,9 +308,9 @@ export function ServicesSection() {
                   {/* Description du service */}
                   <p className="text-[#5A5A5A] text-lg mb-8">{service.description}</p>
 
-                  {/* Afficher la timeline uniquement pour la planification, sinon afficher les points */}
+                  {/* Afficher le processus de planification uniquement pour la planification, sinon afficher les points */}
                   {service.id === "planning" ? (
-                    <PlanningTimeline />
+                    <PlanningProcess />
                   ) : (
                     <motion.div 
                       className="grid md:grid-cols-2 gap-4"

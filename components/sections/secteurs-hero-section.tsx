@@ -105,70 +105,74 @@ export function SecteursHeroSection() {
             transition={{ duration: 1 }}
             className="relative flex items-center justify-center"
           >
-            {/* Cercle décoratif avec animation pulse */}
-            <motion.div 
-              animate={{ 
-                scale: [1, 1.05, 1],
-                opacity: [0.6, 0.8, 0.6]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 4,
-                ease: "easeInOut"
-              }}
-              className="absolute top-1/4 right-1/4 w-20 h-20 bg-gradient-to-r from-[#800000]/10 to-[#950000]/5 rounded-full"
-            ></motion.div>
-            
-            <motion.div 
-              animate={{ 
-                scale: [1, 1.05, 1],
-                opacity: [0.4, 0.6, 0.4]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 5,
-                ease: "easeInOut",
-                delay: 1
-              }}
-              className="absolute bottom-1/3 left-1/3 w-32 h-32 bg-gradient-to-l from-[#800000]/5 to-[#950000]/3 rounded-full"
-            ></motion.div>
-            
-            {/* Illustration avec des éléments visuels */}
-            <div className="relative z-10 bg-white p-8 rounded-xl shadow-xl border border-gray-100">
-              <div className="grid grid-cols-3 gap-4">
-                {/* Éléments visuels représentant les secteurs - Icônes agrandies */}
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
+            {/* Image professionnelle des secteurs d'activité */}
+            <div className="relative z-10">
+              <motion.div
+                className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-200"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Image représentant la diversité des secteurs d'activité */}
+                <div className="relative h-[400px] w-[500px]">
+                  {/* Rendu d'une image composite professionnelle */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#800000]/80 z-10"></div>
+                  
+                  {/* Utilisation d'une div avec background-image comme solution de secours */}
+                  <div 
+                    className="absolute inset-0 bg-gray-200" 
+                    style={{ 
+                      backgroundImage: `url('/images/services/planification.png')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  ></div>
+                  
+                  {/* Overlay avec effets et texte */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                    <h3 className="text-white text-xl font-bold mb-2">Maîtrise multi-sectorielle</h3>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Industrie</span>
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Énergie</span>
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Transport</span>
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Construction</span>
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Logistique</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
-                  </svg>
-                </div>
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                  </svg>
-                </div>
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                </div>
-                <div className="bg-gradient-to-br from-[#f9f5f5] to-[#faf8f8] rounded-lg h-24 flex items-center justify-center transition-all duration-300 hover:shadow-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                  </svg>
-                </div>
-              </div>
+                
+                {/* Bulle d'information */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  className="absolute -right-10 -top-10 bg-white rounded-xl p-4 shadow-lg border border-gray-100 max-w-[180px]"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="bg-[#800000]/10 p-1 rounded-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#800000]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="font-semibold text-sm text-[#1C1C1C]">Expertise reconnue</span>
+                  </div>
+                  <p className="text-xs text-[#5A5A5A]">Plus de 20 ans d'expérience dans les projets complexes multisectoriels</p>
+                </motion.div>
+                
+                {/* Badge de confiance */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7, duration: 0.5 }}
+                  className="absolute -left-10 -bottom-10 bg-[#800000] text-white rounded-full h-[90px] w-[90px] flex items-center justify-center shadow-lg"
+                  style={{ transform: 'rotate(-10deg)' }}
+                >
+                  <div className="text-center">
+                    <div className="text-xs font-bold">EXPERTISE</div>
+                    <div className="text-lg font-bold">100%</div>
+                    <div className="text-[10px]">CERTIFIÉE</div>
+                  </div>
+                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
