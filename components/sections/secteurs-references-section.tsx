@@ -4,8 +4,11 @@ import { useEffect, useRef } from 'react'
 import { motion } from "framer-motion"
 import Image from 'next/image'
 
-// Palette de couleurs rouge ajustée
+// Palette de couleurs rouge ajustée (plus claire pour le background)
 const mainRed = "#800000";
+const lighterRed = "#950000";
+const darkerRed = "#600000";
+const veryLightRed = "#fff5f5"; // Très léger rouge pour l'arrière-plan
 
 // Logos des clients de KHEOPS
 const references = [
@@ -43,11 +46,7 @@ const references = [
   }
 ]
 
-interface ReferencesSectionProps {
-  isStandalone?: boolean
-}
-
-export function ReferencesSection({ isStandalone = false }: ReferencesSectionProps) {
+export function SecteursReferencesSection() {
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   // Animation du défilement automatique
@@ -85,43 +84,7 @@ export function ReferencesSection({ isStandalone = false }: ReferencesSectionPro
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-r from-[#800000]/5 via-[#950000]/8 to-[#800000]/5 z-0"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {isStandalone && (
-          <div className="relative mb-20">
-            <div className="relative h-[300px] w-full rounded-2xl overflow-hidden mb-12">
-              <Image
-                src="/images/references-banner.jpg"
-                alt="Nos références"
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
-                priority={isStandalone}
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#8B0000]/90 to-[#8B0000]/70" />
-              <div className="absolute inset-0 flex items-center">
-                <div className="container mx-auto px-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="max-w-3xl"
-                  >
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                      Ils nous font confiance
-                    </h1>
-                    <p className="text-xl text-white/90">
-                      Des références prestigieuses dans des secteurs variés
-                    </p>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className="text-center mb-12">
-          {!isStandalone && (
-            <span className="text-[#8B0000] font-semibold mb-2 inline-block">Nos références</span>
-          )}
           <motion.h2 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -129,11 +92,8 @@ export function ReferencesSection({ isStandalone = false }: ReferencesSectionPro
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-[#800000] to-[#950000] text-transparent bg-clip-text"
           >
-            Ils nous font confiance
+            Ils nous ont fait confiance
           </motion.h2>
-          {!isStandalone && (
-            <div className="w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/30 mx-auto mb-6 rounded-full"></div>
-          )}
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -200,46 +160,6 @@ export function ReferencesSection({ isStandalone = false }: ReferencesSectionPro
             ))}
           </div>
         </div>
-        
-        {isStandalone && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-20 bg-[#8B0000]/5 rounded-2xl p-8 md:p-12"
-          >
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-bold text-[#1C1C1C] mb-4">
-                  Une expertise reconnue
-                </h3>
-                <p className="text-[#5A5A5A] mb-6">
-                  Notre expertise en contrôle de projets est reconnue par les plus grands groupes industriels. 
-                  Nous intervenons sur des projets complexes dans des secteurs variés : énergie, transport, construction, défense...
-                </p>
-                <ul className="space-y-3">
-                  {['Projets internationaux', 'Secteurs variés', 'Expertise technique', 'Méthodologie éprouvée'].map((item, index) => (
-                    <li key={index} className="flex items-center text-[#1C1C1C]">
-                      <svg className="w-5 h-5 text-[#8B0000] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="relative h-[300px] rounded-xl overflow-hidden">
-                <Image
-                  src="/images/expertise-illustration.jpg"
-                  alt="KHEOPS Consulting Expertise"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   )

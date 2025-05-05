@@ -2,16 +2,34 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
+import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 
 export function NavbarClient() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeLink, setActiveLink] = useState('/')
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+
+  // Handler pour les clics sur les liens internes
+  const handleLinkClick = (href: string) => {
+    setActiveLink(href);
+    setIsMenuOpen(false);
+    
+    // Si c'est un lien d'ancrage, effectuer un défilement fluide
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   // Effet de scroll pour changer l'apparence de la navbar
   useEffect(() => {
@@ -24,105 +42,267 @@ export function NavbarClient() {
     }
 
     window.addEventListener('scroll', handleScroll)
+    
+    // Observer les sections pour la navigation active
+    const sections = document.querySelectorAll('section[id]');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -80% 0px',
+      threshold: 0
+    };
+    
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveLink(`#${entry.target.id}`);
+        }
+      });
+    };
+    
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+    
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
     }
   }, [])
 
+  // Animation variants pour les liens
+  const linkVariants = {
+    initial: { 
+      opacity: 0.9, 
+      scale: 1,
+      backgroundColor: 'rgba(255, 255, 255, 0)'
+    },
+    hover: { 
+      opacity: 1, 
+      scale: 1.05,
+      backgroundColor: 'rgba(139, 0, 0, 0.08)',
+      transition: { 
+        duration: 0.2,
+        ease: 'easeInOut'
+      }
+    },
+    active: {
+      opacity: 1,
+      scale: 1.05,
+      color: '#8B0000',
+      fontWeight: '600',
+      backgroundColor: 'rgba(139, 0, 0, 0.1)',
+      transition: { 
+        duration: 0.3
+      }
+    }
+  };
+
+  // Configuration des liens de navigation avec icônes
+  const navLinks = [
+    { href: '/', label: 'Accueil', icon: Home },
+    { href: '/services', label: 'Services', icon: Briefcase },
+    { href: '#expertises', label: 'Expertises', icon: Star },
+    { href: '/secteurs', label: 'Secteurs', icon: Building },
+    { href: '#contact', label: 'Contact', icon: MessageSquare },
+    { href: '#faq', label: 'FAQ', icon: HelpCircle }
+  ];
+
   return (
     <header 
-      className={`bg-white shadow-sm py-4 sticky top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'py-2 shadow-md' : 'py-4'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 
+        ${scrolled 
+          ? 'py-2 bg-white/95 backdrop-blur-sm shadow-lg border-b border-[#8B0000]/10' 
+          : 'py-4 bg-gradient-to-b from-white via-white to-white/95'
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-[#8B0000] hover:scale-105 transition-transform">
-            KHEOPS Consulting
+          {/* Logo avec image et effet au survol */}
+          <Link 
+            href="/" 
+            className="group flex items-center space-x-3 transition-all duration-300"
+            onClick={() => setActiveLink('/')}
+          >
+            <motion.div 
+              className="relative h-14 w-14 overflow-hidden rounded-lg bg-white shadow-md"
+              whileHover={{ scale: 1.05, rotate: -5 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Image 
+                src="/images/logo.png" 
+                alt="Logo KHEOPS Consulting" 
+                width={56} 
+                height={56} 
+                priority
+                className="object-contain p-1"
+              />
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-[#8B0000] leading-tight tracking-tight group-hover:tracking-normal transition-all duration-300">
+                KHEOPS
+              </span>
+              <span className="text-base text-[#5A5A5A] leading-tight tracking-wide">
+                Consulting
+              </span>
+            </div>
           </Link>
 
-          {/* Navigation desktop */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-[#1C1C1C] hover:text-[#8B0000] transition-colors">
-              Accueil
-            </Link>
-            <Link href="#services" className="text-[#1C1C1C] hover:text-[#8B0000] transition-colors">
-              Services
-            </Link>
-            <Link href="#expertises" className="text-[#1C1C1C] hover:text-[#8B0000] transition-colors">
-              Expertises
-            </Link>
-            <Link href="#domaines" className="text-[#1C1C1C] hover:text-[#8B0000] transition-colors">
-              Secteurs
-            </Link>
-            <Link href="#contact" className="text-[#1C1C1C] hover:text-[#8B0000] transition-colors">
-              Contact
-            </Link>
+          {/* Navigation desktop améliorée avec icônes */}
+          <nav className="hidden md:flex space-x-3 lg:space-x-4 p-1 rounded-full bg-white/80 backdrop-blur-sm shadow-sm">
+            {navLinks.map((link) => (
+              <motion.div
+                key={link.href}
+                initial="initial"
+                animate={activeLink === link.href ? "active" : hoveredLink === link.href ? "hover" : "initial"}
+                variants={linkVariants}
+                className={`relative py-2 px-4 rounded-full transition-all duration-300 ${
+                  activeLink === link.href 
+                    ? 'bg-[#8B0000]/10 shadow-sm' 
+                    : 'hover:bg-[#8B0000]/5'
+                }`}
+                onMouseEnter={() => setHoveredLink(link.href)}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                <Link 
+                  href={link.href}
+                  className={`flex items-center gap-2 text-base transition-all relative z-10 ${
+                    activeLink === link.href 
+                      ? 'text-[#8B0000] font-semibold' 
+                      : 'text-[#1C1C1C] font-medium hover:text-[#8B0000]'
+                  }`}
+                  onClick={(e) => {
+                    // Pour les liens vers des pages, on laisse la navigation normale
+                    if (link.href.startsWith('/') && !link.href.includes('#')) {
+                      setActiveLink(link.href);
+                      setIsMenuOpen(false);
+                      return;
+                    }
+                    
+                    // Pour les ancres, on fait un défilement fluide
+                    e.preventDefault();
+                    handleLinkClick(link.href);
+                  }}
+                >
+                  <link.icon className={`w-4 h-4 ${activeLink === link.href ? 'text-[#8B0000]' : 'text-[#5A5A5A]'}`} />
+                  <span>{link.label}</span>
+                </Link>
+                
+                {/* Indicateur de lien actif unique */}
+                <motion.div 
+                  layoutId="activeIndicator"
+                  className={`absolute -bottom-1 left-0 right-0 mx-auto h-0.5 bg-[#8B0000] rounded-full ${
+                    activeLink === link.href ? 'w-3/4' : hoveredLink === link.href ? 'w-1/2' : 'w-0'
+                  }`}
+                  initial={{ width: "0%" }}
+                  animate={{ 
+                    width: activeLink === link.href ? "75%" : hoveredLink === link.href ? "50%" : "0%"
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
+            ))}
           </nav>
 
-          {/* Bouton Contact (visible sur desktop) */}
-          <Button 
-            className="hidden md:flex bg-[#8B0000] hover:bg-[#700000] text-white hover:scale-105 transition-transform"
+          {/* Bouton Contact amélioré (visible sur desktop) */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="hidden md:block"
           >
-            Demander un devis
-          </Button>
-
-          {/* Bouton menu mobile */}
-          <button 
-            onClick={toggleMenu}
-            className="md:hidden text-[#1C1C1C] hover:text-[#8B0000]"
-            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Menu mobile */}
-        {isMenuOpen && (
-          <nav className="md:hidden pt-4 pb-2 border-t mt-4 space-y-4 animate-fadeIn">
-            <Link 
-              href="/" 
-              className="block py-2 text-[#1C1C1C] hover:text-[#8B0000]"
-              onClick={toggleMenu}
-            >
-              Accueil
-            </Link>
-            <Link 
-              href="#services" 
-              className="block py-2 text-[#1C1C1C] hover:text-[#8B0000]"
-              onClick={toggleMenu}
-            >
-              Services
-            </Link>
-            <Link 
-              href="#expertises" 
-              className="block py-2 text-[#1C1C1C] hover:text-[#8B0000]"
-              onClick={toggleMenu}
-            >
-              Expertises
-            </Link>
-            <Link 
-              href="#domaines" 
-              className="block py-2 text-[#1C1C1C] hover:text-[#8B0000]"
-              onClick={toggleMenu}
-            >
-              Secteurs
-            </Link>
-            <Link 
-              href="#contact" 
-              className="block py-2 text-[#1C1C1C] hover:text-[#8B0000]"
-              onClick={toggleMenu}
-            >
-              Contact
-            </Link>
             <Button 
-              className="w-full bg-[#8B0000] hover:bg-[#700000] text-white mt-4"
-              onClick={toggleMenu}
+              className="bg-[#8B0000] hover:bg-[#700000] text-white shadow-md px-6 py-5 text-base transition-all duration-300 hover:shadow-lg rounded-full"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick('#contact');
+              }}
             >
               Demander un devis
             </Button>
-          </nav>
+          </motion.div>
+
+          {/* Bouton menu mobile amélioré */}
+          <motion.button 
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-full bg-white shadow-md text-[#1C1C1C] hover:text-[#8B0000] hover:bg-[#8B0000]/5 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
+        </div>
+
+        {/* Menu mobile amélioré avec icônes */}
+        {isMenuOpen && (
+          <motion.nav 
+            className="md:hidden pt-4 pb-2 border-t mt-4 space-y-2 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {navLinks.map((link, index) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`mx-2 rounded-xl overflow-hidden transition-all duration-200 ${
+                  activeLink === link.href ? 'bg-[#8B0000]/10' : ''
+                }`}
+              >
+                <Link 
+                  href={link.href} 
+                  className={`flex items-center gap-3 py-3 px-4 text-base transition-all ${
+                    activeLink === link.href 
+                      ? 'text-[#8B0000] font-semibold' 
+                      : 'text-[#1C1C1C] hover:text-[#8B0000]'
+                  }`}
+                  onClick={(e) => {
+                    // Pour les liens vers des pages, on laisse la navigation normale
+                    if (link.href.startsWith('/') && !link.href.includes('#')) {
+                      setActiveLink(link.href);
+                      setIsMenuOpen(false);
+                      return;
+                    }
+                    
+                    // Pour les ancres, on fait un défilement fluide
+                    e.preventDefault();
+                    handleLinkClick(link.href);
+                  }}
+                >
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                    activeLink === link.href 
+                      ? 'bg-[#8B0000] text-white' 
+                      : 'bg-gray-100 text-[#5A5A5A]'
+                  }`}>
+                    <link.icon className="w-4 h-4" />
+                  </div>
+                  <span>{link.label}</span>
+                </Link>
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: navLinks.length * 0.1 }}
+              className="px-2 pt-2"
+            >
+              <Button 
+                className="w-full bg-gradient-to-r from-[#8B0000] to-[#A80000] hover:from-[#700000] hover:to-[#900000] text-white mt-2 py-5 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#contact');
+                  toggleMenu();
+                }}
+              >
+                Demander un devis
+              </Button>
+            </motion.div>
+          </motion.nav>
         )}
       </div>
     </header>

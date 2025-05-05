@@ -122,6 +122,32 @@
   html {
     scroll-behavior: smooth;
   }
+
+  :root {
+    --primary: 0 100% 27%;       /* #8B0000 Rouge foncé */
+    --primary-lighter: 0 100% 35%; /* Version plus claire pour les hovers */
+    --text: 0 0% 11%;            /* #1C1C1C Texte principal */
+    --text-secondary: 0 0% 35%;  /* #5A5A5A Gris */
+    --background: 0 0% 100%;     /* #FFFFFF Fond clair */
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply overflow-x-hidden scroll-smooth;
+    height: 100%;
+  }
+
+  body {
+    @apply text-[#1C1C1C] antialiased min-h-screen overflow-x-hidden;
+    overflow-y: auto;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
 }
 
 @tailwind base;
