@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix"
+    "lint": "next lint --fix",
+    "build:prod": "next build",
+    "validate": "node scripts/validate-config.js",
+    "deploy": "npm run validate && npm run build:prod",
+    "netlify-build": "npm run build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -22,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@netlify/plugin-nextjs": "^4.41.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
