@@ -6,7 +6,7 @@ import ServicesCaseStudies from "@/components/sections/services-case-studies"
 import { ServicesCTASection } from "@/components/sections/services-cta-section"
 
 export const metadata: Metadata = {
-  title: "Services | KHEOPS Consulting",
+  title: "Services",
   description: "Découvrez nos services de contrôle de projets: planning, coûts, risques et OPC (Ordonnancement, Pilotage et Coordination).",
 }
 

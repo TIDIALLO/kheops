@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { ExpertiseSection } from "@/components/sections/expertise-section"
 
 export const metadata: Metadata = {
-  title: "Notre Expertise | KHEOPS Consulting",
+  title: "Méthodologie",
   description: "Découvrez notre expertise en contrôle de projets : planification, gestion des coûts, analyse des risques et coordination OPC.",
 }
 

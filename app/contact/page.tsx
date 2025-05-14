@@ -2,7 +2,7 @@ import { ContactSection } from "@/components/sections/contact-section"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Contact | KHEOPS Consulting",
+  title: "Contact",
   description: "Contactez KHEOPS Consulting pour discuter de vos projets et découvrir comment nous pouvons vous aider à les réussir.",
 }
 

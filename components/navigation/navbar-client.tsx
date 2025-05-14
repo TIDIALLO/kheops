@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 
 export function NavbarClient() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('/')
@@ -28,7 +30,28 @@ export function NavbarClient() {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+    } else if (href.includes('#')) {
+      // Si c'est un lien de page avec ancre (exemple: '/#contact')
+      const pagePath = href.split('#')[0];
+      const anchorId = href.split('#')[1];
+      
+      // Si nous sommes déjà sur la bonne page, simplement défiler vers l'ancre
+      if (window.location.pathname === pagePath || (pagePath === '/' && window.location.pathname === '')) {
+        const element = document.querySelector(`#${anchorId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        // Sinon, naviguer vers la page, puis défiler vers l'ancre
+        router.push(href);
+      }
     }
+  };
+
+  // Fonction pour naviguer vers la page de contact
+  const navigateToContact = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push('/contact');
   };
 
   // Effet de scroll pour changer l'apparence de la navbar
@@ -103,7 +126,7 @@ export function NavbarClient() {
   // Configuration des liens de navigation avec icônes
   const navLinks = [
     { href: '/', label: 'Accueil', icon: Home },
-    { href: '/services', label: 'Prestations', icon: Briefcase },
+    { href: '/services', label: 'Services', icon: Briefcase },
     { href: '/expertise', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
     { href: '/#contact', label: 'Contact', icon: MessageSquare },
@@ -115,8 +138,8 @@ export function NavbarClient() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 
         ${scrolled 
-          ? 'py-2 bg-white/95 backdrop-blur-sm shadow-lg border-b border-[#8B0000]/10' 
-          : 'py-4 bg-gradient-to-b from-white via-white to-white/95'
+          ? 'py-2 bg-white/98 backdrop-blur-sm shadow-lg border-b border-[#8B0000]/10' 
+          : 'py-4 bg-white bg-opacity-98'
         }`}
     >
       <div className="container mx-auto px-4">
@@ -152,7 +175,7 @@ export function NavbarClient() {
           </Link>
 
           {/* Navigation desktop améliorée avec icônes */}
-          <nav className="hidden md:flex space-x-1 lg:space-x-2 p-1 rounded-full bg-white/80 backdrop-blur-sm shadow-sm ml-6 border-l border-gray-100 pl-6">
+          <nav className="hidden md:flex space-x-2 lg:space-x-3 p-2 rounded-full bg-white/95 backdrop-blur-sm shadow-md ml-6 border border-gray-100">
             {navLinks.map((link) => (
               <motion.div
                 key={link.href}
@@ -187,8 +210,8 @@ export function NavbarClient() {
                     handleLinkClick(link.href);
                   }}
                 >
-                  <link.icon className={`w-4 h-4 ${activeLink === link.href ? 'text-[#8B0000]' : 'text-[#5A5A5A]'}`} />
-                  <span>{link.label}</span>
+                  <link.icon className={`w-5 h-5 ${activeLink === link.href ? 'text-[#8B0000]' : 'text-[#5A5A5A]'}`} />
+                  <span className="font-medium">{link.label}</span>
                 </Link>
                 
                 {/* Indicateur de lien actif unique */}
@@ -214,11 +237,8 @@ export function NavbarClient() {
             className="hidden md:block"
           >
             <Button 
-              className="bg-[#8B0000] hover:bg-[#700000] text-white shadow-md px-6 py-5 text-base transition-all duration-300 hover:shadow-lg rounded-full"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLinkClick('#contact');
-              }}
+              className="bg-[#8B0000] hover:bg-[#700000] text-white shadow-md px-6 py-5 text-base font-medium transition-all duration-300 hover:shadow-lg rounded-full"
+              onClick={navigateToContact}
             >
               Demander un devis
             </Button>
@@ -282,7 +302,7 @@ export function NavbarClient() {
                   }`}>
                     <link.icon className="w-4 h-4" />
                   </div>
-                  <span>{link.label}</span>
+                  <span className="font-medium">{link.label}</span>
                 </Link>
               </motion.div>
             ))}
@@ -293,12 +313,8 @@ export function NavbarClient() {
               className="px-2 pt-2"
             >
               <Button 
-                className="w-full bg-gradient-to-r from-[#8B0000] to-[#A80000] hover:from-[#700000] hover:to-[#900000] text-white mt-2 py-5 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick('#contact');
-                  toggleMenu();
-                }}
+                className="w-full bg-gradient-to-r from-[#8B0000] to-[#A80000] hover:from-[#700000] hover:to-[#900000] text-white mt-2 py-5 text-base font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={navigateToContact}
               >
                 Demander un devis
               </Button>

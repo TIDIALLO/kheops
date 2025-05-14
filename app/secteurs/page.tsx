@@ -5,7 +5,7 @@ import { SecteursReferencesSection } from "@/components/sections/secteurs-refere
 import { SecteursCTASection } from "@/components/sections/secteurs-cta-section"
 
 export const metadata: Metadata = {
-  title: "Secteurs d'activité | KHEOPS Consulting",
+  title: "Secteurs d'activité",
   description: "Découvrez les différents secteurs d'activité dans lesquels KHEOPS Consulting intervient: logistique, transport, infrastructure, énergie, construction et industrie.",
 }
 
