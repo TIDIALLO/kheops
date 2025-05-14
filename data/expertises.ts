@@ -17,7 +17,7 @@ export const expertises: Expertise[] = [
     icon: Clock,
     delay: 0,
     bgColor: "#fcf0f0",
-    serviceLink: "/services"
+    serviceLink: "/services/planning-strategique"
   },
   {
     title: "Coûts",
@@ -25,7 +25,7 @@ export const expertises: Expertise[] = [
     icon: Coins,
     delay: 0.1,
     bgColor: "#fff5f5",
-    serviceLink: "/services"
+    serviceLink: "/services/controle-couts"
   },
   {
     title: "Risques",
@@ -33,7 +33,7 @@ export const expertises: Expertise[] = [
     icon: TriangleAlert,
     delay: 0.2,
     bgColor: "#fcf0f0",
-    serviceLink: "/services"
+    serviceLink: "/services/gestion-risques"
   },
   {
     title: "OPC",
@@ -41,7 +41,7 @@ export const expertises: Expertise[] = [
     icon: Construction,
     delay: 0.3,
     bgColor: "#fff5f5",
-    serviceLink: "/services"
+    serviceLink: "/services/opc"
   }
 ]
 

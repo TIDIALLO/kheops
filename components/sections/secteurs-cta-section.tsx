@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 // Palette de couleurs rouge ajustée (plus claire pour le background)
 const mainRed = "#800000";
@@ -10,6 +11,12 @@ const darkerRed = "#600000";
 const veryLightRed = "#fff5f5"; // Très léger rouge pour l'arrière-plan
 
 export function SecteursCTASection() {
+  const router = useRouter();
+
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
+
   return (
     <section className="py-16 bg-gradient-to-br from-[#f9f5f5] to-[#f7f2f2] relative">
       {/* Motif de points en arrière-plan avec couleur plus légère */}
@@ -65,11 +72,13 @@ export function SecteursCTASection() {
             >
               <Button 
                 className="bg-gradient-to-r from-[#800000] to-[#950000] text-white hover:from-[#600000] hover:to-[#800000] hover:scale-105 transition-all shadow-lg px-6 py-6"
+                onClick={() => handleNavigation('/contact')}
               >
                 Demander un accompagnement
               </Button>
               <Button 
                 className="border border-[#800000] text-transparent bg-clip-text bg-gradient-to-r from-[#800000] to-[#950000] bg-transparent hover:bg-[#f0e5e5] hover:scale-105 transition-all shadow-md px-6 py-6"
+                onClick={() => handleNavigation('/expertise')}
               >
                 Découvrir nos expertises
               </Button>

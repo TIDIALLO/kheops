@@ -103,11 +103,11 @@ export function NavbarClient() {
   // Configuration des liens de navigation avec icônes
   const navLinks = [
     { href: '/', label: 'Accueil', icon: Home },
-    { href: '/services', label: 'Services', icon: Briefcase },
-    { href: '#expertises', label: 'Expertises', icon: Star },
+    { href: '/services', label: 'Prestations', icon: Briefcase },
+    { href: '/expertise', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
-    { href: '#contact', label: 'Contact', icon: MessageSquare },
-    { href: '#faq', label: 'FAQ', icon: HelpCircle },
+    { href: '/#contact', label: 'Contact', icon: MessageSquare },
+    { href: '/#faq', label: 'FAQ', icon: HelpCircle },
     { href: '/recherche', label: 'Recherche', icon: Search }
   ];
 
