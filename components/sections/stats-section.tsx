@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { motion, useInView, useAnimation } from 'framer-motion'
 
 // Statistiques de KHEOPS
+// Note: Ces chiffres sont temporaires et devront être consolidés selon les retours du directeur
 const stats = [
   {
     value: 150,

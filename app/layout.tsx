@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/navigation/footer";
+import { EmailJSInit } from "@/components/emailjs-init";
 
 export const metadata: Metadata = {
   title: "KHEOPS Consulting - Experts en Contrôle de Projets",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="flex flex-col min-h-screen bg-white">
+        <EmailJSInit />
         <Navbar />
         <div className="flex-grow">
           {children}

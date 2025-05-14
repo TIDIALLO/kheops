@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Building2, Factory, Atom, Truck, PlaneTakeoff, HardHat, Droplet, Drill, PackageCheck } from 'lucide-react'
+import { Building2, Factory, Atom, Truck, PlaneTakeoff, HardHat, Droplet, Drill } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -14,8 +14,7 @@ const industries = [
   { nom: "Transport", icon: Truck, color: "#8B0000", sectorId: "transport" },
   { nom: "Aéroportuaire", icon: PlaneTakeoff, color: "#8B0000", sectorId: "transport" },
   { nom: "Construction", icon: HardHat, color: "#8B0000", sectorId: "construction" },
-  { nom: "Industrie", icon: Drill, color: "#8B0000", sectorId: "industrie" },
-  { nom: "Logistique", icon: PackageCheck, color: "#8B0000", sectorId: "logistique" }
+  { nom: "Industrie", icon: Drill, color: "#8B0000", sectorId: "industrie" }
 ]
 
 // Animation variants

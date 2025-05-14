@@ -183,54 +183,70 @@ const processStepVariants = {
 // Composant pour le processus de planification
 function PlanningProcess() {
   return (
-    <div className="mt-12">
-      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-        <h3 className="text-2xl font-bold text-[#1C1C1C] mb-4">Notre Processus de Planification</h3>
-        <p className="text-[#5A5A5A] mb-8">
+    <div className="mt-8">
+      <div className="bg-white rounded-xl shadow-md p-6 mb-4">
+        <h3 className="text-2xl font-bold text-[#1C1C1C] mb-3">Notre Processus de Planification</h3>
+        <p className="text-[#5A5A5A] mb-6">
           Notre méthodologie structurée en 5 étapes clés garantit une planification rigoureuse et adaptée à vos besoins spécifiques.
         </p>
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="relative"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {planningProcessSteps.map((step) => (
-            <motion.div
-              key={step.id}
-              variants={processStepVariants}
-              className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 rounded-full bg-[#8B0000]/10 text-[#8B0000]">
-                  <step.icon className="w-6 h-6" />
+          {/* Ligne de progression */}
+          <div className="hidden lg:block absolute left-[calc(50%-1px)] top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#8B0000] to-[#8B0000]/30 z-0"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {planningProcessSteps.map((step, index) => (
+              <motion.div
+                key={step.id}
+                variants={processStepVariants}
+                className={`bg-gray-50 rounded-lg p-4 border border-gray-100 hover:shadow-md transition-shadow relative ${
+                  index === 0 ? "lg:col-start-1" : 
+                  index === 1 ? "lg:col-start-3" : 
+                  index === 2 ? "lg:col-start-2 lg:row-start-2" : 
+                  index === 3 ? "lg:col-start-1 lg:row-start-3" : 
+                  "lg:col-start-3 lg:row-start-3"
+                }`}
+              >
+                {/* Indicateur de position sur la ligne (visible uniquement en desktop) */}
+                <div className={`hidden lg:block absolute top-1/2 transform -translate-y-1/2 w-3 h-3 rounded-full bg-[#8B0000] z-10 ${
+                  index % 2 === 0 ? 'right-0 translate-x-[calc(100%+10px)]' : 'left-0 -translate-x-[calc(100%+10px)]'
+                }`}></div>
+                
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-full bg-[#8B0000]/10 text-[#8B0000] flex-shrink-0">
+                    <step.icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#5A5A5A]">ÉTAPE {step.id}</div>
+                    <h4 className="font-bold text-[#1C1C1C] text-base">{step.title}</h4>
+                  </div>
                 </div>
+                
+                <p className="text-[#5A5A5A] mb-3 text-sm">{step.description}</p>
+                
                 <div>
-                  <div className="text-xs font-bold text-[#5A5A5A] mb-1">ÉTAPE {step.id}</div>
-                  <h4 className="font-bold text-[#1C1C1C]">{step.title}</h4>
+                  <div className="text-xs font-semibold text-[#8B0000] mb-1 flex items-center">
+                    <ArrowRight className="w-3 h-3 mr-1" />
+                    LIVRABLES
+                  </div>
+                  <ul className="space-y-1">
+                    {step.deliverables.map((deliverable, index) => (
+                      <li key={index} className="flex items-center text-xs text-[#5A5A5A]">
+                        <CheckCircle className="w-2.5 h-2.5 text-[#8B0000] mr-1.5 flex-shrink-0" />
+                        <span>{deliverable}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              
-              <p className="text-[#5A5A5A] mb-4 text-sm">{step.description}</p>
-              
-              <div className="space-y-2">
-                <div className="text-xs font-semibold text-[#8B0000] mb-1 flex items-center">
-                  <ArrowRight className="w-3.5 h-3.5 mr-1" />
-                  LIVRABLES
-                </div>
-                <ul className="space-y-1">
-                  {step.deliverables.map((deliverable, index) => (
-                    <li key={index} className="flex items-center text-xs text-[#5A5A5A]">
-                      <CheckCircle className="w-3 h-3 text-[#8B0000] mr-2 flex-shrink-0" />
-                      <span>{deliverable}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </div>

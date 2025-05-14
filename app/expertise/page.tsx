@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 export default function ExpertisePage() {
   return (
     <main>
+      {/* Note: Cette section présente une redondance avec la page Services.
+          Une fusion ou distinction plus claire sera effectuée selon les directives du directeur. */}
       <ExpertiseSection isStandalone={true} />
     </main>
   )

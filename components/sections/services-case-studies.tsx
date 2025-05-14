@@ -1,63 +1,74 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Building2, Factory, Landmark, Construction, ArrowRight, CheckCircle, Target, Trophy } from 'lucide-react'
+import { Rocket, Factory, LineChart } from 'lucide-react'
 import Image from 'next/image'
 
+// Études de cas des projets KHEOPS
 const caseStudies = [
   {
-    id: 'industrie',
-    title: 'Projet industriel majeur',
-    subtitle: 'Usine de production automobile',
+    id: 'lucy',
+    title: 'Projet EPC LUCY 2.0',
+    subtitle: 'Province SUD de GORO, NOUVELLE CALÉDONIE',
     icon: Factory,
-    image: '/images/case-studies/industry.jpg',
-    challenge: 'Planification complexe d\'une usine de production avec plus de 1000 activités et coordination de 15 sous-traitants majeurs',
-    solution: 'Mise en place d\'un planning détaillé avec analyse Monte-Carlo des risques et système de suivi en temps réel',
-    duration: '18 mois',
-    budget: '150M€',
+    image: '/images/case-studies/lucy.jpg',
+    challenge: 'Construction de deux usines d\'épaississement et d\'assèchement des résidus d\'exploitation',
+    solution: 'Réalisation des activités de planification et de contrôle de projet',
+    duration: 'En cours',
+    budget: '600M€+',
     results: [
-      'Réduction de 15% des délais initiaux',
-      'Économie de 8% sur le budget global',
-      'Meilleure coordination des sous-traitants',
-      'Zéro accident de travail majeur'
+      'Maîtrise des délais',
+      'Contrôle budgétaire rigoureux',
+      'Coordination multi-équipes',
+      'Gestion des risques adaptée aux contraintes locales'
     ],
-    tags: ['Industrie', 'Planning', 'Risques', 'OPC']
+    client: 'Prony Resources New Caledonia',
+    sector: 'Industrie minière',
+    tags: ['Planification', 'Contrôle', 'Industrie', 'International']
   },
   {
-    id: 'batiment',
-    title: 'Grand projet immobilier',
-    subtitle: 'Complex résidentiel premium',
-    icon: Building2,
-    image: '/images/case-studies/building.jpg',
-    challenge: 'Coordination de multiples corps d\'état sur un chantier urbain contraint avec des exigences environnementales strictes',
-    solution: 'Déploiement d\'une mission OPC avec outils de suivi digitaux et méthodologie Lean Construction',
-    duration: '24 mois',
-    budget: '80M€',
+    id: 'acatbs',
+    title: 'Projet ACATBS',
+    subtitle: 'Dakar, SÉNÉGAL',
+    icon: LineChart,
+    image: '/images/case-studies/ACATBS-Sar.png',
+    imagePosition: 'center 38%',
+    hasLogo: true,
+    challenge: 'Accroître de 30% la capacité de traitement du pétrole brut en provenance du champ SANGOMAR',
+    solution: 'Planification des travaux neufs GREENFIELD et des travaux BROWFIELD de raccordement tuyauterie',
+    duration: 'En cours',
+    budget: 'Confidentiel',
     results: [
-      'Respect des délais malgré la complexité',
-      'Zéro conflit majeur entre intervenants',
-      'Satisfaction client de 95%',
-      'Certification HQE niveau excellent'
+      'Coordination génie civil et charpente',
+      'Gestion tuyauterie métallique',
+      'Supervision électricité et instrumentation',
+      'Maîtrise des raccordements pendant la phase Arrêt métal'
     ],
-    tags: ['Immobilier', 'OPC', 'Planning', 'Environnement']
+    client: 'Société Africaine de Raffinage',
+    sector: 'Énergie Pétrole et Gaz',
+    tags: ['Planification', 'Coordination', 'Énergie', 'Travaux']
   },
   {
-    id: 'infrastructure',
-    title: 'Infrastructure publique',
-    subtitle: 'Station d\'épuration nouvelle génération',
-    icon: Landmark,
-    image: '/images/case-studies/infrastructure.jpg',
-    challenge: 'Maîtrise des coûts sur un projet public à fort enjeu avec des contraintes techniques complexes',
-    solution: 'Contrôle budgétaire strict et anticipation des risques avec tableaux de bord temps réel',
-    duration: '36 mois',
-    budget: '200M€',
+    id: 'papua',
+    title: 'Projet PAPUA LNG',
+    subtitle: 'Paris La défense, FRANCE',
+    icon: Rocket,
+    image: '/images/case-studies/PAPUA LNG.png',
+    imagePosition: 'center 30%',
+    hasLogo: true,
+    challenge: 'Relier les champs gaziers d\'Elk et Antelope à une unité de traitement et de liquéfaction à Port Moresby',
+    solution: 'Réalisation du planning FEED phase 2, du reporting et de la gestion des risques planning',
+    duration: 'En cours',
+    budget: 'Confidentiel',
     results: [
-      'Budget respecté à 99.5%',
-      'Identification précoce des déviations',
-      'Transparence totale pour les parties prenantes',
-      'Innovation technique majeure validée'
+      'Coordination d\'un gazoduc de 320km',
+      'Production estimée à 5.4 millions de tonnes/an',
+      'Collaboration internationale avec ExxonMobil',
+      'Gestion des risques planning optimisée'
     ],
-    tags: ['Public', 'Coûts', 'Risques', 'Innovation']
+    client: 'TOTAL ENERGIES',
+    sector: 'Énergie Pétrole et Gaz',
+    tags: ['Planning', 'Reporting', 'Risques', 'International']
   }
 ]
 
@@ -95,103 +106,90 @@ export default function ServicesCaseStudies() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {caseStudies.map((study, index) => (
-            <motion.div
-              key={study.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 group transform hover:-translate-y-2"
-            >
-              {/* Image de couverture avec overlay amélioré */}
-              <div className="relative h-48 w-full overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10" />
-                <Image
-                  src={study.image}
-                  alt={study.title}
-                  fill
-                  className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 right-3 z-20">
-                  <motion.div 
-                    className="p-2 bg-white rounded-full shadow-lg"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <study.icon className="w-5 h-5 text-[#8B0000]" />
-                  </motion.div>
-                </div>
-                {/* Informations clés sur l'image */}
-                <div className="absolute bottom-3 left-3 right-3 z-20 text-white">
-                  <div className="flex items-center gap-3 text-xs mb-1.5">
-                    <div className="flex items-center gap-1">
-                      <Target className="w-3 h-3" />
-                      <span>{study.duration}</span>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {caseStudies.map((study, index) => {
+            const Icon = study.icon
+            return (
+              <motion.div 
+                key={study.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-xl group hover:scale-[1.02] transition-transform duration-300"
+              >
+                {/* Image du projet avec overlay dégradé */}
+                <div className="relative h-64 overflow-hidden">
+                  {/* Bordure subtile en haut pour souligner les logos */}
+                  {study.hasLogo && (
+                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/30 z-20"></div>
+                  )}
+                  
+                  {/* Overlay optimisé pour faire ressortir les logos */}
+                  <div className={`absolute inset-0 ${study.hasLogo ? 'bg-gradient-to-t from-black/80 via-black/40 to-black/5' : 'bg-gradient-to-t from-black/80 via-black/40 to-black/10'} z-10`} />
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="bg-[#8B0000] p-1.5 rounded-lg">
+                        <Icon className="w-4 h-4 text-white" />
+                      </div>
+                      <h3 className="text-lg font-bold text-white">{study.title}</h3>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Trophy className="w-3 h-3" />
-                      <span>{study.budget}</span>
-                    </div>
+                    <p className="text-white/90 text-sm">{study.subtitle}</p>
                   </div>
-                  <h3 className="text-lg font-bold leading-tight mb-0.5">{study.title}</h3>
-                  <p className="text-xs text-white/80">{study.subtitle}</p>
+                  <Image 
+                    src={study.image}
+                    alt={study.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    style={study.imagePosition ? { objectPosition: study.imagePosition, objectFit: 'cover' } : {}}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={index === 0}
+                    quality={90}
+                  />
                 </div>
-              </div>
 
-              {/* Contenu avec design amélioré */}
-              <div className="p-5">
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {study.tags.map((tag, i) => (
-                    <span 
-                      key={i}
-                      className="px-2.5 py-0.5 bg-[#8B0000]/10 text-[#8B0000] text-xs font-medium rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-3.5 rounded-md border border-gray-100">
-                    <h4 className="font-semibold text-[#8B0000] mb-2 flex items-center gap-1.5 text-sm">
-                      <Target className="w-4 h-4" />
-                      Challenge
-                    </h4>
-                    <p className="text-xs text-[#5A5A5A] leading-relaxed">{study.challenge}</p>
+                {/* Contenu du projet */}
+                <div className="p-6 text-white">
+                  {/* Client et secteur */}
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <p className="text-white/60 text-xs">Client</p>
+                      <p className="font-medium text-sm text-white/90">{study.client}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white/60 text-xs">Secteur</p>
+                      <p className="font-medium text-sm text-white/90">{study.sector}</p>
+                    </div>
                   </div>
-                  
-                  <div className="bg-[#8B0000]/5 p-3.5 rounded-md">
-                    <h4 className="font-semibold text-[#8B0000] mb-2 flex items-center gap-1.5 text-sm">
-                      <ArrowRight className="w-4 h-4" />
-                      Solution
-                    </h4>
-                    <p className="text-xs text-[#5A5A5A] leading-relaxed">{study.solution}</p>
+
+                  {/* Description */}
+                  <div className="mb-4">
+                    <p className="text-white/80 text-sm leading-relaxed">{study.challenge}</p>
                   </div>
-                  
+
+                  {/* Solution */}
+                  <div className="mb-4">
+                    <p className="text-white/60 text-xs mb-1">Notre intervention</p>
+                    <p className="text-white/90 text-sm">{study.solution}</p>
+                  </div>
+
+                  {/* Résultats clés */}
                   <div>
-                    <h4 className="font-semibold text-[#8B0000] mb-2 flex items-center gap-1.5 text-sm">
-                      <CheckCircle className="w-4 h-4" />
-                      Résultats clés
-                    </h4>
-                    <ul className="text-xs text-[#5A5A5A] space-y-1.5">
+                    <p className="text-white/60 text-xs mb-2">Points clés</p>
+                    <ul className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {study.results.map((result, i) => (
-                        <motion.li 
-                          key={i} 
-                          className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-md transition-colors"
-                          whileHover={{ x: 3 }}
-                        >
-                          <Construction className="w-3.5 h-3.5 text-[#8B0000] flex-shrink-0" />
-                          <span className="leading-relaxed">{result}</span>
-                        </motion.li>
+                        <li key={i} className="text-white/80 text-xs flex items-start">
+                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#8B0000] mt-1.5 mr-1.5 flex-shrink-0"></span>
+                          <span>{result}</span>
+                        </li>
                       ))}
                     </ul>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

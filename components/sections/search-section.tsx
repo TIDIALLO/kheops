@@ -6,6 +6,7 @@ import { Search, Filter, X, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { services, secteurs, competences, Service } from '@/data/services-data'
+import { ServiceCard } from '@/components/service-card'
 
 export function SearchSection() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -368,63 +369,8 @@ export function SearchSection() {
               animate="visible"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filteredServices.map((service) => (
-                <motion.div
-                  key={service.id}
-                  variants={itemVariants}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`p-3 rounded-lg ${
-                        service.category === 'Contrôle de projets' ? 'bg-[#fff8f8]' :
-                        service.category === 'Gestion des Ressources' ? 'bg-[#fffdfa]' :
-                        'bg-[#f9fdff]'
-                      }`}>
-                        <service.icon size={24} className={
-                          service.category === 'Contrôle de projets' ? 'text-[#800000]' :
-                          service.category === 'Gestion des Ressources' ? 'text-[#9c6644]' :
-                          'text-[#0066a2]'
-                        } />
-                      </div>
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                        service.category === 'Contrôle de projets' ? 'bg-[#fff8f8] text-[#800000]' :
-                        service.category === 'Gestion des Ressources' ? 'bg-[#fffdfa] text-[#9c6644]' :
-                        'bg-[#f9fdff] text-[#0066a2]'
-                      }`}>
-                        {service.category}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-[#1C1C1C] mb-2">{service.title}</h3>
-                    <p className="text-[#5A5A5A] mb-4 flex-grow">{service.description}</p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {service.secteurs.slice(0, 3).map(secteurId => {
-                        const secteur = secteurs.find(s => s.id === secteurId);
-                        return secteur ? (
-                          <span key={secteurId} className="text-xs bg-gray-100 text-[#5A5A5A] px-2 py-1 rounded-full">
-                            {secteur.name}
-                          </span>
-                        ) : null;
-                      })}
-                      {service.secteurs.length > 3 && (
-                        <span className="text-xs bg-gray-100 text-[#5A5A5A] px-2 py-1 rounded-full">
-                          +{service.secteurs.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="mt-auto border-t border-gray-100">
-                    <Link 
-                      href={`/services/${service.id}`}
-                      className="flex items-center justify-between p-4 text-[#800000] font-medium hover:bg-[#fff8f8] transition-colors"
-                    >
-                      <span>En savoir plus</span>
-                      <ArrowRight size={16} />
-                    </Link>
-                  </div>
-                </motion.div>
+              {filteredServices.map((service, index) => (
+                <ServiceCard key={service.id} service={service} index={index} />
               ))}
             </motion.div>
           )}

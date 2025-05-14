@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { useIsMounted } from '@/hooks/use-is-mounted'
 
 // Palette de couleurs
 const colors = {
@@ -24,13 +25,14 @@ type BackgroundCircle = {
 }
 
 export function ProfessionalBackground() {
+  const isMounted = useIsMounted()
   const [circles, setCircles] = useState<BackgroundCircle[]>([])
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Créer les cercles en arrière-plan
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return
+    if (!isMounted || !containerRef.current) return
     
     const updateDimensions = () => {
       if (containerRef.current) {
@@ -50,11 +52,11 @@ export function ProfessionalBackground() {
     return () => {
       window.removeEventListener('resize', updateDimensions)
     }
-  }, [])
+  }, [isMounted])
 
   // Générer les cercles lorsque les dimensions changent
   useEffect(() => {
-    if (dimensions.width === 0 || dimensions.height === 0) return
+    if (!isMounted || dimensions.width === 0 || dimensions.height === 0) return
     
     const newCircles: BackgroundCircle[] = []
     
@@ -87,11 +89,16 @@ export function ProfessionalBackground() {
     }
     
     setCircles(newCircles)
-  }, [dimensions])
+  }, [dimensions, isMounted])
 
-  // Éviter le rendu côté serveur
-  if (typeof window === 'undefined') {
-    return null
+  // Rendu côté client uniquement
+  if (!isMounted) {
+    return (
+      <div 
+        className="fixed inset-0 overflow-hidden z-[-1]"
+        style={{ backgroundColor: colors.light }}
+      ></div>
+    )
   }
 
   return (

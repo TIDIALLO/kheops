@@ -53,14 +53,6 @@ const secteurs = [
     image: "/images/secteurs/infrastructure.png",
     icon: Router,
     color: mainRed
-  },
-  {
-    id: "logistique",
-    titre: "Logistique",
-    description: "Optimisation des chaînes logistiques et gestion des projets de plateformes et centres de distribution.",
-    image: "/images/secteurs/logistique.png",
-    icon: Package,
-    color: mainRed
   }
 ]
 

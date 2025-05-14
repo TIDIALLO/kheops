@@ -135,7 +135,7 @@ export function SecteursHeroSection() {
                       <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Énergie</span>
                       <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Transport</span>
                       <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Construction</span>
-                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Logistique</span>
+                      <span className="bg-white/20 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Infrastructure</span>
                     </div>
                   </div>
                 </div>
