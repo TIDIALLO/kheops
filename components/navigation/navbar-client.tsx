@@ -130,7 +130,6 @@ export function NavbarClient() {
     { href: '/expertise', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
     { href: '/#contact', label: 'Contact', icon: MessageSquare },
-    { href: '/#faq', label: 'FAQ', icon: HelpCircle },
     { href: '/recherche', label: 'Recherche', icon: Search }
   ];
 
@@ -145,10 +144,10 @@ export function NavbarClient() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo avec image et effet au survol */}
-          <Link 
-            href="/" 
-            className="group flex items-center space-x-3 transition-all duration-300"
-            onClick={() => setActiveLink('/')}
+          <motion.div 
+            className="group flex items-center space-x-3 transition-all duration-300 cursor-pointer"
+            onClick={() => handleLinkClick('/')}
+            whileHover={{ scale: 1.02 }}
           >
             <motion.div 
               className="relative h-14 w-14 overflow-hidden rounded-lg bg-white shadow-md"
@@ -172,7 +171,7 @@ export function NavbarClient() {
                 Consulting
               </span>
             </div>
-          </Link>
+          </motion.div>
 
           {/* Navigation desktop améliorée avec icônes */}
           <nav className="hidden md:flex space-x-2 lg:space-x-3 p-2 rounded-full bg-white/95 backdrop-blur-sm shadow-md ml-6 border border-gray-100">

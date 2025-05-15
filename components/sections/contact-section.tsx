@@ -4,55 +4,56 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { FileUpload } from "@/components/ui/file-upload"
 import { Mail, Phone, MapPin, Clock, CheckCircle, AlertCircle, ChevronDown } from "lucide-react"
 import { motion } from "framer-motion"
 
-// Liste des pays les plus courants avec leurs indicatifs
+// Liste des pays avec leurs codes courts et indicatifs
 const countryCodes = [
-  { code: '+221', pays: 'Sénégal 🇸🇳' },
-  { code: '+33', pays: 'France 🇫🇷' },
-  { code: '+1', pays: 'États-Unis/Canada 🇺🇸🇨🇦' },
-  { code: '+212', pays: 'Maroc 🇲🇦' },
-  { code: '+32', pays: 'Belgique 🇧🇪' },
-  { code: '+41', pays: 'Suisse 🇨🇭' },
-  { code: '+237', pays: 'Cameroun 🇨🇲' },
-  { code: '+225', pays: 'Côte d\'Ivoire 🇨🇮' },
-  { code: '+243', pays: 'RD Congo 🇨🇩' },
-  { code: '+44', pays: 'Royaume-Uni 🇬🇧' },
-  { code: '+49', pays: 'Allemagne 🇩🇪' },
-  { code: '+39', pays: 'Italie 🇮🇹' },
-  { code: '+34', pays: 'Espagne 🇪🇸' },
-  { code: '+351', pays: 'Portugal 🇵🇹' },
-  { code: '+213', pays: 'Algérie 🇩🇿' },
-  { code: '+216', pays: 'Tunisie 🇹🇳' },
-  { code: '+242', pays: 'Congo 🇨🇬' },
-  { code: '+223', pays: 'Mali 🇲🇱' },
-  { code: '+226', pays: 'Burkina Faso 🇧🇫' },
-  { code: '+235', pays: 'Tchad 🇹🇩' },
-  { code: '+228', pays: 'Togo 🇹🇬' },
-  { code: '+229', pays: 'Bénin 🇧🇯' },
-  { code: '+222', pays: 'Mauritanie 🇲🇷' },
-  { code: '+227', pays: 'Niger 🇳🇪' },
-  { code: '+224', pays: 'Guinée 🇬🇳' },
-  { code: '+245', pays: 'Guinée-Bissau 🇬🇼' },
-  { code: '+240', pays: 'Guinée équatoriale 🇬🇶' },
-  { code: '+230', pays: 'Maurice 🇲🇺' },
-  { code: '+250', pays: 'Rwanda 🇷🇼' },
-  { code: '+257', pays: 'Burundi 🇧🇮' },
-  { code: '+256', pays: 'Ouganda 🇺🇬' },
-  { code: '+255', pays: 'Tanzanie 🇹🇿' },
-  { code: '+254', pays: 'Kenya 🇰🇪' },
-  { code: '+251', pays: 'Éthiopie 🇪🇹' },
-  { code: '+20', pays: 'Égypte 🇪🇬' },
-  { code: '+55', pays: 'Brésil 🇧🇷' },
-  { code: '+52', pays: 'Mexique 🇲🇽' },
-  { code: '+81', pays: 'Japon 🇯🇵' },
-  { code: '+86', pays: 'Chine 🇨🇳' },
-  { code: '+91', pays: 'Inde 🇮🇳' },
-  { code: '+7', pays: 'Russie 🇷🇺' },
-  { code: '+61', pays: 'Australie 🇦🇺' },
-  { code: '+64', pays: 'Nouvelle-Zélande 🇳🇿' },
-  { code: '+27', pays: 'Afrique du Sud 🇿🇦' },
+  { code: '+221', shortCode: 'SN', pays: 'Sénégal' },
+  { code: '+33', shortCode: 'FR', pays: 'France' },
+  { code: '+1', shortCode: 'US', pays: 'États-Unis/Canada' },
+  { code: '+212', shortCode: 'MA', pays: 'Maroc' },
+  { code: '+32', shortCode: 'BE', pays: 'Belgique' },
+  { code: '+41', shortCode: 'CH', pays: 'Suisse' },
+  { code: '+237', shortCode: 'CM', pays: 'Cameroun' },
+  { code: '+225', shortCode: 'CI', pays: "Côte d'Ivoire" },
+  { code: '+243', shortCode: 'CD', pays: 'RD Congo' },
+  { code: '+44', shortCode: 'GB', pays: 'Royaume-Uni' },
+  { code: '+49', shortCode: 'DE', pays: 'Allemagne' },
+  { code: '+39', shortCode: 'IT', pays: 'Italie' },
+  { code: '+34', shortCode: 'ES', pays: 'Espagne' },
+  { code: '+351', shortCode: 'PT', pays: 'Portugal' },
+  { code: '+213', shortCode: 'DZ', pays: 'Algérie' },
+  { code: '+216', shortCode: 'TN', pays: 'Tunisie' },
+  { code: '+242', shortCode: 'CG', pays: 'Congo' },
+  { code: '+223', shortCode: 'ML', pays: 'Mali' },
+  { code: '+226', shortCode: 'BF', pays: 'Burkina Faso' },
+  { code: '+235', shortCode: 'TD', pays: 'Tchad' },
+  { code: '+228', shortCode: 'TG', pays: 'Togo' },
+  { code: '+229', shortCode: 'BJ', pays: 'Bénin' },
+  { code: '+222', shortCode: 'MR', pays: 'Mauritanie' },
+  { code: '+227', shortCode: 'NE', pays: 'Niger' },
+  { code: '+224', shortCode: 'GN', pays: 'Guinée' },
+  { code: '+245', shortCode: 'GW', pays: 'Guinée-Bissau' },
+  { code: '+240', shortCode: 'GQ', pays: 'Guinée équatoriale' },
+  { code: '+230', shortCode: 'MU', pays: 'Maurice' },
+  { code: '+250', shortCode: 'RW', pays: 'Rwanda' },
+  { code: '+257', shortCode: 'BI', pays: 'Burundi' },
+  { code: '+256', shortCode: 'UG', pays: 'Ouganda' },
+  { code: '+255', shortCode: 'TZ', pays: 'Tanzanie' },
+  { code: '+254', shortCode: 'KE', pays: 'Kenya' },
+  { code: '+251', shortCode: 'ET', pays: 'Éthiopie' },
+  { code: '+20', shortCode: 'EG', pays: 'Égypte' },
+  { code: '+55', shortCode: 'BR', pays: 'Brésil' },
+  { code: '+52', shortCode: 'MX', pays: 'Mexique' },
+  { code: '+81', shortCode: 'JP', pays: 'Japon' },
+  { code: '+86', shortCode: 'CN', pays: 'Chine' },
+  { code: '+91', shortCode: 'IN', pays: 'Inde' },
+  { code: '+7', shortCode: 'RU', pays: 'Russie' },
+  { code: '+61', shortCode: 'AU', pays: 'Australie' },
+  { code: '+64', shortCode: 'NZ', pays: 'Nouvelle-Zélande' },
+  { code: '+27', shortCode: 'ZA', pays: 'Afrique du Sud' },
 ];
 
 export function ContactSection() {
@@ -61,14 +62,15 @@ export function ContactSection() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
   const [showCountryDropdown, setShowCountryDropdown] = useState(false)
-  const [selectedCountryCode, setSelectedCountryCode] = useState('+221') // Par défaut: Sénégal
+  const [selectedCountry, setSelectedCountry] = useState(countryCodes[0])
   const dropdownRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     company: '',
-    message: ''
+    message: '',
+    files: [] as File[]
   })
 
   // Fermer le dropdown quand on clique en dehors
@@ -140,14 +142,18 @@ export function ContactSection() {
     }
   }
 
-  const selectCountry = (code: string) => {
-    setSelectedCountryCode(code)
+  const selectCountry = (country: typeof countryCodes[0]) => {
+    setSelectedCountry(country)
     setShowCountryDropdown(false)
   }
 
   const getFullPhoneNumber = () => {
     if (!formData.phone) return ""
-    return `${selectedCountryCode} ${formData.phone}`
+    return `${selectedCountry.code} ${formData.phone}`
+  }
+
+  const handleFileChange = (files: File[]) => {
+    setFormData(prev => ({ ...prev, files }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -164,52 +170,57 @@ export function ContactSection() {
       // Générer un ID de référence unique
       const referenceId = `KHEOPS-${new Date().getTime().toString().slice(-6)}`
       
-      // Ajouter l'ID de référence et le numéro complet au formulaire
-      if (formRef.current) {
-        // Ajouter référence
-        const hiddenRefInput = document.createElement('input')
-        hiddenRefInput.type = 'hidden'
-        hiddenRefInput.name = 'Référence'
-        hiddenRefInput.value = referenceId
-        formRef.current.appendChild(hiddenRefInput)
-        
-        // Ajouter le numéro de téléphone complet
-        if (formData.phone) {
-          const hiddenPhoneInput = document.createElement('input')
-          hiddenPhoneInput.type = 'hidden'
-          hiddenPhoneInput.name = 'phone_complet'
-          hiddenPhoneInput.value = getFullPhoneNumber()
-          formRef.current.appendChild(hiddenPhoneInput)
-        }
-        
-        // Soumettre le formulaire
-        formRef.current.submit()
-        
-        // On considère que c'est un succès car formsubmit.co va gérer le reste
-        setSubmitStatus('success')
-        
-        // Enregistrer dans le localStorage que le formulaire a été soumis (pour limiter les soumissions multiples)
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('lastFormSubmit', new Date().toISOString())
-        }
-        
-        // Réinitialiser le formulaire après 5 secondes
-        setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            company: '',
-            message: ''
-          })
-          setSubmitStatus('idle')
-        }, 5000)
+      // Créer un FormData pour envoyer les fichiers
+      const formDataToSend = new FormData()
+      formDataToSend.append('name', formData.name)
+      formDataToSend.append('email', formData.email)
+      formDataToSend.append('phone', getFullPhoneNumber())
+      formDataToSend.append('company', formData.company)
+      formDataToSend.append('message', formData.message)
+      formDataToSend.append('_subject', 'Nouvelle demande de contact - KHEOPS Consulting')
+      formDataToSend.append('_template', 'table')
+      formDataToSend.append('_captcha', 'true')
+      formDataToSend.append('Référence', referenceId)
+      
+      // Ajouter les fichiers
+      formData.files.forEach((file, index) => {
+        formDataToSend.append(`file${index + 1}`, file)
+      })
+      
+      // Envoyer le formulaire via fetch au lieu de la soumission classique
+      const response = await fetch('https://formsubmit.co/diallotidiane014@gmail.com', {
+        method: 'POST',
+        body: formDataToSend
+      })
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'envoi du formulaire')
       }
+      
+      setSubmitStatus('success')
+      
+      // Enregistrer dans le localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastFormSubmit', new Date().toISOString())
+      }
+      
+      // Réinitialiser le formulaire après 5 secondes
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: '',
+          files: []
+        })
+        setSubmitStatus('idle')
+      }, 5000)
+      
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error)
       setSubmitStatus('error')
       
-      // Réinitialiser le statut après 5 secondes
       setTimeout(() => {
         setSubmitStatus('idle')
       }, 5000)
@@ -236,7 +247,7 @@ export function ContactSection() {
   }, [])
 
   return (
-    <section id="contact" className="py-8 md:py-12 relative overflow-hidden">
+    <section id="contact" className="py-6 md:py-8 relative overflow-hidden">
       {/* Arrière-plan gris #555555 */}
       <div className="absolute inset-0 bg-[#555555]"></div>
       
@@ -245,36 +256,36 @@ export function ContactSection() {
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }}></div>
       
-      <div className="container mx-auto px-4 relative z-10 py-4">
+      <div className="container mx-auto px-4 relative z-10 py-2">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-6"
+          className="text-center mb-4"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
             Contactez-nous
           </h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto">
+          <p className="text-base text-white/90 max-w-xl mx-auto">
             Discutons de vos projets et de la façon dont nous pouvons vous aider à les réussir
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-5 gap-4 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-5 gap-4 max-w-4xl mx-auto">
           {/* Informations de contact */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="md:col-span-2 space-y-3 text-white"
+            className="md:col-span-2 space-y-2 text-white"
           >
             <div>
-              <h3 className="text-xl font-bold mb-3 border-b border-white/30 pb-2">
+              <h3 className="text-lg font-bold mb-2 border-b border-white/30 pb-2">
                 Nos coordonnées
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-start gap-2">
                   <div className="bg-white/20 p-1.5 rounded-full shadow-inner">
                     <MapPin className="w-4 h-4 text-white" />
@@ -329,14 +340,14 @@ export function ContactSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="md:col-span-3 bg-white p-6 rounded-xl shadow-xl"
+            className="md:col-span-3 bg-white p-4 rounded-xl shadow-xl"
           >
-            <h3 className="text-xl font-bold text-[#1C1C1C] mb-4 border-b border-gray-200 pb-3">
+            <h3 className="text-lg font-bold text-[#1C1C1C] mb-3 border-b border-gray-200 pb-2">
               Envoyez-nous un message
             </h3>
             
             {submitStatus === 'success' ? (
-              <div className="flex flex-col items-center justify-center py-8">
+              <div className="flex flex-col items-center justify-center py-6">
                 <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
                 <h4 className="text-xl font-bold text-green-600 mb-2">Message envoyé !</h4>
                 <p className="text-center text-gray-600">
@@ -366,7 +377,7 @@ export function ContactSection() {
                 </div>
               </div>
             ) : submitStatus === 'error' ? (
-              <div className="flex flex-col items-center justify-center py-8">
+              <div className="flex flex-col items-center justify-center py-6">
                 <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
                 <h4 className="text-xl font-bold text-red-600 mb-2">Erreur</h4>
                 <p className="text-center text-gray-600">
@@ -381,11 +392,9 @@ export function ContactSection() {
               </div>
             ) : (
               <form 
-                ref={formRef}
-                action="https://formsubmit.co/diallotidiane014@gmail.com" 
-                method="POST"
                 onSubmit={handleSubmit} 
-                className="space-y-4"
+                className="space-y-3"
+                encType="multipart/form-data"
               >
                 {/* Configuration FormSubmit.co */}
                 <input type="hidden" name="_subject" value="Nouvelle demande de contact - KHEOPS Consulting" />
@@ -416,7 +425,7 @@ Email: diallotidiane014@gmail.com
 Site web: https://kheops-consulting.com" 
                 />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Nom complet *</label>
                     <Input
@@ -448,7 +457,7 @@ Site web: https://kheops-consulting.com"
                     )}
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Téléphone</label>
                     <div className="flex relative">
@@ -459,25 +468,31 @@ Site web: https://kheops-consulting.com"
                         <button
                           type="button"
                           onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                          className="flex items-center justify-between px-3 h-11 border border-r-0 rounded-l-md border-gray-300 bg-gray-50 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] hover:bg-gray-100 transition-colors"
+                          className="flex items-center gap-2 px-3 h-11 border border-r-0 rounded-l-md border-gray-300 bg-gray-50 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] hover:bg-gray-100 transition-colors"
                         >
-                          <span>{selectedCountryCode}</span>
-                          <ChevronDown className="ml-1 h-4 w-4" />
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{selectedCountry.shortCode}</span>
+                            <span className="text-gray-600">{selectedCountry.code}</span>
+                          </div>
+                          <ChevronDown className="w-4 h-4 text-gray-400 ml-1" />
                         </button>
                         
                         {showCountryDropdown && (
-                          <div className="absolute z-10 mt-1 py-1 w-64 bg-white shadow-lg rounded-md max-h-60 overflow-auto border border-gray-200">
+                          <div className="absolute z-10 mt-1 py-1 w-64 bg-white shadow-lg rounded-md max-h-[320px] overflow-auto border border-gray-200">
                             <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-100 bg-gray-50 font-medium sticky top-0">
                               Sélectionnez votre pays
                             </div>
                             {countryCodes.map((country) => (
                               <div
                                 key={country.code}
-                                onClick={() => selectCountry(country.code)}
-                                className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center transition-colors"
+                                onClick={() => selectCountry(country)}
+                                className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center gap-3 transition-colors ${
+                                  selectedCountry.code === country.code ? 'bg-gray-50' : ''
+                                }`}
                               >
-                                <span className="w-12 inline-block font-medium">{country.code}</span>
-                                <span>{country.pays}</span>
+                                <span className="w-8 text-center font-medium">{country.shortCode}</span>
+                                <span className="w-16">{country.code}</span>
+                                <span className="text-gray-600 truncate">{country.pays}</span>
                               </div>
                             ))}
                           </div>
@@ -488,7 +503,9 @@ Site web: https://kheops-consulting.com"
                         type="tel"
                         name="phone"
                         placeholder="Votre numéro (sans l'indicatif)"
-                        className={`w-full rounded-l-none text-sm h-11 ${validationErrors.phone ? 'border-red-500' : 'border-gray-300 focus:border-[#8B0000] focus:ring-[#8B0000]'}`}
+                        className={`w-full rounded-l-none text-sm h-11 ${
+                          validationErrors.phone ? 'border-red-500' : 'border-gray-300 focus:border-[#8B0000] focus:ring-[#8B0000]'
+                        }`}
                         value={formData.phone}
                         onChange={handleChange}
                       />
@@ -497,7 +514,7 @@ Site web: https://kheops-consulting.com"
                       <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>
                     )}
                     <p className="text-gray-500 text-xs mt-1.5">
-                      Ex: {selectedCountryCode === '+221' ? '78 123 45 67' : selectedCountryCode === '+33' ? '6 12 34 56 78' : 'Votre numéro local'}
+                      Ex: {selectedCountry.code === '+221' ? '78 123 45 67' : selectedCountry.code === '+33' ? '6 12 34 56 78' : 'Votre numéro local'}
                     </p>
                   </div>
                   <div>
@@ -517,7 +534,7 @@ Site web: https://kheops-consulting.com"
                   <Textarea
                     name="message"
                     placeholder="Décrivez votre projet ou votre demande..."
-                    className={`w-full min-h-[120px] text-sm ${validationErrors.message ? 'border-red-500' : 'border-gray-300 focus:border-[#8B0000] focus:ring-[#8B0000]'}`}
+                    className={`w-full min-h-[100px] text-sm ${validationErrors.message ? 'border-red-500' : 'border-gray-300 focus:border-[#8B0000] focus:ring-[#8B0000]'}`}
                     value={formData.message}
                     onChange={handleChange}
                     required
@@ -526,14 +543,31 @@ Site web: https://kheops-consulting.com"
                     <p className="text-red-500 text-xs mt-1">{validationErrors.message}</p>
                   )}
                 </div>
+
+                {/* Upload de fichiers */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Pièces jointes
+                    <span className="text-gray-500 text-xs ml-1">(CV, portfolio, etc.)</span>
+                  </label>
+                  <FileUpload
+                    onChange={handleFileChange}
+                    maxFiles={3}
+                    maxSize={10}
+                    acceptedTypes={['.pdf', '.doc', '.docx', '.txt', '.jpg', '.jpeg', '.png']}
+                    className="mt-1"
+                  />
+                </div>
+
                 <Button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#8B0000] hover:bg-[#700000] text-white transition-colors text-sm h-12 mt-2"
+                  className="w-full bg-[#8B0000] hover:bg-[#700000] text-white transition-colors text-sm h-10 mt-2"
                 >
                   {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                 </Button>
-                <div className="border-t border-gray-100 pt-3 mt-3">
+
+                <div className="border-t border-gray-100 pt-2 mt-2">
                   <p className="text-xs text-gray-500 text-center">
                     * Champs obligatoires. En soumettant ce formulaire, vous acceptez que nous utilisions vos informations pour vous contacter concernant votre demande.
                   </p>

@@ -94,7 +94,7 @@ export default function ServicesCaseStudies() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="text-white font-semibold mb-2 inline-block text-sm px-4 py-1 bg-[#8B0000]/80 rounded-full">Nos succès</span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 mt-3">
@@ -106,7 +106,7 @@ export default function ServicesCaseStudies() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {caseStudies.map((study, index) => {
             const Icon = study.icon
             return (
@@ -116,10 +116,10 @@ export default function ServicesCaseStudies() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-xl group hover:scale-[1.02] transition-transform duration-300"
+                className="rounded-xl overflow-hidden border border-white/20 shadow-xl group hover:scale-[1.02] transition-transform duration-300 h-[600px] flex flex-col"
               >
                 {/* Image du projet avec overlay dégradé */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-48 overflow-hidden flex-shrink-0">
                   {/* Bordure subtile en haut pour souligner les logos */}
                   {study.hasLogo && (
                     <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/30 z-20"></div>
@@ -133,9 +133,9 @@ export default function ServicesCaseStudies() {
                       <div className="bg-[#8B0000] p-1.5 rounded-lg">
                         <Icon className="w-4 h-4 text-white" />
                       </div>
-                      <h3 className="text-lg font-bold text-white">{study.title}</h3>
+                      <h3 className="text-lg font-bold text-white tracking-tight">{study.title}</h3>
                     </div>
-                    <p className="text-white/90 text-sm">{study.subtitle}</p>
+                    <p className="text-white/95 text-xs font-medium">{study.subtitle}</p>
                   </div>
                   <Image 
                     src={study.image}
@@ -150,38 +150,38 @@ export default function ServicesCaseStudies() {
                 </div>
 
                 {/* Contenu du projet */}
-                <div className="p-6 text-white">
+                <div className="p-5 bg-[#1a1a1a] flex-grow flex flex-col">
                   {/* Client et secteur */}
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <p className="text-white/60 text-xs">Client</p>
-                      <p className="font-medium text-sm text-white/90">{study.client}</p>
+                  <div className="flex justify-between items-start mb-4 border-b border-white/10 pb-3">
+                    <div className="flex-1">
+                      <p className="text-white/70 text-xs uppercase font-semibold tracking-wider mb-1">Client</p>
+                      <p className="font-medium text-xs text-white">{study.client}</p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-white/60 text-xs">Secteur</p>
-                      <p className="font-medium text-sm text-white/90">{study.sector}</p>
+                    <div className="flex-1 text-right">
+                      <p className="text-white/70 text-xs uppercase font-semibold tracking-wider mb-1">Secteur</p>
+                      <p className="font-medium text-xs text-white">{study.sector}</p>
                     </div>
                   </div>
 
                   {/* Description */}
                   <div className="mb-4">
-                    <p className="text-white/80 text-sm leading-relaxed">{study.challenge}</p>
+                    <p className="text-white/90 text-xs leading-relaxed font-medium min-h-[48px]">{study.challenge}</p>
                   </div>
 
                   {/* Solution */}
                   <div className="mb-4">
-                    <p className="text-white/60 text-xs mb-1">Notre intervention</p>
-                    <p className="text-white/90 text-sm">{study.solution}</p>
+                    <p className="text-white/70 text-xs uppercase font-semibold tracking-wider mb-1">Notre intervention</p>
+                    <p className="text-white text-xs leading-relaxed min-h-[48px]">{study.solution}</p>
                   </div>
 
                   {/* Résultats clés */}
-                  <div>
-                    <p className="text-white/60 text-xs mb-2">Points clés</p>
-                    <ul className="grid grid-cols-2 gap-x-2 gap-y-1">
+                  <div className="mt-auto pt-4">
+                    <p className="text-white/70 text-xs uppercase font-semibold tracking-wider mb-2">Points clés</p>
+                    <ul className="grid grid-cols-2 gap-x-3 gap-y-2">
                       {study.results.map((result, i) => (
-                        <li key={i} className="text-white/80 text-xs flex items-start">
-                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#8B0000] mt-1.5 mr-1.5 flex-shrink-0"></span>
-                          <span>{result}</span>
+                        <li key={i} className="text-white/90 text-xs flex items-start">
+                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#8B0000] mt-1 mr-1.5 flex-shrink-0"></span>
+                          <span className="font-medium">{result}</span>
                         </li>
                       ))}
                     </ul>
