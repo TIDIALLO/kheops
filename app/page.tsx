@@ -20,8 +20,6 @@ const MethodologiesSection = dynamic(() => import('@/components/sections/methodo
 const ProcessSection = dynamic(() => import('@/components/sections/process-section').then(mod => ({ default: mod.ProcessSection })))
 const ReferencesSection = dynamic(() => import('@/components/sections/references-section').then(mod => ({ default: mod.ReferencesSection })))
 // const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section').then(mod => ({ default: mod.TestimonialsSection })))
-const StatsSection = dynamic(() => import('@/components/sections/stats-section').then(mod => ({ default: mod.StatsSection })))
-const FAQSection = dynamic(() => import('@/components/sections/faq-section').then(mod => ({ default: mod.FAQSection })))
 const ContactSection = dynamic(() => import('@/components/sections/contact-section').then(mod => ({ default: mod.ContactSection })))
 
 export default function Home() {
@@ -56,12 +54,6 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <TestimonialsSection />
       </Suspense> */}
-      <Suspense fallback={<Loading />}>
-        <StatsSection />
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <FAQSection />
-      </Suspense>
       <Suspense fallback={<Loading />}>
         <ContactSection />
       </Suspense>
