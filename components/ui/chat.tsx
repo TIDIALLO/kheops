@@ -16,6 +16,34 @@ interface Message {
   status: 'sending' | 'sent' | 'error'
 }
 
+// Fonction pour obtenir une réponse automatique selon le message
+const getAutomaticResponse = (message: string): string => {
+  // Convertir le message en minuscules pour faciliter la recherche
+  const messageLower = message.toLowerCase()
+
+  // Réponses pour différents scénarios
+  if (messageLower.includes('contact') || messageLower.includes('coordonnées') || messageLower.includes('adresse') || messageLower.includes('téléphone')) {
+    return `Voici nos coordonnées :
+• Adresse : Immeuble Rivonia, 2ème étage, Rue Amadou Assane Ndoye x Colbert, Dakar, Sénégal
+• Téléphone : 
+  - SENEGAL: +221 78.193.59.69
+  - France: +33 07.86.02.51.97
+• Email : pierredieng.kheops@gmail.com
+• Horaires : Lundi - Vendredi : 9h - 18h, Samedi : Sur rendez-vous`
+  }
+
+  if (messageLower.includes('devis') || messageLower.includes('tarif') || messageLower.includes('prix')) {
+    return "Pour obtenir un devis personnalisé, veuillez nous fournir quelques informations sur votre projet. Un de nos experts vous contactera dans les plus brefs délais pour discuter de vos besoins spécifiques."
+  }
+
+  if (messageLower.includes('bonjour') || messageLower.includes('salut') || messageLower.includes('hello')) {
+    return "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+  }
+
+  // Réponse par défaut
+  return "Merci pour votre message. Un agent vous répondra bientôt. Pour une réponse plus rapide, n'hésitez pas à nous appeler au +221 78.193.59.69"
+}
+
 export function Chat() {
   // États
   const [isOpen, setIsOpen] = useState(false)
@@ -50,11 +78,14 @@ export function Chat() {
     setInputValue('')
     setIsTyping(true)
 
-    // Simuler une réponse de l'agent (à remplacer par votre logique d'API)
+    // Obtenir la réponse automatique appropriée
+    const automaticResponse = getAutomaticResponse(inputValue)
+
+    // Simuler un délai de réponse pour plus de naturel
     setTimeout(() => {
       const response: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Merci pour votre message. Un agent vous répondra bientôt.",
+        content: automaticResponse,
         sender: 'agent',
         timestamp: new Date(),
         status: 'sent'
