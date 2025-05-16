@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import { Chat } from '@/components/ui/chat'
 
 export function NavbarClient() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export function NavbarClient() {
   const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('/')
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [isChatOpen, setIsChatOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -130,7 +132,7 @@ export function NavbarClient() {
     { href: '/expertise', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
     { href: '/#contact', label: 'Contact', icon: MessageSquare },
-    { href: '/recherche', label: 'Recherche', icon: Search }
+    { href: '/recherche', label: 'Expertise', icon: Search }
   ];
 
   return (

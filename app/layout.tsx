@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/navigation/footer";
 import { EmailJSInit } from "@/components/emailjs-init";
+import { NavbarClient } from '@/components/navigation/navbar-client'
+import { Chat } from '@/components/ui/chat'
+import { ScrollToTop } from '@/components/ui/scroll-to-top'
 
 export const metadata: Metadata = {
   title: {
@@ -38,10 +40,12 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen bg-white">
         <EmailJSInit />
-        <Navbar />
+        <NavbarClient />
         <div className="flex-grow">
           {children}
         </div>
+        <Chat />
+        <ScrollToTop />
         <Footer />
       </body>
     </html>

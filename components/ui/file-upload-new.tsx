@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -169,11 +167,11 @@ export function FileUpload({ onFilesChange }: FileUploadProps) {
   }
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-4">
       <div
         {...getRootProps()}
         className={`
-          relative border border-dashed rounded-md p-2.5 transition-all duration-200
+          relative border-2 border-dashed rounded-lg p-6 transition-all duration-200
           ${isDraggedOver || isDragActive 
             ? 'border-[#8B0000] bg-red-50' 
             : 'border-gray-300 hover:border-gray-400 bg-white'
@@ -182,25 +180,30 @@ export function FileUpload({ onFilesChange }: FileUploadProps) {
         `}
       >
         <input {...getInputProps()} />
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center justify-center gap-3">
           <div className={`
-            p-1.5 rounded-full bg-gray-100 group-hover:bg-red-100 transition-colors duration-200
+            p-3 rounded-full bg-gray-100 group-hover:bg-red-100 transition-colors duration-200
             ${isDraggedOver || isDragActive ? 'bg-red-100' : ''}
           `}>
             <Upload className={`
-              w-4 h-4 transition-colors duration-200
+              w-6 h-6 transition-colors duration-200
               ${isDraggedOver || isDragActive ? 'text-[#8B0000]' : 'text-gray-400 group-hover:text-[#8B0000]'}
             `} />
           </div>
-          <div>
-            <p className="text-sm text-gray-800">
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
               {isDraggedOver || isDragActive 
-                ? "Déposez vos fichiers..."
+                ? "Déposez vos fichiers ici..."
                 : "Glissez vos fichiers ici ou cliquez pour sélectionner"
               }
             </p>
-            <p className="text-xs text-gray-600">
-              Formats acceptés : PDF, DOC, JPG • Max 3 fichiers • 10Mo
+            <p className="text-xs text-gray-500 mt-1">
+              Formats acceptés : {Object.values(ACCEPTED_FILE_TYPES)
+                .map(type => type.description)
+                .join(', ')}
+            </p>
+            <p className="text-xs text-gray-500">
+              Maximum {MAX_FILES} fichiers, {MAX_FILE_SIZE / 1024 / 1024}Mo par fichier
             </p>
           </div>
         </div>
@@ -210,84 +213,88 @@ export function FileUpload({ onFilesChange }: FileUploadProps) {
       <AnimatePresence>
         {error && (
           <motion.div
-            initial={{ opacity: 0, y: -5 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-2 py-1 px-2 bg-red-50 text-red-700 rounded-md text-xs"
+            className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg border border-red-100"
           >
-            <AlertCircle className="w-3 h-3 flex-shrink-0" />
-            <span>{error}</span>
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span className="text-sm">{error}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Liste des fichiers */}
-      <div className="space-y-1.5">
+      <div className="space-y-3">
         <AnimatePresence>
           {files.map((file, index) => (
             <motion.div
               key={`${file.name}-${index}`}
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              className="flex items-center gap-2 py-1"
+              exit={{ opacity: 0, y: -10 }}
+              className="relative bg-gray-50 rounded-lg p-3 pr-12"
             >
-              {/* Prévisualisation ou icône */}
-              {file.preview ? (
-                <img
-                  src={file.preview}
-                  alt={file.name}
-                  className="w-8 h-8 rounded object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded">
-                  {getFileIcon(file)}
-                </div>
-              )}
-              
-              {/* Informations du fichier */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm text-gray-900 truncate">
+              <div className="flex items-start gap-3">
+                {/* Prévisualisation ou icône */}
+                {file.preview ? (
+                  <img
+                    src={file.preview}
+                    alt={file.name}
+                    className="w-12 h-12 rounded object-cover"
+                  />
+                ) : (
+                  <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded">
+                    {getFileIcon(file)}
+                  </div>
+                )}
+                
+                {/* Informations du fichier */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
                     {file.name}
                   </p>
-                  <p className="text-xs text-gray-500 shrink-0">
+                  <p className="text-xs text-gray-500">
                     {formatFileSize(file.size)}
                   </p>
+                  
+                  {/* Barre de progression */}
+                  <div className="mt-2 relative pt-1">
+                    <div className="flex mb-1 items-center justify-between">
+                      <div>
+                        <span className="text-xs font-semibold inline-block text-[#8B0000]">
+                          {uploadProgress[file.name] >= 100 ? (
+                            <span className="flex items-center gap-1">
+                              <CheckCircle className="w-3 h-3" />
+                              Téléchargé
+                            </span>
+                          ) : (
+                            `${Math.round(uploadProgress[file.name] || 0)}%`
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="overflow-hidden h-1 text-xs flex rounded bg-red-100">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ 
+                          width: `${uploadProgress[file.name] || 0}%`,
+                          transition: { duration: 0.2 }
+                        }}
+                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#8B0000]"
+                      />
+                    </div>
+                  </div>
                 </div>
                 
-                {/* Barre de progression */}
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 h-1 bg-red-100 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ 
-                        width: `${uploadProgress[file.name] || 0}%`,
-                        transition: { duration: 0.2 }
-                      }}
-                      className="h-full bg-[#8B0000]"
-                    />
-                  </div>
-                  <span className="text-xs text-[#8B0000] shrink-0">
-                    {uploadProgress[file.name] >= 100 ? (
-                      <span className="flex items-center gap-0.5">
-                        <CheckCircle className="w-3 h-3" />
-                        <span className="sr-only">Téléchargé</span>
-                      </span>
-                    ) : (
-                      `${Math.round(uploadProgress[file.name] || 0)}%`
-                    )}
-                  </span>
-                </div>
+                {/* Bouton de suppression */}
+                <button
+                  onClick={() => removeFile(index)}
+                  className="absolute right-2 top-2 p-1 hover:bg-red-100 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-gray-500 hover:text-[#8B0000]" />
+                </button>
               </div>
-              
-              {/* Bouton de suppression */}
-              <button
-                onClick={() => removeFile(index)}
-                className="p-1 hover:bg-red-100 rounded-full transition-colors"
-              >
-                <X className="w-3 h-3 text-gray-500 hover:text-[#8B0000]" />
-              </button>
             </motion.div>
           ))}
         </AnimatePresence>
