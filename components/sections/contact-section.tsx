@@ -59,6 +59,118 @@ const countryCodes = [
   { code: '+27', shortCode: 'ZA', pays: 'Afrique du Sud' },
 ];
 
+// Constantes pour la gestion des fichiers
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // Augmenté à 5MB
+const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // Maximum 10MB au total
+const ALLOWED_FILE_TYPES = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'image/jpeg',
+  'image/png'
+];
+
+// Fonction pour formater la taille du fichier
+const formatFileSize = (bytes: number): string => {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+};
+
+// Fonction pour compresser une image si nécessaire
+const compressImageIfNeeded = async (file: File): Promise<File> => {
+  if (!file.type.startsWith('image/')) return file;
+  
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      
+      // Réduire la taille si l'image est trop grande
+      const MAX_WIDTH = 1920;
+      const MAX_HEIGHT = 1080;
+      
+      if (width > MAX_WIDTH) {
+        height = (height * MAX_WIDTH) / width;
+        width = MAX_WIDTH;
+      }
+      if (height > MAX_HEIGHT) {
+        width = (width * MAX_HEIGHT) / height;
+        height = MAX_HEIGHT;
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Impossible de créer le contexte canvas'));
+        return;
+      }
+      
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error('Échec de la compression'));
+            return;
+          }
+          resolve(new File([blob], file.name, { type: file.type }));
+        },
+        file.type,
+        0.8 // Qualité de compression
+      );
+    };
+    img.onerror = () => reject(new Error('Erreur lors du chargement de l\'image'));
+  });
+};
+
+const handleFileChange = async (files: File[]) => {
+  let totalSize = 0;
+  const processedFiles: File[] = [];
+  
+  for (const file of files) {
+    // Vérifier le type de fichier
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      alert(`Le type de fichier ${file.name} n'est pas autorisé. Types acceptés : PDF, DOC, DOCX, JPG, PNG`);
+      continue;
+    }
+    
+    // Traiter le fichier selon son type
+    let processedFile = file;
+    if (file.type.startsWith('image/')) {
+      try {
+        processedFile = await compressImageIfNeeded(file);
+      } catch (error) {
+        console.error('Erreur lors de la compression de l\'image:', error);
+        alert(`Erreur lors du traitement de l'image ${file.name}`);
+        continue;
+      }
+    }
+    
+    // Vérifier la taille du fichier
+    if (processedFile.size > MAX_FILE_SIZE) {
+      alert(`Le fichier ${file.name} est trop volumineux (${formatFileSize(processedFile.size)}). La taille maximum par fichier est de ${formatFileSize(MAX_FILE_SIZE)}.`);
+      continue;
+    }
+    
+    // Vérifier la taille totale
+    if (totalSize + processedFile.size > MAX_TOTAL_SIZE) {
+      alert(`La taille totale des fichiers dépasse la limite de ${formatFileSize(MAX_TOTAL_SIZE)}.`);
+      break;
+    }
+    
+    totalSize += processedFile.size;
+    processedFiles.push(processedFile);
+  }
+  
+  setFormData(prev => ({ ...prev, files: processedFiles }));
+};
+
 export function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -155,40 +267,42 @@ export function ContactSection() {
     return `${selectedCountry.code} ${formData.phone}`
   }
 
-  const handleFileChange = (files: File[]) => {
-    setFormData(prev => ({ ...prev, files }))
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     
-    // Valider le formulaire
     if (!validateForm()) {
-      return
+      return;
     }
     
-    setIsSubmitting(true)
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
     
     try {
-      // Générer un ID de référence unique
-      const referenceId = `KHEOPS-${new Date().getTime().toString().slice(-6)}`
+      const referenceId = `KHEOPS-${new Date().getTime().toString().slice(-6)}`;
       
       // Convertir les fichiers en base64
-      const filePromises = formData.files.map(file => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.readAsDataURL(file)
-          reader.onload = () => resolve({
+      const attachmentsPromises = formData.files.map(async (file) => {
+        try {
+          const base64Data = await fileToBase64(file);
+          return {
             name: file.name,
-            data: reader.result,
+            data: base64Data,
             type: file.type
-          })
-          reader.onerror = error => reject(error)
-        })
-      })
+          };
+        } catch (error) {
+          console.error(`Erreur lors de la conversion du fichier ${file.name}:`, error);
+          throw new Error(`Erreur lors de la conversion du fichier ${file.name}`);
+        }
+      });
 
-      const attachments = await Promise.all(filePromises)
-      
+      let attachments;
+      try {
+        attachments = await Promise.all(attachmentsPromises);
+      } catch (error) {
+        console.error('Erreur lors de la conversion des fichiers:', error);
+        throw new Error('Erreur lors de la préparation des fichiers');
+      }
+
       // Préparer les données pour EmailJS
       const templateParams = {
         from_name: formData.name,
@@ -197,7 +311,13 @@ export function ContactSection() {
         company: formData.company,
         message: formData.message,
         reference: referenceId,
-        attachments: JSON.stringify(attachments)
+        attachments: attachments.length > 0 ? JSON.stringify(attachments) : undefined
+      };
+
+      // Vérifier la taille totale des données
+      const dataSize = JSON.stringify(templateParams).length;
+      if (dataSize > 50000) { // ~50KB limite approximative
+        throw new Error('Les fichiers joints sont trop volumineux pour être envoyés. Veuillez réduire leur taille.');
       }
 
       // Envoyer via EmailJS
@@ -206,43 +326,38 @@ export function ContactSection() {
         emailjsConfig.templateId,
         templateParams,
         emailjsConfig.publicKey
-      )
-      
-      if (response.status !== 200) {
-        throw new Error('Erreur lors de l\'envoi du formulaire')
+      );
+
+      if (response.status === 200) {
+        setSubmitStatus('success');
+        
+        // Réinitialiser le formulaire
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            message: '',
+            files: []
+          });
+          setSubmitStatus('idle');
+        }, 5000);
+      } else {
+        throw new Error('Erreur lors de l\'envoi du message');
       }
-      
-      setSubmitStatus('success')
-      
-      // Enregistrer dans le localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('lastFormSubmit', new Date().toISOString())
-      }
-      
-      // Réinitialiser le formulaire après 5 secondes
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          message: '',
-          files: []
-        })
-        setSubmitStatus('idle')
-      }, 5000)
-      
     } catch (error) {
-      console.error('Erreur lors de l\'envoi du formulaire:', error)
-      setSubmitStatus('error')
+      console.error('Erreur lors de l\'envoi du formulaire:', error);
+      alert(error instanceof Error ? error.message : 'Une erreur est survenue lors de l\'envoi du message');
+      setSubmitStatus('error');
       
       setTimeout(() => {
-        setSubmitStatus('idle')
-      }, 5000)
+        setSubmitStatus('idle');
+      }, 5000);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   // Vérifier si l'utilisateur a déjà soumis un formulaire récemment
   useEffect(() => {
@@ -454,7 +569,7 @@ export function ContactSection() {
               {/* Message de succès/erreur */}
               <AnimatePresence>
                 {submitStatus !== 'idle' && (
-                  <motion.div
+          <motion.div 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -475,7 +590,7 @@ export function ContactSection() {
                     ) : (
                       <>
                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                        <div>
+            <div>
                           <p className="font-medium">Erreur lors de l'envoi</p>
                           <p className="text-sm opacity-90">Veuillez réessayer.</p>
                         </div>
@@ -590,8 +705,8 @@ export function ContactSection() {
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
+                  </div>
+                </div>
         </div>
       </div>
     </section>
