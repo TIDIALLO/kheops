@@ -12,6 +12,7 @@ const caseStudies = [
     subtitle: 'Province SUD de GORO, NOUVELLE CALÉDONIE',
     icon: Factory,
     image: '/images/case-studies/lucy.jpg',
+    imagePosition: 'center center',
     challenge: 'Construction de deux usines d\'épaississement et d\'assèchement des résidus d\'exploitation',
     solution: 'Réalisation des activités de planification et de contrôle de projet',
     duration: 'En cours',
@@ -32,7 +33,7 @@ const caseStudies = [
     subtitle: 'Dakar, SÉNÉGAL',
     icon: LineChart,
     image: '/images/case-studies/ACATBS-Sar.png',
-    imagePosition: 'center 38%',
+    imagePosition: 'center 25%',
     hasLogo: true,
     challenge: 'Accroître de 30% la capacité de traitement du pétrole brut en provenance du champ SANGOMAR',
     solution: 'Planification des travaux neufs GREENFIELD et des travaux BROWFIELD de raccordement tuyauterie',
@@ -54,7 +55,7 @@ const caseStudies = [
     subtitle: 'Paris La défense, FRANCE',
     icon: Rocket,
     image: '/images/case-studies/PAPUA LNG.png',
-    imagePosition: 'center 30%',
+    imagePosition: 'center 20%',
     hasLogo: true,
     challenge: 'Relier les champs gaziers d\'Elk et Antelope à une unité de traitement et de liquéfaction à Port Moresby',
     solution: 'Réalisation du planning FEED phase 2, du reporting et de la gestion des risques planning',
@@ -119,14 +120,14 @@ export default function ServicesCaseStudies() {
                 className="rounded-xl overflow-hidden border border-white/20 shadow-xl group hover:scale-[1.02] transition-transform duration-300 h-[600px] flex flex-col"
               >
                 {/* Image du projet avec overlay dégradé */}
-                <div className="relative h-48 overflow-hidden flex-shrink-0">
+                <div className="relative h-64 overflow-hidden flex-shrink-0">
                   {/* Bordure subtile en haut pour souligner les logos */}
                   {study.hasLogo && (
                     <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/30 z-20"></div>
                   )}
                   
                   {/* Overlay optimisé pour faire ressortir les logos */}
-                  <div className={`absolute inset-0 ${study.hasLogo ? 'bg-gradient-to-t from-black/80 via-black/40 to-black/5' : 'bg-gradient-to-t from-black/80 via-black/40 to-black/10'} z-10`} />
+                  <div className={`absolute inset-0 ${study.hasLogo ? 'bg-gradient-to-t from-black/80 via-black/40 to-transparent' : 'bg-gradient-to-t from-black/80 via-black/40 to-black/10'} z-10`} />
                   
                   <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
                     <div className="flex items-center gap-2 mb-1">
@@ -142,10 +143,10 @@ export default function ServicesCaseStudies() {
                     alt={study.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    style={study.imagePosition ? { objectPosition: study.imagePosition, objectFit: 'cover' } : {}}
+                    style={study.imagePosition ? { objectPosition: study.imagePosition, objectFit: 'cover' } : { objectFit: 'cover', objectPosition: 'center' }}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index === 0}
-                    quality={90}
+                    quality={95}
                   />
                 </div>
 
