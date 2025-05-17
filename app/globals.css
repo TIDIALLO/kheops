@@ -44,6 +44,10 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -115,45 +119,23 @@
 
 @layer base {
   * {
-    @apply border-[--color-border] outline-none ring-offset-2 focus:ring-2;
+    @apply border-border outline-none ring-offset-2 focus:ring-2;
   }
+  
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
-
-  :root {
-    --primary: 0 100% 27%;       /* #8B0000 Rouge foncé */
-    --primary-lighter: 0 100% 35%; /* Version plus claire pour les hovers */
-    --text: 0 0% 11%;            /* #1C1C1C Texte principal */
-    --text-secondary: 0 0% 35%;  /* #5A5A5A Gris */
-    --background: 0 0% 100%;     /* #FFFFFF Fond clair */
-  }
-
-  * {
-    @apply box-border;
+    @apply bg-[--background] text-[--foreground] antialiased;
   }
 
   html {
     @apply overflow-x-hidden scroll-smooth;
     height: 100%;
-  }
-
-  body {
-    @apply text-[#1C1C1C] antialiased min-h-screen overflow-x-hidden;
-    overflow-y: auto;
+    scroll-behavior: smooth;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
   }
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Animations personnalisées */
 @keyframes shimmer {
@@ -197,11 +179,6 @@
   transition: opacity 300ms;
 }
 
-/* Amélioration du scroll */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Amélioration de l'accessibilité du focus */
 :focus-visible {
   outline: 2px solid theme('colors.red.800');
@@ -235,24 +212,6 @@ html {
   0% { content: '.'; }
   33% { content: '..'; }
   66% { content: '...'; }
-}
-
-@layer base {
-  :root {
-    --primary: 0 100% 27%;       /* #8B0000 Rouge foncé */
-    --primary-lighter: 0 100% 35%; /* Version plus claire pour les hovers */
-    --text: 0 0% 11%;            /* #1C1C1C Texte principal */
-    --text-secondary: 0 0% 35%;  /* #5A5A5A Gris */
-    --background: 0 0% 100%;     /* #FFFFFF Fond clair */
-  }
-
-  body {
-    @apply text-[#1C1C1C] antialiased;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
 }
 
 @layer components {
