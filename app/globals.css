@@ -94,52 +94,49 @@
   }
 }
 
-/* Animations personnalisées */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
 
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    theme('colors.gray.200') 0%,
-    theme('colors.gray.100') 50%,
-    theme('colors.gray.200') 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
+@layer utilities {
+  .animate-shimmer {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      90deg,
+      theme('colors.gray.200') 0%,
+      theme('colors.gray.100') 50%,
+      theme('colors.gray.200') 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
 
-/* Transitions fluides */
-.page-transition-enter {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
-}
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
 
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-  transition: opacity 300ms, transform 300ms;
-}
+  .page-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
 
-.page-transition-exit {
-  opacity: 1;
-}
+  .page-transition-enter {
+    @apply opacity-0 translate-y-5;
+  }
 
-.page-transition-exit-active {
-  opacity: 0;
-  transition: opacity 300ms;
-}
+  .page-transition-enter-active {
+    @apply opacity-100 translate-y-0;
+  }
 
-/* Amélioration de l'accessibilité du focus */
-:focus-visible {
-  outline: 2px solid theme('colors.red.800');
-  outline-offset: 2px;
+  .page-transition-exit {
+    @apply opacity-100;
+  }
+
+  .page-transition-exit-active {
+    @apply opacity-0;
+  }
 }
 
 /* Optimisation des performances d'animation */
@@ -171,8 +168,8 @@
   66% { content: '...'; }
 }
 
-@layer components {
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
+/* Amélioration de l'accessibilité du focus */
+:focus-visible {
+  outline: 2px solid theme('colors.red.800');
+  outline-offset: 2px;
 }
