@@ -28,19 +28,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   trailingSlash: false,
-  output: 'standalone',
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        'react/jsx-runtime.js': 'preact/compat/jsx-runtime',
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-      })
-    }
-
-    return config
-  },
+  output: 'export',
   compress: true,
   optimizeFonts: true,
   reactStrictMode: true,
@@ -48,7 +36,6 @@ const nextConfig = {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,
   },
-  allowedDevOrigins: ['192.168.40.1'],
 }
 
 module.exports = nextConfig 
