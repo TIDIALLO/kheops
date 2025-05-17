@@ -4,10 +4,9 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
-import { Menu, X, Home, Briefcase, Star, Building, MessageSquare, HelpCircle, Search } from 'lucide-react'
+import { Menu, X, Home, Briefcase, Star, Building, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Chat } from '@/components/ui/chat'
 import { debounce } from '@/lib/utils'
 
 export function NavbarClient() {
@@ -17,7 +16,6 @@ export function NavbarClient() {
   const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('/')
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-  const [isChatOpen, setIsChatOpen] = useState(false)
 
   // Optimisation des fonctions avec useCallback
   const toggleMenu = useCallback(() => {
@@ -121,7 +119,7 @@ export function NavbarClient() {
     { href: '/services', label: 'Services', icon: Briefcase },
     { href: '/methodologie', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
-    { href: '/recherche', label: 'Expertise', icon: Search }
+    { href: '/expertise', label: 'Expertise', icon: Search }
   ], []);
 
   return (

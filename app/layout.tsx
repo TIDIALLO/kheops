@@ -4,7 +4,6 @@ import { Metadata } from 'next'
 import { Footer } from "@/components/navigation/footer";
 import { EmailJSInit } from "@/components/emailjs-init";
 import { NavbarClient } from '@/components/navigation/navbar-client'
-import { Chat } from '@/components/ui/chat'
 import { ScrollToTop } from '@/components/ui/scroll-to-top'
 import { A11yAnnouncer } from '@/components/ui/a11y-announcer'
 import { siteConfig } from '@/config/seo'
@@ -114,7 +113,6 @@ export default function RootLayout({
         </main>
         
         <Footer />
-        <Chat />
         <ScrollToTop />
         <A11yAnnouncer />
         
