@@ -131,7 +131,6 @@ export function NavbarClient() {
     { href: '/services', label: 'Services', icon: Briefcase },
     { href: '/methodologie', label: 'Méthodologie', icon: Star },
     { href: '/secteurs', label: 'Secteurs', icon: Building },
-    { href: '/#contact', label: 'Contact', icon: MessageSquare },
     { href: '/recherche', label: 'Expertise', icon: Search }
   ];
 

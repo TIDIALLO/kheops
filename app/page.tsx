@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { Metadata } from 'next'
 import { HeroSection } from '@/components/sections/hero-section'
+import { Statistics } from '@/components/sections/statistics'
 import Loading from '@/components/ui/loading'
 import { BackgroundWrapper } from '@/components/ui/background-wrapper'
 
@@ -50,6 +51,7 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <ReferencesSection />
       </Suspense>
+      <Statistics />
       {/* Section Témoignages clients temporairement désactivée - sera intégrée ultérieurement selon directive du directeur
       <Suspense fallback={<Loading />}>
         <TestimonialsSection />
