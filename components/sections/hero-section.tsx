@@ -128,7 +128,7 @@ export function HeroSection() {
       {/* Contenu principal */}
       <div className="flex-grow flex flex-col justify-between z-10">
         {/* Texte principal */}
-        <div className="container mx-auto pt-20 md:pt-24 lg:pt-28 px-8 text-center relative z-10">
+        <div className="container mx-auto pt-20 md:pt-24 lg:pt-28 px-4 text-center relative z-10">
           {/* Badge "KHEOPS" en haut */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}

@@ -128,8 +128,8 @@ export function NavbarClient() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 will-change-transform
         ${scrolled 
-          ? 'py-0.5 bg-white/98 backdrop-blur-sm shadow-lg border-b border-[#8B0000]/10' 
-          : 'py-1 bg-white bg-opacity-98'
+          ? 'py-2.5 bg-white/98 backdrop-blur-sm shadow-lg border-b border-[#8B0000]/10' 
+          : 'py-3 bg-white bg-opacity-98'
         }`}
     >
       <div className="container mx-auto px-4">
@@ -141,38 +141,38 @@ export function NavbarClient() {
             className="group flex items-center space-x-2 transition-transform duration-200"
           >
             <motion.div 
-              className="relative h-10 w-10 overflow-hidden rounded-lg bg-white shadow-md"
+              className="relative h-11 w-11 overflow-hidden rounded-lg bg-white shadow-md"
               whileHover={{ scale: 1.05, rotate: -5 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <Image 
                 src="/images/logo.png" 
                 alt="Logo KHEOPS Consulting" 
-                width={40} 
-                height={40} 
+                width={44} 
+                height={44} 
                 priority
-                className="object-contain p-1"
+                className="object-contain p-0.5"
               />
             </motion.div>
             <div className="flex flex-col">
               <span className="text-lg font-bold text-[#8B0000] leading-tight tracking-tight group-hover:tracking-normal transition-all duration-200">
                 KHEOPS
               </span>
-              <span className="text-xs text-[#5A5A5A] leading-tight tracking-wide">
+              <span className="text-sm text-[#5A5A5A] leading-none tracking-wide">
                 Consulting
               </span>
             </div>
           </Link>
 
           {/* Navigation desktop optimisée */}
-          <nav className="hidden md:flex space-x-2 lg:space-x-3 p-1.5 rounded-full bg-white/95 backdrop-blur-sm shadow-md ml-6 border border-gray-100">
+          <nav className="hidden md:flex space-x-2 lg:space-x-3 p-2 rounded-full bg-white/95 backdrop-blur-sm shadow-md ml-4 border border-gray-100">
             {navLinks.map((link) => (
               <motion.div
                 key={link.href}
                 initial="initial"
                 animate={activeLink === link.href ? "active" : hoveredLink === link.href ? "hover" : "initial"}
                 variants={linkVariants}
-                className={`relative py-2 px-4 rounded-full transition-transform duration-200 ${
+                className={`relative py-2.5 px-4 rounded-full transition-transform duration-200 ${
                   activeLink === link.href 
                     ? 'bg-[#8B0000]/10 shadow-sm' 
                     : 'hover:bg-[#8B0000]/5'
@@ -196,10 +196,17 @@ export function NavbarClient() {
             ))}
           </nav>
 
-          {/* Bouton retour accueil optimisé */}
+          {/* Bouton Demander un devis */}
           <Link 
-            href="/"
-            onClick={navigateHome}
+            href="/#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+              setIsMenuOpen(false);
+            }}
             className="hidden md:block"
           >
             <motion.div
@@ -208,9 +215,9 @@ export function NavbarClient() {
               transition={{ duration: 0.2 }}
             >
               <Button 
-                className="bg-[#8B0000] hover:bg-[#700000] text-white shadow-md px-6 py-5 text-base font-medium transition-colors duration-200 hover:shadow-lg rounded-full"
+                className="bg-[#8B0000] hover:bg-[#700000] text-white shadow-md px-7 py-3 text-base font-medium transition-colors duration-200 hover:shadow-lg rounded-full"
               >
-                Retour à l'accueil
+                Demander un devis
               </Button>
             </motion.div>
           </Link>
