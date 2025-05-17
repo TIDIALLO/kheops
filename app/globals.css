@@ -119,7 +119,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-none ring-offset-2 focus:ring-2;
+    @apply border-[--border] outline-none ring-offset-2 focus:ring-2;
   }
   
   body {
