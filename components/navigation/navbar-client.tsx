@@ -196,12 +196,18 @@ export function NavbarClient() {
 
           {/* Bouton Demander un devis */}
           <Link 
-            href="/#contact"
+            href="/contact"
             onClick={(e) => {
               e.preventDefault();
-              const contactSection = document.getElementById('contact');
-              if (contactSection) {
-                contactSection.scrollIntoView({ behavior: 'smooth' });
+              if (pathname === '/') {
+                // Si on est sur la page d'accueil, on fait défiler jusqu'à la section contact
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              } else {
+                // Si on est sur une autre page, on redirige vers la page d'accueil avec l'ancre #contact
+                router.push('/#contact');
               }
               setIsMenuOpen(false);
             }}
