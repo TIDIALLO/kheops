@@ -1,15 +1,12 @@
 [build]
-  command = "npm run build"
-  publish = ".next"
+  command = "npm run build:prod"
+  publish = "out"
 
 [build.environment]
   NEXT_PUBLIC_EMAILJS_SERVICE_ID = "service_0k7sqys"
   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID = "template_py1g735"
   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY = "NcSUafJLSL3cqsMvt"
-
-# Configuration pour les redirections et le support du routage Next.js
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
 
 # Configuration des redirections pour les SPA
 [[redirects]]

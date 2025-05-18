@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint --fix",
-    "build:prod": "next build",
+    "build:prod": "next build && next export",
     "validate": "node scripts/validate-config.js",
     "deploy": "npm run validate && npm run build:prod",
-    "netlify-build": "npm run build"
+    "netlify-build": "npm run build:prod"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
