@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CalendarRange, TrendingUp, Layers3, FileSpreadsheet, ChevronDown, ChevronUp } from 'lucide-react'
+import { CalendarRange, TrendingUp, Layers3, FileSpreadsheet, ChevronDown, ChevronUp, 
+  Calendar, BarChart2, Database, Table, FileSpreadsheetIcon, Bug, ClipboardList, GitBranch } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 // Structure des techniques et méthodes
@@ -74,8 +75,54 @@ const advancedTechniques = [
 ]
 
 const tools = [
-  'Primavera P6', 'Microsoft Project', 'Power BI', 'Tableau', 
-  'Excel avancé', 'Jira', 'Risk Register', 'Tilos'
+  {
+    name: 'Primavera P6',
+    icon: Calendar,
+    description: 'Logiciel professionnel de gestion de projet et de planification',
+    category: 'Planning'
+  },
+  {
+    name: 'Microsoft Project',
+    icon: Calendar,
+    description: 'Solution de gestion de projet intégrée à la suite Microsoft Office',
+    category: 'Planning'
+  },
+  {
+    name: 'Power BI',
+    icon: BarChart2,
+    description: 'Outil de visualisation de données et de business intelligence',
+    category: 'Analyse'
+  },
+  {
+    name: 'Tableau',
+    icon: Table,
+    description: 'Plateforme d\'analyse et de visualisation de données avancée',
+    category: 'Analyse'
+  },
+  {
+    name: 'Excel avancé',
+    icon: FileSpreadsheetIcon,
+    description: 'Tableur avec fonctions avancées pour l\'analyse de données',
+    category: 'Analyse'
+  },
+  {
+    name: 'Jira',
+    icon: Bug,
+    description: 'Outil de suivi de projets et de gestion des tâches',
+    category: 'Gestion'
+  },
+  {
+    name: 'Risk Register',
+    icon: ClipboardList,
+    description: 'Solution spécialisée pour la gestion des risques',
+    category: 'Risques'
+  },
+  {
+    name: 'Tilos',
+    icon: GitBranch,
+    description: 'Logiciel de planification linéaire pour les projets d\'infrastructure',
+    category: 'Planning'
+  }
 ]
 
 const AccordionItem = ({ item, isOpen, onToggle }) => {
@@ -237,18 +284,71 @@ export function MethodologiesSection() {
             <h4 className="text-xl font-semibold text-[#1C1C1C] mb-6">
               Outils et logiciels spécialisés
             </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {tools.map((tool, idx) => (
                 <motion.div 
                   key={idx}
-                  whileHover={{ scale: 1.05, boxShadow: '0px 4px 12px rgba(0,0,0,0.05)' }}
-                  className="py-3 px-4 bg-gray-50 rounded-lg text-center text-[#5A5A5A] font-medium border border-gray-100"
+                  whileHover={{ 
+                    scale: 1.03,
+                    boxShadow: '0px 8px 20px rgba(0,0,0,0.1)'
+                  }}
+                  className="relative p-6 rounded-xl shadow-sm border transition-all duration-200 overflow-hidden group"
                   style={{ 
-                    backgroundColor: idx % 2 === 0 ? 'rgba(139, 0, 0, 0.03)' : 'rgba(90, 90, 90, 0.03)',
-                    borderColor: idx % 2 === 0 ? 'rgba(139, 0, 0, 0.1)' : 'rgba(90, 90, 90, 0.1)'
+                    borderColor: idx % 2 === 0 ? 'rgba(139, 0, 0, 0.1)' : 'rgba(90, 90, 90, 0.1)',
+                    background: idx % 2 === 0 
+                      ? 'linear-gradient(135deg, rgba(139, 0, 0, 0.03) 0%, rgba(255, 255, 255, 0.9) 100%)' 
+                      : 'linear-gradient(135deg, rgba(90, 90, 90, 0.03) 0%, rgba(255, 255, 255, 0.9) 100%)'
                   }}
                 >
-                  {tool}
+                  {/* Cercle décoratif en arrière-plan */}
+                  <div 
+                    className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full opacity-10 transition-all duration-300 group-hover:scale-150 group-hover:opacity-20"
+                    style={{ 
+                      background: idx % 2 === 0 
+                        ? 'radial-gradient(circle, rgba(139, 0, 0, 0.3) 0%, rgba(139, 0, 0, 0) 70%)' 
+                        : 'radial-gradient(circle, rgba(90, 90, 90, 0.3) 0%, rgba(90, 90, 90, 0) 70%)'
+                    }}
+                  ></div>
+
+                  {/* Lignes décoratives en arrière-plan */}
+                  <div 
+                    className="absolute top-0 left-0 w-full h-full opacity-5"
+                    style={{ 
+                      backgroundImage: `linear-gradient(45deg, ${idx % 2 === 0 ? '#8B0000' : '#5A5A5A'} 25%, transparent 25%), 
+                                      linear-gradient(-45deg, ${idx % 2 === 0 ? '#8B0000' : '#5A5A5A'} 25%, transparent 25%)`,
+                      backgroundSize: '8px 8px'
+                    }}
+                  ></div>
+
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div 
+                        className="p-2.5 rounded-lg"
+                        style={{ 
+                          background: idx % 2 === 0 
+                            ? 'linear-gradient(135deg, rgba(139, 0, 0, 0.15) 0%, rgba(139, 0, 0, 0.05) 100%)'
+                            : 'linear-gradient(135deg, rgba(90, 90, 90, 0.15) 0%, rgba(90, 90, 90, 0.05) 100%)'
+                        }}
+                      >
+                        <tool.icon className="w-5 h-5" style={{ 
+                          color: idx % 2 === 0 ? '#8B0000' : '#5A5A5A'
+                        }} />
+                      </div>
+                      <h5 className="font-semibold text-[#1C1C1C]">{tool.name}</h5>
+                    </div>
+                    <p className="text-sm text-[#5A5A5A] mb-3">{tool.description}</p>
+                    <span 
+                      className="text-xs font-medium px-3 py-1.5 rounded-full inline-block"
+                      style={{ 
+                        background: idx % 2 === 0 
+                          ? 'linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(139, 0, 0, 0.05) 100%)'
+                          : 'linear-gradient(135deg, rgba(90, 90, 90, 0.1) 0%, rgba(90, 90, 90, 0.05) 100%)',
+                        color: idx % 2 === 0 ? '#8B0000' : '#5A5A5A'
+                      }}
+                    >
+                      {tool.category}
+                    </span>
+                  </div>
                 </motion.div>
               ))}
             </div>

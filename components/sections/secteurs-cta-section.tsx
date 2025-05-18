@@ -42,7 +42,7 @@ export function SecteursCTASection() {
           {/* Effet de lumière douce en haut à gauche */}
           <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-[#f9e8e8] to-transparent opacity-60 rounded-full filter blur-xl z-0"></div>
           
-          <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <div className="relative z-10">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +58,7 @@ export function SecteursCTASection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               viewport={{ once: true }}
-              className="text-[#5A5A5A] text-lg mb-8"
+              className="text-[#5A5A5A] text-lg mb-8 max-w-3xl"
             >
               Quel que soit votre secteur d'activité, KHEOPS Consulting vous accompagne dans l'optimisation de vos projets complexes. Notre expertise est à votre service pour relever vos défis les plus ambitieux.
             </motion.p>
@@ -68,17 +68,17 @@ export function SecteursCTASection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               viewport={{ once: true }}
-              className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+              className="flex flex-col sm:flex-row justify-start space-y-4 sm:space-y-0 sm:space-x-4"
             >
               <Button 
-                className="bg-gradient-to-r from-[#800000] to-[#950000] text-white hover:from-[#600000] hover:to-[#800000] hover:scale-105 transition-all shadow-lg px-6 py-6"
                 onClick={() => handleNavigation('/contact')}
+                className="bg-gradient-to-r from-[#800000] to-[#950000] text-white hover:from-[#600000] hover:to-[#800000] hover:scale-105 transition-all shadow-lg px-8 py-6 text-lg font-medium"
               >
                 Demander un accompagnement
               </Button>
               <Button 
-                className="border border-[#800000] text-transparent bg-clip-text bg-gradient-to-r from-[#800000] to-[#950000] bg-transparent hover:bg-[#f0e5e5] hover:scale-105 transition-all shadow-md px-6 py-6"
                 onClick={() => handleNavigation('/expertise')}
+                className="bg-white border-2 border-[#800000] text-[#800000] hover:bg-[#800000] hover:text-white hover:scale-105 transition-all shadow-md px-8 py-6 text-lg font-medium"
               >
                 Découvrir nos expertises
               </Button>
