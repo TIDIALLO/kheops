@@ -155,7 +155,7 @@ export function SecteursHeroSection() {
                     </div>
                     <span className="font-semibold text-sm text-[#1C1C1C]">Expertise reconnue</span>
                   </div>
-                  <p className="text-xs text-[#5A5A5A]">Plus de 20 ans d'expérience dans les projets complexes multisectoriels</p>
+                  <p className="text-xs text-[#5A5A5A]">Plus de 15 ans d'expérience dans les projets complexes multisectoriels</p>
                 </motion.div>
                 
                 {/* Badge de confiance */}

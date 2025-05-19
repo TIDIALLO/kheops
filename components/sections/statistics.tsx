@@ -13,8 +13,16 @@ interface Statistic {
   color: string
 }
 
+// Type pour les props de CountUp
+interface CountUpProps {
+  end: number
+  suffix: string
+  duration?: number
+  color: string
+}
+
 // Animation de comptage avec easing
-function CountUp({ end, suffix, duration = 2, color }) {
+function CountUp({ end, suffix, duration = 2, color }: CountUpProps) {
   const [count, setCount] = useState(0)
   const nodeRef = useRef(null)
   const isInView = useInView(nodeRef, { 
@@ -103,7 +111,7 @@ export function Statistics() {
       color: "#059669"
     },
     { 
-      value: 5,
+      value: 15,
       suffix: "+",
       label: "Années d'expertise",
       description: "D'expérience dans le conseil",
