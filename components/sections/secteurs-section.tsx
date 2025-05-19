@@ -173,7 +173,7 @@ export function SecteursSection() {
                   
                   {/* Bouton "En savoir plus" avec animation et lien */}
                   <motion.a
-                    href="/services"
+                    href={`/secteurs/${secteur.id}`}
                     className="mt-4 font-medium flex items-center cursor-pointer"
                     style={{
                       background: `linear-gradient(to right, ${mainRed}, ${lighterRed})`,

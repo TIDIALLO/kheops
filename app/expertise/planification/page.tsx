@@ -3,26 +3,26 @@
 import { motion } from 'framer-motion'
 import { Calendar, Clock, Users, Target } from 'lucide-react'
 import Link from 'next/link'
-
-// Configuration du viewport
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-}
+import Image from 'next/image'
+import { useEffect } from 'react'
 
 export default function PlanificationPage() {
   return (
     <div className="min-h-screen relative">
       {/* Background Image avec overlay */}
       <div className="fixed inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7')"
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/98 to-white/95"></div>
+        <div className="relative w-full h-screen">
+          <Image
+            src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
+            alt="Background planification"
+            fill
+            priority
+            quality={75}
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/90 to-white/85 backdrop-blur-[2px]"></div>
+        </div>
       </div>
 
       {/* Contenu principal */}
@@ -54,17 +54,23 @@ export default function PlanificationPage() {
             </motion.p>
           </div>
 
-          {/* Image principale */}
+          {/* Image principale avec optimisation */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
             className="relative h-[500px] rounded-2xl overflow-hidden mb-16 shadow-2xl"
           >
-            <img
-              src="https://images.unsplash.com/photo-1553484771-689277e6fa16"
+            <Image
+              src="/images/expertise/planification-main.jpg"
               alt="Planification de projets"
-              className="w-full h-full object-cover"
+              fill
+              priority
+              quality={85}
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMjU1LS0yMi4qLjgyPjA+OjU1RUVHSkxMUlNiY2JjP0BHZWVsY2z/2wBDAR"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
