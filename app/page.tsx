@@ -6,10 +6,9 @@ import { Statistics } from '@/components/sections/statistics'
 import Loading from '@/components/ui/loading'
 import { BackgroundWrapper } from '@/components/ui/background-wrapper'
 
-// Définition des métadonnées de la page d'accueil
 export const metadata: Metadata = {
-  title: 'Accueil',
-  description: 'KHEOPS Consulting, cabinet de conseil spécialisé dans le contrôle de projets complexes : planning, coûts, risques, ordonnancement.',
+  title: 'KHEOPS Consulting - Contrôle de Projets Complexes',
+  description: 'Cabinet de conseils spécialisé dans le contrôle de projets complexes, offrant une expertise en gestion des coûts et optimisation des ressources.',
 }
 
 // Chargement dynamique des composants
@@ -23,12 +22,13 @@ const ReferencesSection = dynamic(() => import('@/components/sections/references
 // const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section').then(mod => ({ default: mod.TestimonialsSection })))
 const ContactSection = dynamic(() => import('@/components/sections/contact-section').then(mod => ({ default: mod.ContactSection })))
 
-export default function Home() {
+export default function Home()
+{
   return (
     <main>
       {/* Arrière-plan professionnel */}
       <BackgroundWrapper />
-      
+
       <HeroSection />
       <Suspense fallback={<Loading />}>
         <ExpertiseSection />

@@ -183,7 +183,7 @@ export function HeroSection() {
             variants={floatAnimation}
             whileInView="animate"
           >
-            Cabinet de conseil spécialisé dans le contrôle de projets complexes
+            Cabinet de conseils spécialisé dans le contrôle de projets complexes
           </motion.p>
           
           {/* Ligne décorative */}

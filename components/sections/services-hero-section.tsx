@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 import { Clock, Coins, TriangleAlert, Construction } from 'lucide-react'
 import Image from 'next/image'
 
-export function ServicesHeroSection() {
+export function ServicesHeroSection()
+{
   return (
     <>
       <section className="relative w-full overflow-hidden bg-[#8B0000]/5">
@@ -13,7 +14,7 @@ export function ServicesHeroSection() {
           {/* Conteneur de l'image pleine largeur */}
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="w-[100vw] h-full relative">
-              <Image 
+              <Image
                 src="/images/services/service.png"
                 alt="Services KHEOPS Consulting"
                 fill
@@ -47,7 +48,7 @@ export function ServicesHeroSection() {
                 </p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mt-12"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -59,18 +60,18 @@ export function ServicesHeroSection() {
                   { icon: TriangleAlert, name: "Risques", description: "Anticipation et mitigation" },
                   { icon: Construction, name: "OPC", description: "Coordination efficace" }
                 ].map((service, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     className="bg-white/95 backdrop-blur-sm rounded-xl p-5 shadow-xl flex flex-col items-center justify-center border border-white/50"
-                    whileHover={{ 
-                      y: -8, 
+                    whileHover={{
+                      y: -8,
                       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
                       backgroundColor: 'rgba(255, 255, 255, 1)'
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ 
-                      duration: 0.5, 
+                    transition={{
+                      duration: 0.5,
                       delay: 0.4 + (index * 0.1),
                       type: "spring",
                       stiffness: 100
@@ -84,16 +85,16 @@ export function ServicesHeroSection() {
                   </motion.div>
                 ))}
               </motion.div>
-              
+
               {/* Flèche de défilement */}
-              <motion.div 
+              <motion.div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
                 initial={{ opacity: 0, y: 0 }}
-                animate={{ 
-                  opacity: [0.2, 1, 0.2], 
-                  y: [0, 10, 0] 
+                animate={{
+                  opacity: [0.2, 1, 0.2],
+                  y: [0, 10, 0]
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   repeatType: "loop"
@@ -111,7 +112,7 @@ export function ServicesHeroSection() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Contenu textuel */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -126,11 +127,11 @@ export function ServicesHeroSection() {
               </p>
               <ul className="space-y-4">
                 {[
-                  "Estimation détaillée des coûts initiaux",
-                  "Suivi régulier des dépenses",
-                  "Analyse des écarts budgétaires",
-                  "Optimisation des ressources",
-                  "Prévision et contrôle des dépassements"
+                  "Une estimation détaillée des coûts initiaux",
+                  "Un suivi régulier des dépenses",
+                  "Une analyse des écarts budgétaires",
+                  "Une optimisation des ressources",
+                  "Une prévision et un contrôle des dépassements"
                 ].map((item, index) => (
                   <motion.li
                     key={index}
@@ -191,7 +192,7 @@ export function ServicesHeroSection() {
             </motion.div>
 
             {/* Contenu textuel */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -203,9 +204,9 @@ export function ServicesHeroSection() {
                   Gestion des <span className="text-[#8B0000]">Risques</span>
                 </h2>
               </div>
-              
+
               <div className="w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/50 rounded-full mb-8"></div>
-              
+
               <p className="text-lg text-[#5A5A5A] leading-relaxed">
                 Notre approche proactive de la gestion des risques vous permet d'anticiper et de maîtriser les aléas de vos projets. Nous développons des stratégies sur mesure pour identifier, évaluer et atténuer les risques potentiels.
               </p>
@@ -236,9 +237,9 @@ export function ServicesHeroSection() {
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                    whileInView={{ 
-                      opacity: 1, 
-                      y: 0, 
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
                       scale: 1,
                       transition: {
                         type: "spring",
@@ -247,14 +248,14 @@ export function ServicesHeroSection() {
                         delay: item.delay
                       }
                     }}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.02,
                       transition: { type: "spring", stiffness: 400 }
                     }}
                     className="bg-gradient-to-br from-white to-gray-50/80 p-3 rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-100 hover:border-[#8B0000]/20 cursor-pointer"
                   >
                     <h3 className="text-[#8B0000] font-semibold mb-1 flex items-center text-sm">
-                      <motion.span 
+                      <motion.span
                         className="bg-[#8B0000]/10 p-1.5 rounded-md mr-2"
                         whileHover={{ rotate: 10 }}
                       >
@@ -288,7 +289,7 @@ export function ServicesHeroSection() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-8">
             {/* Contenu textuel */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -300,9 +301,9 @@ export function ServicesHeroSection() {
                   Planification <span className="text-[#8B0000]">Stratégique</span>
                 </h2>
               </div>
-              
+
               <div className="w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/50 rounded-full mb-8"></div>
-              
+
               <p className="text-lg text-[#5A5A5A] leading-relaxed">
                 Notre expertise en planification vous permet de structurer et optimiser vos projets de manière efficace. Nous utilisons des méthodologies éprouvées pour garantir le respect des délais et la coordination optimale des ressources.
               </p>
@@ -328,7 +329,7 @@ export function ServicesHeroSection() {
 
           {/* Timeline interactive */}
           <div className="mt-12">
-            <motion.h3 
+            <motion.h3
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="text-2xl font-semibold text-center mb-12 text-[#1C1C1C]"
@@ -368,19 +369,17 @@ export function ServicesHeroSection() {
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className={`relative flex items-center mb-12 ${
-                    index % 2 === 0 ? "justify-end" : "justify-start"
-                  } md:w-1/2 ${index % 2 === 0 ? "ml-auto" : "mr-auto"}`}
+                  className={`relative flex items-center mb-12 ${index % 2 === 0 ? "justify-end" : "justify-start"
+                    } md:w-1/2 ${index % 2 === 0 ? "ml-auto" : "mr-auto"}`}
                 >
                   {/* Point sur la timeline */}
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-[#8B0000] shadow-lg"></div>
-                  
+
                   {/* Contenu */}
                   <motion.div
                     whileHover={{ scale: 1.02 }}
-                    className={`relative w-[90%] p-6 bg-white rounded-xl shadow-xl border border-[#8B0000]/10 ${
-                      index % 2 === 0 ? "text-right mr-8" : "text-left ml-8"
-                    }`}
+                    className={`relative w-[90%] p-6 bg-white rounded-xl shadow-xl border border-[#8B0000]/10 ${index % 2 === 0 ? "text-right mr-8" : "text-left ml-8"
+                      }`}
                   >
                     <div className="text-3xl mb-3">{step.icon}</div>
                     <h4 className="text-xl font-semibold text-[#8B0000] mb-2">{step.title}</h4>
