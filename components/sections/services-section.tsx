@@ -185,7 +185,7 @@ function PlanningProcess() {
   return (
     <div className="mt-8">
       <div className="bg-white rounded-xl shadow-md p-6 mb-4">
-        <h3 className="text-2xl font-bold text-[#1C1C1C] mb-3">Notre Processus de Planification</h3>
+        <h3 className="text-2xl font-bold text-[#1C1C1C] mb-3">Notre Processus de Planification:</h3>
         <p className="text-[#5A5A5A] mb-6">
           Notre méthodologie structurée en 5 étapes clés garantit une planification rigoureuse et adaptée à vos besoins spécifiques.
         </p>
@@ -265,7 +265,7 @@ export function ServicesSection() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-4">
-            Nos services spécialisés
+            Nos services spécialisés:
           </h2>
           <p className="text-lg text-[#5A5A5A] max-w-3xl mx-auto">
             KHEOPS Consulting propose une gamme complète de services dans le cadre du contrôle de projets.

@@ -112,11 +112,11 @@ export function ProcessSection() {
               Notre approche
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-3 sm:mb-4">
-              Notre processus d&apos;accompagnement
+              Notre processus d&apos;accompagnement:
             </h2>
             <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/30 mx-auto mb-4 sm:mb-6 rounded-full"></div>
             <p className="text-base sm:text-lg text-[#5A5A5A] max-w-3xl mx-auto px-2">
-              Une méthodologie éprouvée pour garantir le succès de vos projets les plus complexes
+              Une méthodologie éprouvée pour garantir le succès de vos projets les plus complexes.  
             </p>
           </motion.div>
           
@@ -242,7 +242,7 @@ export function ProcessSection() {
             href="#contact" 
             className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#8B0000] to-[#A52A2A] text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg transition-all duration-300 hover:translate-y-[-2px]"
           >
-            <span>Démarrer votre projet</span>
+            <span>Démarrer votre projet.</span>
             <ArrowRight size={isMounted && isDesktop ? 16 : 14} />
           </a>
         </motion.div>

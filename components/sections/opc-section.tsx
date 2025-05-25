@@ -61,7 +61,7 @@ export function OPCSection() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-4"
           >
-            <span className="text-[#8B0000]">Ordonnancement Pilotage Contrôle</span>
+            <span className="text-[#8B0000]">Ordonnancement Pilotage Contrôle.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -121,7 +121,7 @@ export function OPCSection() {
                       whileHover={{ x: 5 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <span className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">En savoir plus</span>
+                      <span className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">En savoir plus...</span>
                       <ArrowRight className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" />
                     </motion.div>
                   </div>

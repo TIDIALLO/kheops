@@ -140,7 +140,7 @@ export function TestimonialsSection() {
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/30 mx-auto mb-6"></div>
           <p className="text-lg text-[#5A5A5A] max-w-2xl mx-auto">
-            Découvrez ce que nos clients disent de notre collaboration et des résultats obtenus
+            Découvrez ce que nos clients disent de notre collaboration et des résultats obtenus.
           </p>
         </motion.div>
         

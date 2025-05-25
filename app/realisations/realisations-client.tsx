@@ -15,7 +15,7 @@ export function RealisationsClient({ realisations }: { realisations: typeof real
                     animate={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-5xl font-bold mb-12 text-center text-[#800000]"
                 >
-                    Nos Réalisations Marquantes
+                    Nos Réalisations Marquantes:
                 </motion.h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

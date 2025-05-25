@@ -1,18 +1,19 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { 
-  Clock, 
-  Coins, 
-  TriangleAlert, 
-  Construction, 
-  Calendar, 
-  BarChart3, 
-  Activity, 
-  Shield, 
-  BarChart, 
-  FileText, 
-  Users, 
+import
+{
+  Clock,
+  Coins,
+  TriangleAlert,
+  Construction,
+  Calendar,
+  BarChart3,
+  Activity,
+  Shield,
+  BarChart,
+  FileText,
+  Users,
   PieChart
 } from 'lucide-react'
 
@@ -24,10 +25,10 @@ const servicesDetails = [
     color: '#8B0000',
     description: 'Optimisez vos délais grâce à une planification détaillée et un suivi rigoureux de l\'avancement de vos projets.',
     features: [
-      { icon: Calendar, title: 'Planification', text: 'Création et optimisation de plannings détaillés' },
-      { icon: Activity, title: 'Chemins critiques', text: 'Identification et surveillance des activités critiques' },
-      { icon: BarChart, title: 'Avancement', text: 'Mesure et reporting de l\'avancement du projet' },
-      { icon: Users, title: 'Coordination', text: 'Synchronisation des activités des différentes parties prenantes' }
+      { icon: Calendar, title: 'Planification', text: 'Création et optimisation de plannings détaillés.' },
+      { icon: Activity, title: 'Chemins critiques', text: 'Identification et surveillance des activités critiques.' },
+      { icon: BarChart, title: 'Avancement', text: 'Mesure et reporting de l\'avancement du projet.' },
+      { icon: Users, title: 'Coordination', text: 'Synchronisation des activités des différentes parties prenantes.' }
     ]
   },
   {
@@ -37,10 +38,10 @@ const servicesDetails = [
     color: '#8B0000',
     description: 'Contrôlez et optimisez vos budgets avec des outils de suivi performants et une analyse précise des coûts.',
     features: [
-      { icon: FileText, title: 'Budgétisation', text: 'Élaboration et suivi de budgets précis' },
-      { icon: BarChart3, title: 'EVM', text: 'Analyse de la valeur acquise (Earned Value Management)' },
-      { icon: PieChart, title: 'Répartition', text: 'Analyse détaillée de la répartition des coûts' },
-      { icon: BarChart, title: 'Prévisions', text: 'Projection et contrôle des dépenses futures' }
+      { icon: FileText, title: 'Budgétisation', text: 'Élaboration et suivi de budgets précis.' },
+      { icon: BarChart3, title: 'EVM', text: 'Analyse de la valeur acquise (Earned Value Management).' },
+      { icon: PieChart, title: 'Répartition', text: 'Analyse détaillée de la répartition des coûts.' },
+      { icon: BarChart, title: 'Prévisions', text: 'Projection et contrôle des dépenses futures.' }
     ]
   },
   {
@@ -50,10 +51,10 @@ const servicesDetails = [
     color: '#8B0000',
     description: 'Identifiez, évaluez et maîtrisez les risques de vos projets pour sécuriser leur réussite.',
     features: [
-      { icon: Shield, title: 'Identification', text: 'Repérage méthodique des risques potentiels' },
-      { icon: BarChart, title: 'Analyse', text: 'Évaluation qualitative et quantitative des menaces' },
-      { icon: Activity, title: 'Mitigation', text: 'Stratégies et actions de réduction des risques' },
-      { icon: FileText, title: 'Monitoring', text: 'Suivi continu et mise à jour des registres de risques' }
+      { icon: Shield, title: 'Identification', text: 'Repérage méthodique des risques potentiels.' },
+      { icon: BarChart, title: 'Analyse', text: 'Évaluation qualitative et quantitative des menaces.' },
+      { icon: Activity, title: 'Mitigation', text: 'Stratégies et actions de réduction des risques.' },
+      { icon: FileText, title: 'Monitoring', text: 'Suivi continu et mise à jour des registres de risques.' }
     ]
   },
   {
@@ -63,18 +64,22 @@ const servicesDetails = [
     color: '#8B0000',
     description: 'Structurez et coordonnez efficacement les différentes phases de vos projets pour une exécution optimale.',
     features: [
-      { icon: Calendar, title: 'Ordonnancement', text: 'Organisation chronologique optimale des tâches' },
-      { icon: Users, title: 'Pilotage', text: 'Direction et ajustement stratégique du projet' },
-      { icon: Shield, title: 'Coordination', text: 'Harmonisation des interventions des différents acteurs' },
-      { icon: FileText, title: 'Synthèse', text: 'Consolidation des informations et résolution des interfaces' }
+      { icon: Calendar, title: 'Ordonnancement', text: 'Organisation chronologique optimale des tâches.' },
+      { icon: Users, title: 'Pilotage', text: 'Direction et ajustement stratégique du projet.' },
+      { icon: Shield, title: 'Coordination', text: 'Harmonisation des interventions des différents acteurs.' },
+      { icon: FileText, title: 'Synthèse', text: 'Consolidation des informations et résolution des interfaces.' }
     ]
   }
 ]
 
-export function ServicesDetailsSection() {
+export function ServicesDetailsSection()
+{
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-center text-[#8B0000] mb-10">
+          Bienvenue sur l'application de provisionnement
+        </h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +91,7 @@ export function ServicesDetailsSection() {
             Nos domaines d'expertise
           </h2>
           <p className="text-lg text-[#5A5A5A] max-w-3xl mx-auto">
-            Des solutions sur mesure pour répondre à vos besoins spécifiques en contrôle de projets
+            Des solutions sur mesure pour répondre à vos besoins spécifiques en contrôle de projets.
           </p>
         </motion.div>
 
@@ -158,7 +163,7 @@ export function ServicesDetailsSection() {
                   </div>
                 </div>
               </motion.div>
-              
+
               {/* Séparateur */}
               {index < servicesDetails.length - 1 && (
                 <motion.div

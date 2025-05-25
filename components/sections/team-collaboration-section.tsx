@@ -116,7 +116,7 @@ export function TeamCollaborationSection() {
                   <Clock size={16} className="text-[#8B0000]" />
                   <span className="text-sm font-semibold text-[#1C1C1C]">Réactivité</span>
                 </div>
-                <p className="text-xs text-[#5A5A5A]">Des équipes dédiées pour répondre rapidement à vos besoins</p>
+                <p className="text-xs text-[#5A5A5A]">Des équipes dédiées pour répondre rapidement à vos besoins.</p>
               </motion.div>
               
               {/* Bulle d'information 2 */}
@@ -131,13 +131,13 @@ export function TeamCollaborationSection() {
                   <Target size={16} className="text-[#8B0000]" />
                   <span className="text-sm font-semibold text-[#1C1C1C]">Précision</span>
                 </div>
-                <p className="text-xs text-[#5A5A5A]">Des méthodologies éprouvées pour des résultats précis</p>
+                <p className="text-xs text-[#5A5A5A]">Des méthodologies éprouvées pour des résultats précis.</p>
               </motion.div>
               
               {/* Overlay texte en bas */}
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <h3 className="text-xl font-bold mb-2">Collaboration experte</h3>
-                <p className="text-sm opacity-90">Des équipes pluridisciplinaires au service de votre succès</p>
+                <h3 className="text-xl font-bold mb-2">Collaboration experte.</h3>
+                <p className="text-sm opacity-90">Des équipes pluridisciplinaires au service de votre succès.</p>
               </div>
             </div>
           </motion.div>
@@ -155,14 +155,14 @@ export function TeamCollaborationSection() {
               className="inline-block px-4 py-1 rounded-full bg-[#8B0000]/10 text-[#8B0000] text-sm font-medium mb-4"
               variants={itemVariants}
             >
-              Notre approche collaborative
+              Notre approche collaborative:
             </motion.span>
             
             <motion.h2 
               className="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-6"
               variants={itemVariants}
             >
-              Une équipe <span className="text-[#8B0000]">d'experts</span> à votre écoute
+              Une équipe <span className="text-[#8B0000]">d'experts</span> à votre écoute.
             </motion.h2>
             
             <motion.p 

@@ -56,7 +56,7 @@ export function ExpertiseSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-[#800000] to-[#950000] text-transparent bg-clip-text">
-            Notre Cycle d'Intervention
+            Notre Cycle d'Intervention:
           </h2>
           <p className="text-[#5A5A5A] max-w-3xl mx-auto text-lg">
             Une approche méthodologique en trois phases qui structure nos interventions et garantit des résultats concrets à chaque étape de votre projet.

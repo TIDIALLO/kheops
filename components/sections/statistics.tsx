@@ -163,10 +163,10 @@ export function Statistics() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Notre Impact en Chiffres
+            Notre Impact en Chiffres.
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Des résultats concrets qui démontrent notre expertise et notre engagement
+            Des résultats concrets qui démontrent notre expertise et notre engagement.
           </p>
         </motion.div>
         

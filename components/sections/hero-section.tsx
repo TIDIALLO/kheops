@@ -183,7 +183,7 @@ export function HeroSection() {
             variants={floatAnimation}
             whileInView="animate"
           >
-            Cabinet de conseils spécialisé dans le contrôle de projets complexes
+            Cabinet de conseils spécialisé dans le contrôle de projets complexes.
           </motion.p>
           
           {/* Ligne décorative */}
@@ -205,7 +205,7 @@ export function HeroSection() {
               href="#contact" 
               className="inline-flex items-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-[#8B0000] to-[#A52A2A] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
-              <span>Discuter de votre projet</span>
+              <span>Discuter de votre projet.</span>
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
               </svg>

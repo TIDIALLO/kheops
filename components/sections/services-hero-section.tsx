@@ -334,7 +334,7 @@ export function ServicesHeroSection()
               whileInView={{ opacity: 1, y: 0 }}
               className="text-2xl font-semibold text-center mb-12 text-[#1C1C1C]"
             >
-              Notre Processus de Planification
+              Notre Processus de Planification:
             </motion.h3>
 
             <div className="relative">
@@ -399,7 +399,7 @@ export function ServicesHeroSection()
           >
             <div className="inline-block bg-[#8B0000]/5 p-6 rounded-lg border border-[#8B0000]/10">
               <h4 className="text-xl font-semibold text-[#1C1C1C] mb-3">
-                Optimisez votre planification avec KHEOPS Consulting
+                Optimisez votre planification avec KHEOPS Consulting.
               </h4>
               <p className="text-[#5A5A5A] max-w-2xl mx-auto">
                 Notre approche méthodique et nos outils avancés vous permettent de maîtriser les délais et de maximiser l&apos;efficacité de vos projets.

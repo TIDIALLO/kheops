@@ -16,13 +16,13 @@ export default function ExpertisePreviewSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <span className="text-[#8B0000] font-semibold mb-2 inline-block">Notre savoir-faire</span>
+          <span className="text-[#8B0000] font-semibold mb-2 inline-block">Notre savoir-faire.</span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-4">
-            Notre expertise en contrôle de projets
+            Notre expertise en contrôle de projets.
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#8B0000] to-[#8B0000]/30 mx-auto mb-6 rounded-full"></div>
           <p className="text-lg text-[#5A5A5A] max-w-3xl mx-auto">
-            Découvrez nos domaines d&apos;expertise pour une gestion optimale de vos projets
+            Découvrez nos domaines d&apos;expertise pour une gestion optimale de vos projets.
           </p>
         </motion.div>
 
@@ -62,7 +62,7 @@ export default function ExpertisePreviewSection() {
             href="/expertise"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#8B0000] text-white rounded-lg hover:bg-[#8B0000]/90 transition-colors group"
           >
-            <span>En savoir plus sur notre expertise</span>
+            <span>En savoir plus sur notre expertise.</span>
             <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>

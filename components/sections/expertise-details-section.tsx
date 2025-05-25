@@ -17,7 +17,7 @@ export function ExpertiseDetailsSection() {
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-bold text-[#8B0000] text-center mb-16"
         >
-          Notre expertise en quelques mots
+          Notre expertise en quelques mots:
         </motion.h2>
 
         <div className="flex flex-col lg:flex-row justify-between items-center gap-12 max-w-5xl mx-auto">
@@ -43,7 +43,7 @@ export function ExpertiseDetailsSection() {
                 } top-[50px] left-[50px] flex items-center justify-center text-center cursor-pointer transition-colors duration-300 shadow-lg z-10`}
                 onClick={() => setActiveArea(activeArea === 1 ? null : 1)}
               >
-                <p className="font-bold text-lg px-4">Contrôle de projets</p>
+                <p className="font-bold text-lg px-4">Contrôle de projets.</p>
               </motion.div>
 
               {/* Gestion des Ressources - cercle bleu clair */}
@@ -58,7 +58,7 @@ export function ExpertiseDetailsSection() {
                 } top-[50px] right-[50px] flex items-center justify-center text-center cursor-pointer transition-colors duration-300 shadow-lg z-20`}
                 onClick={() => setActiveArea(activeArea === 2 ? null : 2)}
               >
-                <p className="font-bold text-lg px-4">Gestion des Ressources</p>
+                <p className="font-bold text-lg px-4">Gestion des Ressources.</p>
               </motion.div>
 
               {/* Reporting - cercle bleu foncé */}
@@ -109,7 +109,7 @@ export function ExpertiseDetailsSection() {
                 <div className="w-8 h-8 rounded-full bg-yellow-300 flex items-center justify-center font-bold">
                   1
                 </div>
-                <h3 className="text-xl font-bold">Contrôle de projets</h3>
+                <h3 className="text-xl font-bold">Contrôle de projets.</h3>
               </motion.div>
               
               <ul className="ml-11 space-y-2">
@@ -145,7 +145,7 @@ export function ExpertiseDetailsSection() {
                 <div className="w-8 h-8 rounded-full bg-blue-300 flex items-center justify-center font-bold">
                   2
                 </div>
-                <h3 className="text-xl font-bold">Gestion des Ressources</h3>
+                <h3 className="text-xl font-bold">Gestion des Ressources.</h3>
               </motion.div>
               
               <ul className="ml-11 space-y-2">
