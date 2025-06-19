@@ -11,6 +11,18 @@ import emailjs from '@emailjs/browser'
 import { emailjsConfig } from "@/config/emailjs"
 import { cn } from "@/lib/utils"
 
+// Fonction pour convertir un fichier en base64
+const fileToBase64 = (file: File): Promise<string> =>
+{
+  return new Promise((resolve, reject) =>
+  {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 // Liste des pays avec leurs codes courts et indicatifs
 const countryCodes = [
   { code: '+221', shortCode: 'SN', pays: 'Sénégal' },
@@ -60,7 +72,7 @@ const countryCodes = [
 ];
 
 // Constantes pour la gestion des fichiers
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // Augmenté à 5MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10Mo
 const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // Maximum 10MB au total
 const ALLOWED_FILE_TYPES = [
   'application/pdf',
@@ -70,29 +82,36 @@ const ALLOWED_FILE_TYPES = [
   'image/png'
 ];
 
+// Constante pour l'email de contact
+const CONTACT_EMAIL = 'contact@kheops-consulting.com';
+
 // Fonction pour formater la taille du fichier
-const formatFileSize = (bytes: number): string => {
+const formatFileSize = (bytes: number): string =>
+{
   if (bytes < 1024) return bytes + ' B';
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 };
 
 // Fonction pour compresser une image si nécessaire
-const compressImageIfNeeded = async (file: File): Promise<File> => {
+const compressImageIfNeeded = async (file: File): Promise<File> =>
+{
   if (!file.type.startsWith('image/')) return file;
-  
-  return new Promise((resolve, reject) => {
+
+  return new Promise((resolve, reject) =>
+  {
     const img = new Image();
     img.src = URL.createObjectURL(file);
-    img.onload = () => {
+    img.onload = () =>
+    {
       const canvas = document.createElement('canvas');
       let width = img.width;
       let height = img.height;
-      
+
       // Réduire la taille si l'image est trop grande
       const MAX_WIDTH = 1920;
       const MAX_HEIGHT = 1080;
-      
+
       if (width > MAX_WIDTH) {
         height = (height * MAX_WIDTH) / width;
         width = MAX_WIDTH;
@@ -101,20 +120,21 @@ const compressImageIfNeeded = async (file: File): Promise<File> => {
         width = (width * MAX_HEIGHT) / height;
         height = MAX_HEIGHT;
       }
-      
+
       canvas.width = width;
       canvas.height = height;
-      
+
       const ctx = canvas.getContext('2d');
       if (!ctx) {
         reject(new Error('Impossible de créer le contexte canvas'));
         return;
       }
-      
+
       ctx.drawImage(img, 0, 0, width, height);
-      
+
       canvas.toBlob(
-        (blob) => {
+        (blob) =>
+        {
           if (!blob) {
             reject(new Error('Échec de la compression'));
             return;
@@ -129,49 +149,8 @@ const compressImageIfNeeded = async (file: File): Promise<File> => {
   });
 };
 
-const handleFileChange = async (files: File[]) => {
-  let totalSize = 0;
-  const processedFiles: File[] = [];
-  
-  for (const file of files) {
-    // Vérifier le type de fichier
-    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-      alert(`Le type de fichier ${file.name} n'est pas autorisé. Types acceptés : PDF, DOC, DOCX, JPG, PNG`);
-      continue;
-    }
-    
-    // Traiter le fichier selon son type
-    let processedFile = file;
-    if (file.type.startsWith('image/')) {
-      try {
-        processedFile = await compressImageIfNeeded(file);
-      } catch (error) {
-        console.error('Erreur lors de la compression de l\'image:', error);
-        alert(`Erreur lors du traitement de l'image ${file.name}`);
-        continue;
-      }
-    }
-    
-    // Vérifier la taille du fichier
-    if (processedFile.size > MAX_FILE_SIZE) {
-      alert(`Le fichier ${file.name} est trop volumineux (${formatFileSize(processedFile.size)}). La taille maximum par fichier est de ${formatFileSize(MAX_FILE_SIZE)}.`);
-      continue;
-    }
-    
-    // Vérifier la taille totale
-    if (totalSize + processedFile.size > MAX_TOTAL_SIZE) {
-      alert(`La taille totale des fichiers dépasse la limite de ${formatFileSize(MAX_TOTAL_SIZE)}.`);
-      break;
-    }
-    
-    totalSize += processedFile.size;
-    processedFiles.push(processedFile);
-  }
-  
-  setFormData(prev => ({ ...prev, files: processedFiles }));
-};
-
-export function ContactSection() {
+export function ContactSection()
+{
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -188,68 +167,81 @@ export function ContactSection() {
     files: [] as File[]
   })
 
+  const handleFileChange = async (files: File[]) =>
+  {
+    setFormData(prev => ({ ...prev, files }));
+  };
+
   // Fermer le dropdown quand on clique en dehors
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+  useEffect(() =>
+  {
+    function handleClickOutside(event: MouseEvent)
+    {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowCountryDropdown(false)
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside)
-    return () => {
+    return () =>
+    {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
   // Fonction pour valider l'email
-  const isValidEmail = (email: string) => {
+  const isValidEmail = (email: string) =>
+  {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
 
   // Fonction pour valider le numéro de téléphone (optionnel)
-  const isValidPhone = (phone: string) => {
+  const isValidPhone = (phone: string) =>
+  {
     if (!phone) return true // Pas obligatoire
     // Nouvelle regex plus permissive pour accepter les formats internationaux variés
     const phoneRegex = /^[0-9]{1,12}([ .-]?[0-9]{1,12})*$/
     return phoneRegex.test(phone)
   }
 
-  const validateForm = () => {
+  const validateForm = () =>
+  {
     const errors: Record<string, string> = {}
-    
+
     if (!formData.name.trim()) {
       errors.name = "Le nom est requis"
     }
-    
+
     if (!formData.email.trim()) {
       errors.email = "L'email est requis"
     } else if (!isValidEmail(formData.email)) {
       errors.email = "Format d'email invalide"
     }
-    
+
     if (formData.phone && !isValidPhone(formData.phone)) {
       errors.phone = "Format de téléphone invalide"
     }
-    
+
     if (!formData.message.trim()) {
       errors.message = "Le message est requis"
     } else if (formData.message.length < 10) {
       errors.message = "Le message est trop court (10 caractères minimum)"
     }
-    
+
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
-    
+
     // Réinitialiser l'erreur de ce champ lorsqu'il est modifié
     if (validationErrors[name]) {
-      setValidationErrors(prev => {
+      setValidationErrors(prev =>
+      {
         const newErrors = { ...prev }
         delete newErrors[name]
         return newErrors
@@ -257,31 +249,35 @@ export function ContactSection() {
     }
   }
 
-  const selectCountry = (country: typeof countryCodes[0]) => {
+  const selectCountry = (country: typeof countryCodes[0]) =>
+  {
     setSelectedCountry(country)
     setShowCountryDropdown(false)
   }
 
-  const getFullPhoneNumber = () => {
+  const getFullPhoneNumber = () =>
+  {
     if (!formData.phone) return ""
     return `${selectedCountry.code} ${formData.phone}`
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) =>
+  {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
-    
+
     try {
       const referenceId = `KHEOPS-${new Date().getTime().toString().slice(-6)}`;
-      
+
       // Convertir les fichiers en base64
-      const attachmentsPromises = formData.files.map(async (file) => {
+      const attachmentsPromises = formData.files.map(async (file) =>
+      {
         try {
           const base64Data = await fileToBase64(file);
           return {
@@ -307,6 +303,7 @@ export function ContactSection() {
       const templateParams = {
         from_name: formData.name,
         reply_to: formData.email,
+        to_email: CONTACT_EMAIL,
         phone: getFullPhoneNumber(),
         company: formData.company,
         message: formData.message,
@@ -321,53 +318,71 @@ export function ContactSection() {
       }
 
       // Envoyer via EmailJS
-      const response = await emailjs.send(
-        emailjsConfig.serviceId,
-        emailjsConfig.templateId,
-        templateParams,
-        emailjsConfig.publicKey
-      );
+      try {
+        const response = await emailjs.send(
+          emailjsConfig.serviceId!,
+          emailjsConfig.templateId!,
+          templateParams,
+          emailjsConfig.publicKey!
+        );
 
-      if (response.status === 200) {
-        setSubmitStatus('success');
-        
-        // Réinitialiser le formulaire
-        setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            company: '',
-            message: '',
-            files: []
-          });
+        if (response.status === 200) {
+          setSubmitStatus('success');
+          // Sauvegarder le timestamp du dernier envoi
+          localStorage.setItem('lastFormSubmit', new Date().toISOString());
+
+          // Réinitialiser le formulaire après 5 secondes
+          setTimeout(() =>
+          {
+            setFormData({
+              name: '',
+              email: '',
+              phone: '',
+              company: '',
+              message: '',
+              files: []
+            });
+            setSubmitStatus('idle');
+          }, 5000);
+        } else {
+          throw new Error('Erreur lors de l\'envoi du message');
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi du formulaire:', error);
+        setSubmitStatus('error');
+
+        // Afficher un message d'erreur plus détaillé
+        const errorMessage = error instanceof Error
+          ? error.message
+          : 'Une erreur est survenue lors de l\'envoi du message';
+        alert(errorMessage);
+
+        // Réinitialiser le statut après 5 secondes
+        setTimeout(() =>
+        {
           setSubmitStatus('idle');
         }, 5000);
-      } else {
-        throw new Error('Erreur lors de l\'envoi du message');
+      } finally {
+        setIsSubmitting(false);
       }
     } catch (error) {
-      console.error('Erreur lors de l\'envoi du formulaire:', error);
-      alert(error instanceof Error ? error.message : 'Une erreur est survenue lors de l\'envoi du message');
+      console.error('Erreur lors de la préparation du formulaire:', error);
       setSubmitStatus('error');
-      
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
-    } finally {
+      alert(error instanceof Error ? error.message : 'Une erreur est survenue lors de la préparation du formulaire');
       setIsSubmitting(false);
     }
   };
 
   // Vérifier si l'utilisateur a déjà soumis un formulaire récemment
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (typeof window !== 'undefined') {
       const lastSubmit = localStorage.getItem('lastFormSubmit')
       if (lastSubmit) {
         const lastSubmitTime = new Date(lastSubmit).getTime()
         const now = new Date().getTime()
         const timeDiff = now - lastSubmitTime
-        
+
         // Si le dernier envoi date de moins de 5 minutes, afficher un message
         if (timeDiff < 5 * 60 * 1000) {
           // Optionnel: Vous pourriez afficher un message ou désactiver temporairement le formulaire
@@ -380,14 +395,14 @@ export function ContactSection() {
     <section id="contact" className="py-12 md:py-16 relative overflow-hidden">
       {/* Retour au fond gris #555555 */}
       <div className="absolute inset-0 bg-[#555555]"></div>
-      
+
       {/* Motif décoratif subtil */}
-      <div className="absolute inset-0 opacity-5" style={{ 
+      <div className="absolute inset-0 opacity-5" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }}></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -459,7 +474,7 @@ export function ContactSection() {
                       </div>
                       <ChevronDown className="w-4 h-4 text-gray-500" />
                     </button>
-                    
+
                     {/* Dropdown amélioré */}
                     {showCountryDropdown && (
                       <div className="absolute z-50 w-60 mt-1 bg-white rounded-md shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
@@ -547,7 +562,7 @@ export function ContactSection() {
                   className={cn(
                     "w-full h-12 font-medium rounded-lg shadow-md transition-all duration-300",
                     "flex items-center justify-center gap-2",
-                    isSubmitting 
+                    isSubmitting
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-[#8B0000] hover:bg-[#700000] hover:shadow-lg active:transform active:scale-[0.98]"
                   )}
@@ -569,15 +584,14 @@ export function ContactSection() {
               {/* Message de succès/erreur */}
               <AnimatePresence>
                 {submitStatus !== 'idle' && (
-          <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className={`flex items-center gap-3 p-3 rounded-md ${
-                      submitStatus === 'success' 
-                        ? 'bg-green-50 text-green-700 border border-green-100' 
-                        : 'bg-red-50 text-[#8B0000] border border-red-100'
-                    }`}
+                    className={`flex items-center gap-3 p-3 rounded-md ${submitStatus === 'success'
+                      ? 'bg-green-50 text-green-700 border border-green-100'
+                      : 'bg-red-50 text-[#8B0000] border border-red-100'
+                      }`}
                   >
                     {submitStatus === 'success' ? (
                       <>
@@ -590,7 +604,7 @@ export function ContactSection() {
                     ) : (
                       <>
                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <div>
+                        <div>
                           <p className="font-medium">Erreur lors de l'envoi</p>
                           <p className="text-sm opacity-90">Veuillez réessayer.</p>
                         </div>
@@ -615,14 +629,15 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="font-semibold mb-1 text-lg text-white">Email</p>
-                    <a href="mailto:contact@kheopsconsulting.com" 
-                       className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
-                       onClick={(e) => {
-                         e.preventDefault();
-                         window.location.href = "mailto:contact@kheopsconsulting.com";
-                       }}
+                    <a href={`mailto:${CONTACT_EMAIL}`}
+                      className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                      onClick={(e) =>
+                      {
+                        e.preventDefault();
+                        window.location.href = `mailto:${CONTACT_EMAIL}`;
+                      }}
                     >
-                      contact@kheopsconsulting.com
+                      {CONTACT_EMAIL}
                       <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                     </a>
                   </div>
@@ -633,12 +648,13 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="font-semibold mb-1 text-lg text-white">Téléphone</p>
-                    <a href="tel:+221338673500" 
-                       className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
-                       onClick={(e) => {
-                         e.preventDefault();
-                         window.location.href = "tel:+221338673500";
-                       }}
+                    <a href="tel:+221338673500"
+                      className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                      onClick={(e) =>
+                      {
+                        e.preventDefault();
+                        window.location.href = "tel:+221338673500";
+                      }}
                     >
                       +221 33 867 35 00
                       <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
@@ -652,9 +668,9 @@ export function ContactSection() {
                   <div>
                     <p className="font-semibold mb-1 text-lg text-white">Adresse</p>
                     <a href="https://maps.google.com/?q=Immeuble+Rivonia,+Rue+Amadou+Assane+Ndoye+x+Colbert,+Dakar,+Sénégal"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
                     >
                       <span>
                         Immeuble Rivonia, 2ème étage<br />
@@ -682,7 +698,8 @@ export function ContactSection() {
                 {/* Boutons d'action rapide */}
                 <div className="pt-6 space-y-3">
                   <button
-                    onClick={() => {
+                    onClick={() =>
+                    {
                       const phoneNumber = "+221338673500";
                       window.location.href = `tel:${phoneNumber}`;
                     }}
@@ -692,9 +709,10 @@ export function ContactSection() {
                     <span>Appeler maintenant</span>
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                   </button>
-                  
+
                   <button
-                    onClick={() => {
+                    onClick={() =>
+                    {
                       window.location.href = "mailto:contact@kheopsconsulting.com";
                     }}
                     className="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
@@ -705,8 +723,8 @@ export function ContactSection() {
                   </button>
                 </div>
               </div>
-                  </div>
-                </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
