@@ -4,16 +4,6 @@ import { useEffect, useRef } from 'react'
 import { motion } from "framer-motion"
 import Image from 'next/image'
 
-// Importations directes des logos
-import edfLogo from '@/public/images/clients/edf.PNG';
-import alstomLogo from '@/public/images/clients/alstom.PNG';
-import egisLogo from '@/public/images/clients/egis.PNG';
-import generalLogo from '@/public/images/clients/general.PNG';
-import saipemLogo from '@/public/images/clients/saipem.PNG';
-import sarLogo from '@/public/images/clients/sar.PNG';
-import tenLogo from '@/public/images/clients/ten.PNG';
-import westinghouseLogo from '@/public/images/clients/westinghouse.PNG';
-
 // Palette de couleurs rouge ajustée
 const mainRed = "#800000";
 
@@ -21,35 +11,35 @@ const mainRed = "#800000";
 const references = [
   {
     name: "EDF",
-    logo: edfLogo
+    logo: "/images/clients/edf.PNG"
   },
   {
     name: "Alstom",
-    logo: alstomLogo
+    logo: "/images/clients/alstom.PNG"
   },
   {
     name: "Egis",
-    logo: egisLogo
+    logo: "/images/clients/egis.PNG"
   },
   {
     name: "General Electric",
-    logo: generalLogo
+    logo: "/images/clients/general.PNG"
   },
   {
     name: "Saipem",
-    logo: saipemLogo
+    logo: "/images/clients/saipem.PNG"
   },
   {
     name: "SAR",
-    logo: sarLogo
+    logo: "/images/clients/sar.PNG"
   },
   {
     name: "Ten",
-    logo: tenLogo
+    logo: "/images/clients/ten.PNG"
   },
   {
     name: "Westinghouse",
-    logo: westinghouseLogo
+    logo: "/images/clients/westinghouse.PNG"
   }
 ]
 
