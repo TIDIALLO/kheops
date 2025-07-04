@@ -2,13 +2,12 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Metadata, Viewport } from 'next'
 import { Footer } from "@/components/navigation/footer";
-import { EmailJSInit } from "@/components/emailjs-init";
 import { NavbarClient } from '@/components/navigation/navbar-client'
 import { ScrollToTop } from '@/components/ui/scroll-to-top'
 import { A11yAnnouncer } from '@/components/ui/a11y-announcer'
 import { siteConfig } from '@/config/seo'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
@@ -98,7 +97,8 @@ export const metadata: Metadata = {
 }
 
 // Fonction pour générer les métadonnées de viewport (nouvelle approche Next.js)
-export function generateViewport(): Viewport {
+export function generateViewport(): Viewport
+{
   return {
     width: 'device-width',
     initialScale: 1,
@@ -112,10 +112,11 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+})
+{
   return (
-    <html 
-      lang="fr" 
+    <html
+      lang="fr"
       className={inter.variable}
       suppressHydrationWarning
     >
@@ -125,7 +126,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        
+
         {/* Préchargement des ressources critiques */}
         <link
           rel="preload"
@@ -143,18 +144,17 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
-        
-        <EmailJSInit />
+
         <NavbarClient />
-        
+
         <main id="main-content" className="flex-grow">
           {children}
         </main>
-        
+
         <Footer />
         <ScrollToTop />
         <A11yAnnouncer />
-        
+
         {/* Données structurées Schema.org */}
         <script
           type="application/ld+json"

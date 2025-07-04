@@ -27,10 +27,42 @@ function validateContactData(data: any) {
   return errors;
 }
 
+// Fonction pour convertir un fichier en base64
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 // Fonction de création du contenu HTML de l'email
 function createEmailHTML(data: any) {
   const date = new Date().toLocaleString("fr-FR");
   const reference = `REF-${Date.now()}`;
+
+  // Section des fichiers joints
+  const filesSection =
+    data.files && data.files.length > 0
+      ? `
+      <div class="info-row">
+        <span class="label">Fichiers joints:</span>
+        <div class="files-list">
+          ${data.files
+            .map(
+              (file: any) => `
+            <div class="file-item">
+              <span class="file-name">📎 ${file.name}</span>
+              <span class="file-size">(${formatFileSize(file.size)})</span>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      </div>
+    `
+      : "";
 
   return `
     <!DOCTYPE html>
@@ -51,6 +83,10 @@ function createEmailHTML(data: any) {
         .label { font-weight: bold; color: #8B0000; }
         .message-box { background: #f9f5f5; padding: 15px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #8B0000; }
         .meta-info { font-size: 11px; color: #999; margin-top: 30px; padding-top: 15px; border-top: 1px dashed #eee; }
+        .files-list { margin-top: 10px; }
+        .file-item { padding: 5px 0; color: #666; }
+        .file-name { font-weight: 500; }
+        .file-size { font-size: 12px; color: #999; }
       </style>
     </head>
     <body>
@@ -100,6 +136,8 @@ function createEmailHTML(data: any) {
             </div>
           </div>
           
+          ${filesSection}
+          
           <div class="meta-info">
             <p>Référence: ${reference}</p>
             <p>Date: ${date}</p>
@@ -114,6 +152,13 @@ function createEmailHTML(data: any) {
     </body>
     </html>
   `;
+}
+
+// Fonction pour formater la taille des fichiers
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
 }
 
 // Endpoint principal
@@ -141,6 +186,8 @@ export async function POST(request: NextRequest) {
       hasPhone: !!body.phone,
       hasCompany: !!body.company,
       messageLength: body.message?.length,
+      hasFiles: !!body.files && body.files.length > 0,
+      filesCount: body.files?.length || 0,
     });
 
     const validationErrors = validateContactData(body);
@@ -156,11 +203,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Préparer l'email
-    console.log("📧 Préparation de l'email avec Resend...");
-    const htmlContent = createEmailHTML(body);
+    // 3. Traiter les fichiers si présents
+    let processedData = { ...body };
+    if (body.files && body.files.length > 0) {
+      console.log("📎 Traitement des fichiers joints...");
+      // Les fichiers sont déjà en base64 depuis le frontend
+      processedData.files = body.files.map((file: any) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        data: file.data, // base64
+      }));
+    }
 
-    // 4. Envoyer l'email via Resend
+    // 4. Préparer l'email
+    console.log("📧 Préparation de l'email avec Resend...");
+    const htmlContent = createEmailHTML(processedData);
+
+    // 5. Préparer les pièces jointes
+    const attachments =
+      processedData.files?.map((file: any) => ({
+        filename: file.name,
+        content: file.data.split(",")[1], // Enlever le préfixe data:image/...;base64,
+        encoding: "base64",
+        contentType: file.type,
+      })) || [];
+
+    // 6. Envoyer l'email via Resend
     console.log("🚀 Envoi de l'email via Resend...");
     const result = await resend.emails.send({
       from: `${resendConfig.fromName} <${resendConfig.defaultFromEmail}>`,
@@ -168,19 +237,20 @@ export async function POST(request: NextRequest) {
       replyTo: body.email,
       subject: `Nouveau contact depuis le site - ${body.name}`,
       html: htmlContent,
+      attachments: attachments,
     });
 
     console.log("✅ Email envoyé avec succès via Resend:", result);
 
     // 5. Réponse de succès
-      return NextResponse.json(
+    return NextResponse.json(
       {
         success: true,
         message: "Email envoyé avec succès via Resend",
         messageId: result.data?.id || "sent",
       },
-        { status: 200 }
-      );
+      { status: 200 }
+    );
   } catch (error) {
     console.error("❌ Erreur API contact avec Resend:", error);
 

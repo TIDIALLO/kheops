@@ -22,27 +22,18 @@ console.log(`${colors.blue}=== Validation de la configuration KHEOPS Consulting 
 
 // Vérification des variables d'environnement
 const requiredEnvVars = [
-  'NEXT_PUBLIC_EMAILJS_SERVICE_ID',
-  'NEXT_PUBLIC_EMAILJS_TEMPLATE_ID',
-  'NEXT_PUBLIC_EMAILJS_PUBLIC_KEY',
+  'RESEND_API_KEY',
 ];
 
 console.log(`${colors.blue}Vérification des variables d'environnement...${colors.reset}`);
 
 let missingVars = [];
-let defaultValues = [];
 
 requiredEnvVars.forEach(varName => {
   const value = process.env[varName];
   
   if (!value) {
     missingVars.push(varName);
-  } else if (
-    (varName === 'NEXT_PUBLIC_EMAILJS_SERVICE_ID' && value === 'service_0k7sqys') ||
-    (varName === 'NEXT_PUBLIC_EMAILJS_TEMPLATE_ID' && value === 'template_py1g735') ||
-    (varName === 'NEXT_PUBLIC_EMAILJS_PUBLIC_KEY' && value === 'NcSUafJLSL3cqsMvt')
-  ) {
-    defaultValues.push(varName);
   }
 });
 
@@ -51,12 +42,12 @@ if (missingVars.length > 0) {
   console.log(`
 ${colors.yellow}Ces variables doivent être configurées avant le déploiement.
 Ajoutez-les dans le fichier .env.local pour le développement 
-ou dans les variables d'environnement de votre plateforme de déploiement.${colors.reset}
-  `);
-} else if (defaultValues.length > 0) {
-  console.log(`${colors.yellow}⚠️ Attention: Les variables suivantes utilisent les valeurs par défaut: ${defaultValues.join(', ')}${colors.reset}`);
-  console.log(`
-${colors.yellow}En production, il est recommandé d'utiliser vos propres valeurs EmailJS pour la sécurité.${colors.reset}
+ou dans les variables d'environnement de votre plateforme de déploiement.
+
+Pour Resend:
+1. Créez un compte sur https://resend.com
+2. Générez une clé API
+3. Ajoutez RESEND_API_KEY=votre_clé_api${colors.reset}
   `);
 } else {
   console.log(`${colors.green}✓ Toutes les variables d'environnement requises sont configurées correctement.${colors.reset}`);
@@ -95,9 +86,6 @@ console.log(`\n${colors.blue}=== Résumé de la validation ===${colors.reset}`);
 if (missingVars.length > 0 || missingFiles.length > 0) {
   console.log(`${colors.red}❌ Des problèmes ont été détectés. Veuillez les corriger avant de déployer.${colors.reset}`);
   process.exit(1);
-} else if (defaultValues.length > 0) {
-  console.log(`${colors.yellow}⚠️ Validation terminée avec avertissements. Vérifiez les valeurs par défaut.${colors.reset}`);
-  process.exit(0);
 } else {
   console.log(`${colors.green}✅ Validation réussie! La configuration est prête pour le déploiement.${colors.reset}`);
   process.exit(0);

@@ -276,8 +276,21 @@ export function ContactSection()
         phone: formData.phone,
         company: formData.company,
         message: formData.message,
-        // Ajoute les fichiers si besoin (attachments)
       };
+
+      // Ajouter les fichiers convertis en base64
+      if (formData.files && formData.files.length > 0) {
+        console.log("📎 Conversion des fichiers en base64...");
+        const filesData = await Promise.all(
+          formData.files.map(async (file) => ({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            data: await fileToBase64(file)
+          }))
+        );
+        contactData.files = filesData;
+      }
 
       const response = await fetch('/api/contact', {
         method: 'POST',
