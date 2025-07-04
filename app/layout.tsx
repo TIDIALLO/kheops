@@ -1,6 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 import { Footer } from "@/components/navigation/footer";
 import { EmailJSInit } from "@/components/emailjs-init";
 import { NavbarClient } from '@/components/navigation/navbar-client'
@@ -81,7 +81,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  themeColor: '#8B0000',
   verification: {
     google: 'votre_code_verification_google',
   },
@@ -95,13 +94,18 @@ export const metadata: Metadata = {
       },
     ],
   },
-  viewport: {
+  applicationName: 'KHEOPS Consulting',
+}
+
+// Fonction pour générer les métadonnées de viewport (nouvelle approche Next.js)
+export function generateViewport(): Viewport {
+  return {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
-  },
-  applicationName: 'KHEOPS Consulting',
+    themeColor: '#8B0000',
+  }
 }
 
 export default function RootLayout({

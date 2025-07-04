@@ -47,14 +47,14 @@ export const siteConfig = {
     },
     contactPoint: {
       telephone: "+221-78-193-5969",
-      email: "contact@kheops-consulting.com",
+      email: "contact.kheops@kheops-consulting.com",
     },
   },
   contact: {
     address:
       "Immeuble Rivonia, 2ème étage, Rue Amadou Assane Ndoye x Colbert, Dakar, Sénégal",
     phone: "+221 33 867 35 00",
-    email: "contact@kheops-consulting.com",
+    email: "contact.kheops@kheops-consulting.com",
     hours: {
       weekdays: "9h - 18h",
       saturday: "Sur rendez-vous",

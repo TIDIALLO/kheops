@@ -8,7 +8,8 @@ import { Input } from './input'
 import { cn } from '@/lib/utils'
 
 // Types pour les messages
-interface Message {
+interface Message
+{
   id: string
   content: string
   sender: 'user' | 'agent'
@@ -17,7 +18,8 @@ interface Message {
 }
 
 // Fonction pour obtenir une réponse automatique selon le message
-const getAutomaticResponse = (message: string): string => {
+const getAutomaticResponse = (message: string): string =>
+{
   // Convertir le message en minuscules pour faciliter la recherche
   const messageLower = message.toLowerCase()
 
@@ -28,7 +30,7 @@ const getAutomaticResponse = (message: string): string => {
 • Téléphone : 
   - SENEGAL: +221 78.193.59.69
   - France: +33 07.86.02.51.97
-• Email : pierredieng.kheops@gmail.com
+• Email : contact.kheops@kheops-consulting.com
 • Horaires : Lundi - Vendredi : 9h - 18h, Samedi : Sur rendez-vous`
   }
 
@@ -44,7 +46,8 @@ const getAutomaticResponse = (message: string): string => {
   return "Merci pour votre message. Un agent vous répondra bientôt. Pour une réponse plus rapide, n'hésitez pas à nous appeler au +221 78.193.59.69"
 }
 
-export function Chat() {
+export function Chat()
+{
   // États
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
@@ -54,16 +57,19 @@ export function Chat() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Défilement automatique vers le bas
-  const scrollToBottom = () => {
+  const scrollToBottom = () =>
+  {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     scrollToBottom()
   }, [messages])
 
   // Gestion de l'envoi des messages
-  const handleSend = async () => {
+  const handleSend = async () =>
+  {
     if (!inputValue.trim()) return
 
     const newMessage: Message = {
@@ -82,7 +88,8 @@ export function Chat() {
     const automaticResponse = getAutomaticResponse(inputValue)
 
     // Simuler un délai de réponse pour plus de naturel
-    setTimeout(() => {
+    setTimeout(() =>
+    {
       const response: Message = {
         id: (Date.now() + 1).toString(),
         content: automaticResponse,
@@ -96,14 +103,16 @@ export function Chat() {
   }
 
   // Gestion des fichiers
-  const handleFileClick = () => {
+  const handleFileClick = () =>
+  {
     fileInputRef.current?.click()
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  {
     const files = e.target.files
     if (!files) return
-    
+
     // Traitement des fichiers (à implémenter selon vos besoins)
     console.log('Fichiers sélectionnés:', files)
   }
@@ -123,7 +132,7 @@ export function Chat() {
         )}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        animate={{ 
+        animate={{
           rotate: isOpen ? 90 : 0,
           scale: isOpen ? 0 : 1
         }}
@@ -168,7 +177,7 @@ export function Chat() {
                   <div
                     className={cn(
                       "max-w-[80%] rounded-lg p-3",
-                      message.sender === 'user' 
+                      message.sender === 'user'
                         ? "bg-[#8B0000] text-white"
                         : "bg-gray-100 text-gray-900"
                     )}

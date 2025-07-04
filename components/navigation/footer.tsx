@@ -6,17 +6,20 @@ import { Phone, Mail, MapPin, ArrowUp } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
-export function Footer() {
+export function Footer()
+{
   const router = useRouter();
 
-  const scrollToTop = () => {
+  const scrollToTop = () =>
+  {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     })
   }
 
-  const handleLogoClick = () => {
+  const handleLogoClick = () =>
+  {
     router.push('/');
     scrollToTop();
   };
@@ -29,18 +32,18 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Logo et description */}
           <div className="md:col-span-4">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleLogoClick}
               className="flex items-center mb-4 cursor-pointer group w-fit"
             >
               <div className="relative h-12 w-12 mr-3 rounded-lg overflow-hidden transition-transform duration-300 group-hover:shadow-lg">
-                <Image 
-                  src="/images/logo.png" 
-                  alt="Logo KHEOPS Consulting" 
-                  width={48} 
-                  height={48} 
+                <Image
+                  src="/images/logo.png"
+                  alt="Logo KHEOPS Consulting"
+                  width={48}
+                  height={48}
                   className="object-contain transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
@@ -112,32 +115,34 @@ export function Footer() {
           <div className="md:col-span-3">
             <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-2">Contact</h3>
             <div className="space-y-4 text-sm">
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 5 }}
                 className="flex items-start group"
               >
                 <MapPin className="w-5 h-5 text-[#8B0000] mr-3 mt-0.5 shrink-0 group-hover:text-white transition-colors" />
-                <span className="text-gray-300 group-hover:text-white transition-colors">
-                  19 Sicap Rue dix<br />DAKAR SENEGAL
-                </span>
+                <div className="text-gray-300 group-hover:text-white transition-colors">
+                  <p><strong>SENEGAL:</strong> KHEOPS Consulting, 19 rue B Sicap rue dix, Dakar SENEGAL</p>
+                  <p><strong>FRANCE:</strong> Pierre DIENG, 8 Rue de la ronce, 92410 Ville d'Avray, FRANCE</p>
+                </div>
               </motion.div>
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 5 }}
                 className="flex items-start group"
               >
                 <Phone className="w-5 h-5 text-[#8B0000] mr-3 mt-0.5 shrink-0 group-hover:text-white transition-colors" />
                 <div className="text-gray-300 group-hover:text-white transition-colors">
-                  <p>SENEGAL: +221 78.193.59.69</p>
-                  <p>France: +33 07.86.02.51.97</p>
+                  <p>+221 78 193 59 69</p>
+                  <p>+33 7 86 02 51 97</p>
+                  <p>+33 6 95 92 26 86</p>
                 </div>
               </motion.div>
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 5 }}
                 className="flex items-start group"
               >
                 <Mail className="w-5 h-5 text-[#8B0000] mr-3 mt-0.5 shrink-0 group-hover:text-white transition-colors" />
                 <span className="text-gray-300 group-hover:text-white transition-colors">
-                  pierredieng.kheops@gmail.com
+                  contact.kheops@kheops-consulting.com
                 </span>
               </motion.div>
             </div>
@@ -145,7 +150,7 @@ export function Footer() {
         </div>
 
         {/* Bouton retour en haut */}
-        <motion.button 
+        <motion.button
           onClick={scrollToTop}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

@@ -7,8 +7,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { FileUpload } from "@/components/ui/file-upload"
 import { Mail, Phone, MapPin, Clock, CheckCircle, AlertCircle, ChevronDown, ArrowRight, Send } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import emailjs from '@emailjs/browser'
-import { emailjsConfig } from "@/config/emailjs"
 import { cn } from "@/lib/utils"
 
 // Fonction pour convertir un fichier en base64
@@ -83,7 +81,7 @@ const ALLOWED_FILE_TYPES = [
 ];
 
 // Constante pour l'email de contact
-const CONTACT_EMAIL = 'contact@kheops-consulting.com';
+const CONTACT_EMAIL = 'contact.kheops@kheops-consulting.com';
 
 // Fonction pour formater la taille du fichier
 const formatFileSize = (bytes: number): string =>
@@ -159,8 +157,8 @@ export function ContactSection()
   const [selectedCountry, setSelectedCountry] = useState(countryCodes[0])
   const dropdownRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    user_name: '',
+    user_email: '',
     phone: '',
     company: '',
     message: '',
@@ -209,14 +207,14 @@ export function ContactSection()
   {
     const errors: Record<string, string> = {}
 
-    if (!formData.name.trim()) {
-      errors.name = "Le nom est requis"
+    if (!formData.user_name.trim()) {
+      errors.user_name = "Le nom est requis"
     }
 
-    if (!formData.email.trim()) {
-      errors.email = "L'email est requis"
-    } else if (!isValidEmail(formData.email)) {
-      errors.email = "Format d'email invalide"
+    if (!formData.user_email.trim()) {
+      errors.user_email = "L'email est requis"
+    } else if (!isValidEmail(formData.user_email)) {
+      errors.user_email = "Format d'email invalide"
     }
 
     if (formData.phone && !isValidPhone(formData.phone)) {
@@ -265,110 +263,52 @@ export function ContactSection()
   {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      const referenceId = `KHEOPS-${new Date().getTime().toString().slice(-6)}`;
-
-      // Convertir les fichiers en base64
-      const attachmentsPromises = formData.files.map(async (file) =>
-      {
-        try {
-          const base64Data = await fileToBase64(file);
-          return {
-            name: file.name,
-            data: base64Data,
-            type: file.type
-          };
-        } catch (error) {
-          console.error(`Erreur lors de la conversion du fichier ${file.name}:`, error);
-          throw new Error(`Erreur lors de la conversion du fichier ${file.name}`);
-        }
-      });
-
-      let attachments;
-      try {
-        attachments = await Promise.all(attachmentsPromises);
-      } catch (error) {
-        console.error('Erreur lors de la conversion des fichiers:', error);
-        throw new Error('Erreur lors de la préparation des fichiers');
-      }
-
-      // Préparer les données pour EmailJS
-      const templateParams = {
-        from_name: formData.name,
-        reply_to: formData.email,
-        to_email: CONTACT_EMAIL,
-        phone: getFullPhoneNumber(),
+      // Préparer les données à envoyer à l'API
+      const contactData = {
+        name: formData.user_name,
+        email: formData.user_email,
+        phone: formData.phone,
         company: formData.company,
         message: formData.message,
-        reference: referenceId,
-        attachments: attachments.length > 0 ? JSON.stringify(attachments) : undefined
+        // Ajoute les fichiers si besoin (attachments)
       };
 
-      // Vérifier la taille totale des données
-      const dataSize = JSON.stringify(templateParams).length;
-      if (dataSize > 50000) { // ~50KB limite approximative
-        throw new Error('Les fichiers joints sont trop volumineux pour être envoyés. Veuillez réduire leur taille.');
-      }
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactData),
+      });
 
-      // Envoyer via EmailJS
-      try {
-        const response = await emailjs.send(
-          emailjsConfig.serviceId!,
-          emailjsConfig.templateId!,
-          templateParams,
-          emailjsConfig.publicKey!
-        );
+      const result = await response.json();
 
-        if (response.status === 200) {
-          setSubmitStatus('success');
-          // Sauvegarder le timestamp du dernier envoi
-          localStorage.setItem('lastFormSubmit', new Date().toISOString());
-
-          // Réinitialiser le formulaire après 5 secondes
-          setTimeout(() =>
-          {
-            setFormData({
-              name: '',
-              email: '',
-              phone: '',
-              company: '',
-              message: '',
-              files: []
-            });
-            setSubmitStatus('idle');
-          }, 5000);
-        } else {
-          throw new Error('Erreur lors de l\'envoi du message');
-        }
-      } catch (error) {
-        console.error('Erreur lors de l\'envoi du formulaire:', error);
-        setSubmitStatus('error');
-
-        // Afficher un message d'erreur plus détaillé
-        const errorMessage = error instanceof Error
-          ? error.message
-          : 'Une erreur est survenue lors de l\'envoi du message';
-        alert(errorMessage);
-
-        // Réinitialiser le statut après 5 secondes
+      if (response.ok) {
+        setSubmitStatus('success');
         setTimeout(() =>
         {
+          setFormData({
+            user_name: '',
+            user_email: '',
+            phone: '',
+            company: '',
+            message: '',
+            files: []
+          });
           setSubmitStatus('idle');
         }, 5000);
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        throw new Error(result.error || 'Erreur lors de l\'envoi du message');
       }
     } catch (error) {
-      console.error('Erreur lors de la préparation du formulaire:', error);
       setSubmitStatus('error');
-      alert(error instanceof Error ? error.message : 'Une erreur est survenue lors de la préparation du formulaire');
+      alert(error instanceof Error ? error.message : 'Erreur lors de l\'envoi');
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -424,35 +364,35 @@ export function ContactSection()
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-3">
               {/* Nom */}
               <div className="flex flex-col gap-1">
-                <label htmlFor="name" className="text-sm font-semibold text-gray-800">
+                <label htmlFor="user_name" className="text-sm font-semibold text-gray-800">
                   Nom complet <span className="text-[#8B0000] font-bold">*</span>
                 </label>
                 <Input
-                  id="name"
-                  name="name"
+                  id="user_name"
+                  name="user_name"
                   type="text"
-                  value={formData.name}
+                  value={formData.user_name}
                   onChange={handleChange}
                   className="h-9 bg-white border-gray-300 rounded-md focus:border-[#8B0000] focus:ring-[#8B0000] transition-colors"
                   placeholder="Votre nom"
-                  error={validationErrors.name}
+                  error={validationErrors.user_name}
                 />
               </div>
 
               {/* Email */}
               <div className="flex flex-col gap-1">
-                <label htmlFor="email" className="text-sm font-semibold text-gray-800">
+                <label htmlFor="user_email" className="text-sm font-semibold text-gray-800">
                   Email <span className="text-[#8B0000] font-bold">*</span>
                 </label>
                 <Input
-                  id="email"
-                  name="email"
+                  id="user_email"
+                  name="user_email"
                   type="email"
-                  value={formData.email}
+                  value={formData.user_email}
                   onChange={handleChange}
                   className="h-9 bg-white border-gray-300 rounded-md focus:border-[#8B0000] focus:ring-[#8B0000] transition-colors"
                   placeholder="votre@email.com"
-                  error={validationErrors.email}
+                  error={validationErrors.user_email}
                 />
               </div>
 
@@ -648,37 +588,41 @@ export function ContactSection()
                   </div>
                   <div>
                     <p className="font-semibold mb-1 text-lg text-white">Téléphone</p>
-                    <a href="tel:+221338673500"
-                      className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
-                      onClick={(e) =>
-                      {
-                        e.preventDefault();
-                        window.location.href = "tel:+221338673500";
-                      }}
-                    >
-                      +221 33 867 35 00
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 group">
-                  <div className="bg-[#8B0000] p-3 rounded-lg group-hover:bg-[#700000] transition-colors">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-semibold mb-1 text-lg text-white">Adresse</p>
-                    <a href="https://maps.google.com/?q=Immeuble+Rivonia,+Rue+Amadou+Assane+Ndoye+x+Colbert,+Dakar,+Sénégal"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
-                    >
-                      <span>
-                        Immeuble Rivonia, 2ème étage<br />
-                        Rue Amadou Assane Ndoye x Colbert<br />
-                        Dakar, Sénégal
-                      </span>
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform mt-1" />
-                    </a>
+                    <div className="space-y-1">
+                      <a href="tel:+221781935969"
+                        className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                        onClick={(e) =>
+                        {
+                          e.preventDefault();
+                          window.location.href = "tel:+221781935969";
+                        }}
+                      >
+                        +221 78 193 59 69
+                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      </a>
+                      <a href="tel:+33786025197"
+                        className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                        onClick={(e) =>
+                        {
+                          e.preventDefault();
+                          window.location.href = "tel:+33786025197";
+                        }}
+                      >
+                        +33 7 86 02 51 97
+                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      </a>
+                      <a href="tel:+33695922686"
+                        className="text-white hover:text-white/90 transition-colors hover:underline inline-flex items-center gap-2 group"
+                        onClick={(e) =>
+                        {
+                          e.preventDefault();
+                          window.location.href = "tel:+33695922686";
+                        }}
+                      >
+                        +33 6 95 92 26 86
+                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      </a>
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 group">
@@ -700,7 +644,7 @@ export function ContactSection()
                   <button
                     onClick={() =>
                     {
-                      const phoneNumber = "+221338673500";
+                      const phoneNumber = "+221781935969";
                       window.location.href = `tel:${phoneNumber}`;
                     }}
                     className="w-full bg-[#8B0000] hover:bg-[#700000] text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
@@ -713,7 +657,7 @@ export function ContactSection()
                   <button
                     onClick={() =>
                     {
-                      window.location.href = "mailto:contact@kheopsconsulting.com";
+                      window.location.href = "mailto:contact.kheops@kheops-consulting.com";
                     }}
                     className="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
                   >
