@@ -46,17 +46,20 @@ const references = [
   }
 ]
 
-export function SecteursReferencesSection() {
+export function SecteursReferencesSection()
+{
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   // Animation du défilement automatique
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (!marqueeRef.current) return
 
-    const interval = setInterval(() => {
+    const interval = setInterval(() =>
+    {
       if (marqueeRef.current) {
         marqueeRef.current.scrollLeft += 1
-        
+
         // Reset quand on atteint la fin
         if (
           marqueeRef.current.scrollLeft + marqueeRef.current.offsetWidth >=
@@ -73,19 +76,19 @@ export function SecteursReferencesSection() {
   return (
     <section className="py-16 bg-gradient-to-br from-[#f9f5f5] to-[#f7f2f2] relative">
       {/* Motif de points en arrière-plan avec couleur plus légère */}
-      <div className="absolute inset-0 opacity-10 z-0" 
-        style={{ 
-          backgroundImage: `radial-gradient(${mainRed} 0.5px, transparent 0.5px)`, 
+      <div className="absolute inset-0 opacity-10 z-0"
+        style={{
+          backgroundImage: `radial-gradient(${mainRed} 0.5px, transparent 0.5px)`,
           backgroundSize: '18px 18px'
         }}>
       </div>
-      
+
       {/* Effet de vague en bas avec dégradé amélioré */}
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-r from-[#800000]/5 via-[#950000]/8 to-[#800000]/5 z-0"></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -94,7 +97,7 @@ export function SecteursReferencesSection() {
           >
             Ils nous ont fait confiance
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -112,14 +115,14 @@ export function SecteursReferencesSection() {
           <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#f9f5f5] to-transparent z-10"></div>
 
           {/* Carousel avec défilement automatique */}
-          <div 
+          <div
             ref={marqueeRef}
             className="flex overflow-x-auto gap-8 py-8 scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {/* Première copie des logos */}
             {references.map((reference, index) => (
-              <motion.div 
+              <motion.div
                 key={`first-${index}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -133,14 +136,14 @@ export function SecteursReferencesSection() {
                   alt={`Logo ${reference.name}`}
                   width={160}
                   height={80}
-                  className="max-h-16 object-contain"
+                  className="max-h-16 w-auto object-contain"
                 />
               </motion.div>
             ))}
-            
+
             {/* Deuxième copie des logos pour créer un effet infini */}
             {references.map((reference, index) => (
-              <motion.div 
+              <motion.div
                 key={`second-${index}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -154,7 +157,7 @@ export function SecteursReferencesSection() {
                   alt={`Logo ${reference.name}`}
                   width={160}
                   height={80}
-                  className="max-h-16 object-contain"
+                  className="max-h-16 w-auto object-contain"
                 />
               </motion.div>
             ))}

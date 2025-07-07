@@ -1,102 +1,148 @@
-# KHEOPS Consulting
+# KHEOPS Consulting - Site Web
 
-Site web officiel de KHEOPS Consulting, cabinet de conseil spécialisé dans le contrôle de projets complexes.
+Site web professionnel pour KHEOPS Consulting, cabinet spécialisé dans le contrôle de projets complexes.
 
-## 🚀 Démarrage rapide
+## 🚀 Fonctionnalités
 
-### Installation
+- Design moderne et responsive
+- Animations fluides avec Framer Motion
+- Formulaire de contact fonctionnel avec Resend
+- Optimisation SEO complète
+- Performance optimisée
+- Support multilingue (français)
+
+## 🛠️ Technologies Utilisées
+
+- [Next.js 14](https://nextjs.org/) - Framework React
+- [React 18](https://reactjs.org/) - Bibliothèque UI
+- [TypeScript](https://www.typescriptlang.org/) - Typage statique
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Resend](https://resend.com/) - Service d'envoi d'emails
+- [Sharp](https://sharp.pixelplumbing.com/) - Optimisation d'images
+
+## 📦 Installation
 
 ```bash
-# Cloner le dépôt
-git clone [votre-repo-url]
-cd kheops-consulting
+# Cloner le repository
+git clone [url-du-repo]
 
 # Installer les dépendances
 npm install
-```
 
-### Configuration de l'environnement de développement
-
-1. Créez un fichier `.env.local` à la racine du projet avec les variables suivantes :
-
-```env
-# Configuration EmailJS
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_0k7sqys
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_py1g735
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=NcSUafJLSL3cqsMvt
-```
-
-2. Lancez le serveur de développement :
-
-```bash
+# Lancer en mode développement
 npm run dev
 ```
 
-3. Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
+## ⚙️ Configuration
 
-## 🧰 Fonctionnalités
+### Variables d'environnement requises
 
-- Design responsive et moderne
-- Formulaire de contact fonctionnel avec EmailJS
-- Optimisations SEO avec métadonnées adaptées
-- Favicon et icônes d'application personnalisés
+Créez un fichier `.env.local` à la racine du projet :
 
-## 🛠️ Technologies utilisées
-
-- [Next.js 15](https://nextjs.org/) - Framework React
-- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utilitaire
-- [EmailJS](https://www.emailjs.com/) - Service d'envoi d'emails
-- [Framer Motion](https://www.framer.com/motion/) - Animations fluides
-
-## 📦 Structure du projet
-
-```
-/
-├── app/                # Dossier principal des pages (structure Next.js App Router)
-├── components/         # Composants React réutilisables
-├── config/             # Configuration (EmailJS, etc.)
-├── public/             # Fichiers statiques (favicons, images)
-├── scripts/            # Scripts utilitaires pour le déploiement
-└── DEPLOYMENT.md       # Guide détaillé pour le déploiement
+```env
+# Configuration Resend pour l'envoi d'emails
+RESEND_API_KEY=votre_clé_api_resend
 ```
 
-## 📋 Déploiement
+### Configuration Resend
 
-Pour déployer le site en production, consultez le fichier [DEPLOYMENT.md](./DEPLOYMENT.md) qui contient les instructions détaillées.
+1. Créez un compte sur [Resend](https://resend.com/)
+2. Générez une clé API
+3. Vérifiez votre domaine d'expédition
+4. Ajoutez la clé API dans vos variables d'environnement
 
-Commande rapide pour le déploiement :
+## 🚀 Déploiement
+
+### Vercel (Recommandé)
 
 ```bash
 npm run deploy
 ```
 
-Cette commande validera la configuration et construira les fichiers de production.
+### Hostinger
 
-## 🤝 Contribution
+```bash
+npm run deploy:hostinger
+```
 
-1. Créez une branche pour votre fonctionnalité (`git checkout -b feature/amazing-feature`)
-2. Validez vos changements (`git commit -m 'Add some amazing feature'`)
-3. Poussez vers la branche (`git push origin feature/amazing-feature`)
-4. Ouvrez une Pull Request
+### Netlify
 
-## 📝 Configuration de l'environnement
+```bash
+npm run netlify-build
+```
 
-### Variables d'environnement
+## 📁 Structure du Projet
+
+```
+kheops/
+├── app/                 # Pages et routes (App Router)
+├── components/          # Composants React réutilisables
+│   ├── sections/        # Sections de page
+│   ├── ui/             # Composants UI de base
+│   └── navigation/     # Navigation et footer
+├── config/             # Configuration (Resend, etc.)
+├── data/               # Données statiques
+├── hooks/              # Hooks React personnalisés
+├── lib/                # Utilitaires et helpers
+├── public/             # Assets statiques
+└── scripts/            # Scripts de déploiement
+```
+
+## 🎨 Personnalisation
+
+### Couleurs
+
+Les couleurs principales sont définies dans `tailwind.config.js` :
+
+- Rouge principal : `#8B0000`
+- Rouge secondaire : `#A52A2A`
+- Gris foncé : `#1C1C1C`
+- Gris moyen : `#5A5A5A`
+
+### Typographie
+
+- Police principale : Inter (Google Fonts)
+- Tailles responsives configurées dans Tailwind
+
+## 📧 Configuration Email
+
+Le formulaire de contact utilise Resend pour l'envoi d'emails :
 
 | Variable | Description | Exemple |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | ID du service EmailJS | service_0k7sqys |
-| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | ID du template EmailJS | template_py1g735 |
-| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | Clé publique EmailJS | NcSUafJLSL3cqsMvt |
+| `RESEND_API_KEY` | Clé API Resend | re_123456789 |
 
-## ✅ Liste de vérification avant déploiement
+**IMPORTANT** : Pour la sécurité, utilisez vos propres clés Resend en production.
 
-- [ ] Toutes les variables d'environnement sont configurées
-- [ ] Les favicons et icônes sont présents dans le dossier public
-- [ ] Le formulaire de contact a été testé
-- [ ] Les métadonnées des pages sont correctes
-- [ ] Le site est responsive sur tous les appareils
+## 🔧 Scripts Disponibles
 
-## 📄 Licence
+- `npm run dev` - Lancement en développement
+- `npm run build` - Build de production
+- `npm run start` - Lancement en production
+- `npm run lint` - Vérification du code
+- `npm run deploy` - Déploiement sur Vercel
+- `npm run deploy:hostinger` - Déploiement sur Hostinger
 
-Tous droits réservés © KHEOPS Consulting
+## 📈 Performance
+
+- Images optimisées avec Next.js Image
+- Code splitting automatique
+- Lazy loading des composants
+- Compression des assets
+- Cache optimisé
+
+## 🔒 Sécurité
+
+- Validation des données côté serveur
+- Protection CSRF
+- Headers de sécurité configurés
+- Variables d'environnement sécurisées
+
+## 📞 Support
+
+Pour toute question ou problème, contactez l'équipe de développement.
+
+---
+
+**KHEOPS Consulting** - Excellence en contrôle de projets

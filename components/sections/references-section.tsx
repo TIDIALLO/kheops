@@ -177,7 +177,7 @@ export function ReferencesSection({ isStandalone = false }: ReferencesSectionPro
                   alt={`Logo ${reference.name}`}
                   width={160}
                   height={80}
-                  className="max-h-16 object-contain"
+                  className="max-h-16 w-auto object-contain"
                 />
               </motion.div>
             ))}
@@ -198,7 +198,7 @@ export function ReferencesSection({ isStandalone = false }: ReferencesSectionPro
                   alt={`Logo ${reference.name}`}
                   width={160}
                   height={80}
-                  className="max-h-16 object-contain"
+                  className="max-h-16 w-auto object-contain"
                 />
               </motion.div>
             ))}

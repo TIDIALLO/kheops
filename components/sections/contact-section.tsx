@@ -292,7 +292,7 @@ export function ContactSection()
         (contactData as any).files = filesData;
       }
 
-      const response = await fetch('https://kheops-ten.vercel.app/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactData),

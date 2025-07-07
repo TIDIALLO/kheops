@@ -1,102 +1,130 @@
-# Guide de déploiement - KHEOPS Consulting
+# Guide de Déploiement - KHEOPS Consulting
 
-Ce document décrit les étapes pour déployer le site KHEOPS Consulting sur un environnement de production.
+Ce guide détaille les étapes pour déployer le site web KHEOPS Consulting sur différentes plateformes.
 
-## Prérequis
+## 📋 Prérequis
 
-- Node.js 18+ et npm ou yarn
-- Accès à un service d'hébergement (Vercel, Netlify, serveur VPS, etc.)
-- Compte EmailJS actif
+- Compte GitHub actif
+- Compte Resend actif
+- Variables d'environnement configurées
 
-## 1. Configuration des variables d'environnement
+### Variables Resend requises
 
-### Variables EmailJS requises
-
-Ces variables doivent être configurées sur la plateforme d'hébergement :
-
-```
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_0k7sqys
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_py1g735
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=NcSUafJLSL3cqsMvt
+```env
+RESEND_API_KEY=votre_clé_api_resend
 ```
 
-**IMPORTANT** : Pour la sécurité, en production, utilisez vos propres clés EmailJS et non les valeurs par défaut.
+**IMPORTANT** : Pour la sécurité, utilisez vos propres clés Resend et non les valeurs par défaut.
 
-## 2. Options de déploiement
+## 🚀 Déploiement sur Vercel (Recommandé)
 
-### Option A : Déploiement sur Vercel (recommandé)
+### Étape 1 : Préparation
 
-1. Créez un compte sur [Vercel](https://vercel.com) si vous n'en avez pas déjà un
-2. Connectez votre dépôt GitHub/GitLab/Bitbucket à Vercel
-3. Configurez un nouveau projet en sélectionnant le framework Next.js
-4. Ajoutez les variables d'environnement mentionnées ci-dessus dans la section "Environment Variables"
-5. Déployez l'application
+1. Assurez-vous que votre code est commité sur GitHub
+2. Vérifiez que toutes les variables d'environnement sont configurées
 
-Vercel détectera automatiquement que c'est une application Next.js et appliquera les optimisations nécessaires.
+### Étape 2 : Déploiement
 
-### Option B : Déploiement sur Netlify
+```bash
+# Build et validation
+npm run deploy
+```
 
-1. Créez un compte sur [Netlify](https://netlify.com)
-2. Connectez votre dépôt à Netlify
-3. Configurez les paramètres de build :
-   - Build command : `npm run build`
-   - Publish directory : `.next`
-4. Ajoutez les variables d'environnement dans les paramètres du site
-5. Déployez l'application
+### Étape 3 : Configuration Vercel
 
-### Option C : Déploiement sur serveur VPS/hébergement traditionnel
+1. Connectez votre repository GitHub à Vercel
+2. Configurez les variables d'environnement dans Vercel :
+   - `RESEND_API_KEY`
 
-1. Préparez votre build de production :
-   ```bash
-   npm run build
-   ```
+### Étape 4 : Vérification
 
-2. Transférez les fichiers suivants sur votre serveur :
-   - Dossier `.next`
-   - Dossier `public`
-   - Fichier `package.json`
-   - Fichier `next.config.js`
+1. Testez le formulaire de contact
+2. Vérifiez que les emails sont envoyés via Resend
+3. Contrôlez la responsivité sur différents appareils
 
-3. Sur le serveur, installez les dépendances :
-   ```bash
-   npm install --production
-   ```
+## 🌐 Déploiement sur Hostinger
 
-4. Configurez les variables d'environnement sur votre serveur
-   
-5. Démarrez l'application :
-   ```bash
-   npm start
-   ```
+### Étape 1 : Build local
 
-6. Configurez un service comme PM2 pour garder l'application en cours d'exécution :
-   ```bash
-   npm install -g pm2
-   pm2 start npm --name "kheops-consulting" -- start
-   ```
+```bash
+npm run deploy:hostinger
+```
 
-## 3. Vérifications post-déploiement
+### Étape 2 : Upload
 
-Après déploiement, assurez-vous de vérifier :
+1. Connectez-vous à votre panneau Hostinger
+2. Uploadez le fichier `deploy.zip` généré
+3. Extrayez le contenu dans le dossier public_html
 
-1. Que l'icône KHEOPS s'affiche correctement dans les onglets du navigateur
-2. Que les titres des pages sont correctement formatés (exemple : "Services | KHEOPS Consulting")
-3. Que le formulaire de contact fonctionne et envoie des emails via EmailJS
-4. Que tous les liens internes fonctionnent correctement
-5. Que le site est responsive sur mobile et tablette
+### Étape 3 : Configuration
 
-## 4. Mise à jour du site
+1. Configurez les variables d'environnement dans Hostinger
+2. Vérifiez que Node.js est activé
+3. Configurez les redirections si nécessaire
 
-Pour mettre à jour le site après déploiement :
+## 📧 Configuration Resend
 
-### Sur Vercel/Netlify
-Il suffit de pousser les modifications sur la branche principale de votre dépôt. Le déploiement sera automatique.
+### Création du compte
 
-### Sur serveur traditionnel
-1. Effectuez un build local : `npm run build`
-2. Transférez les fichiers mis à jour sur le serveur
-3. Redémarrez l'application : `pm2 restart kheops-consulting`
+1. Rendez-vous sur [Resend](https://resend.com/)
+2. Créez un compte gratuit
+3. Vérifiez votre domaine d'expédition
 
-## Support
+### Configuration de l'API
 
-Pour toute question concernant le déploiement, contactez l'équipe technique KHEOPS. 
+1. Générez une clé API dans votre dashboard Resend
+2. Ajoutez la clé dans vos variables d'environnement
+3. Testez l'envoi d'un email de test
+
+### Domaine personnalisé
+
+1. Ajoutez votre domaine dans Resend
+2. Configurez les enregistrements DNS
+3. Vérifiez la configuration
+4. Mettez à jour `config/resend.ts` avec votre domaine
+
+## ✅ Liste de vérification
+
+### Avant le déploiement
+
+- [ ] Toutes les variables d'environnement sont configurées
+- [ ] Le formulaire de contact fonctionne en local
+- [ ] Les images sont optimisées
+- [ ] Le site est responsive
+- [ ] Les métadonnées SEO sont correctes
+
+### Après le déploiement
+
+- [ ] Le site se charge correctement
+- [ ] Le formulaire de contact envoie des emails via Resend
+- [ ] Les performances sont satisfaisantes
+- [ ] Le SSL est activé
+- [ ] Les redirections fonctionnent
+
+## 🔧 Dépannage
+
+### Problèmes courants
+
+1. **Emails non envoyés** : Vérifiez la clé API Resend
+2. **Erreurs de build** : Vérifiez les variables d'environnement
+3. **Problèmes de performance** : Optimisez les images
+
+### Logs utiles
+
+```bash
+# Vérifier les logs de build
+npm run build
+
+# Tester l'API localement
+curl -X POST http://localhost:3000/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test","email":"test@test.com","message":"Test"}'
+```
+
+## 📞 Support
+
+Pour toute question ou problème de déploiement, contactez l'équipe de développement.
+
+---
+
+**KHEOPS Consulting** - Excellence en contrôle de projets 
